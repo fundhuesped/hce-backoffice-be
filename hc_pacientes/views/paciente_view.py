@@ -5,9 +5,10 @@ from rest_framework import generics, filters
 from rest_framework.permissions import IsAuthenticated
 from hc_pacientes.serializers import PacienteNestSerializer
 from hc_pacientes.models import Paciente
+from hc_hce.models import Visit
 from hc_core.views import PaginateListCreateAPIView
-
 from rest_framework import serializers
+from datetime import datetime
 
 
 class PacienteList(PaginateListCreateAPIView):
@@ -29,9 +30,14 @@ class PacienteList(PaginateListCreateAPIView):
         documentType = self.request.query_params.get('documentType')
         document = self.request.query_params.get('documentNumber')
         birthDate = self.request.query_params.get('birthDate')
+        seenBy = self.request.query_params.get('seenBy')
+        visitFromDate = self.request.query_params.get('visitFromDate')
+        visitToDate = self.request.query_params.get('visitToDate')
+        pnsCode = self.request.query_params.get('pnsCode')
 
-        if firstName is None and fatherSurname is None and documentType is None and document is None and birthDate is None:
-            raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
+        if firstName is None and fatherSurname is None and documentType is None and document is None and birthDate is None and pnsCode is None:
+            if seenBy is None and visitFromDate is None and visitToDate is None:
+                raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
         if firstName is not None :
             if  len(firstName) >= 3:
@@ -47,7 +53,7 @@ class PacienteList(PaginateListCreateAPIView):
 
         if status is not None:
             queryset = queryset.filter(status=status)
-            
+
         if documentType is not None:
             if document is not None:
                 queryset = queryset.filter(documentType=documentType)
@@ -61,8 +67,21 @@ class PacienteList(PaginateListCreateAPIView):
         if birthDate is not None:
             queryset = queryset.filter(birthDate=birthDate)
 
+        if seenBy is not None and visitFromDate is not None and visitToDate is not None:
+            visitQuerySet = Visit.objects.filter(profesional=seenBy, date__gte=visitFromDate, date__lte=visitToDate)
+            queryset = queryset.filter(pk__in=visitQuerySet.values_list('paciente', flat=True))
 
-        #Order  
+        if pnsCode is not None:
+            name = pnsCode[0:2]
+            print name
+            lastName = pnsCode[2:4]
+            print lastName
+            print pnsCode[4:12]
+            pnsBirthDate = datetime.strptime(pnsCode[4:12], '%d%m%Y')
+            queryset = queryset.filter(firstName__istartswith=name, fatherSurname__istartswith=lastName, birthDate=pnsBirthDate)
+
+
+        #Order
         order_field = self.request.query_params.get('order_field')
         order_by = self.request.query_params.get('order_by')
         if (order_field is not None) and (order_by is not None):

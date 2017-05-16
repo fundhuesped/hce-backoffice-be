@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'hc_core',
     'hc_hce',
     'hc_masters',
+    'hc_practicas',
     'reversion'
 ]
 
