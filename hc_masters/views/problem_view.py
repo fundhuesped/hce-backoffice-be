@@ -18,11 +18,14 @@ class ProblemList(PaginateListCreateAPIView):
         queryset = Problem.objects.all()
         name = self.request.query_params.get('name')
         status = self.request.query_params.get('status')
+        state = self.request.query_params.get('state')
         problemType = self.request.query_params.get('problemType')
         if name is not None:
             queryset = queryset.filter(name__icontains=name)
         if status is not None:
             queryset = queryset.filter(status=status)
+        if state is not None:
+            queryset = queryset.filter(state=state)
         if problemType is not None:
             queryset = queryset.filter(problemType=problemType)
         return queryset

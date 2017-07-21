@@ -3,16 +3,16 @@
 
 from rest_framework import serializers
 from hc_masters.serializers import TypeNestedSerializer
-from hc_masters.models import Problem
+from hc_masters.models import Vaccine
 
 
-class ProblemNestedSerializer(TypeNestedSerializer):
+class VaccineNestedSerializer(TypeNestedSerializer):
 
     url = serializers.HyperlinkedIdentityField(
-        view_name='api:hc_masters:Problem-details',
+        view_name='api:hc_masters:Vaccine-details',
         lookup_field='pk'
     )
 
     class Meta(TypeNestedSerializer.Meta):
-        model = Problem
+        model = Vaccine
         fields = '__all__'

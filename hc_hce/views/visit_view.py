@@ -40,13 +40,6 @@ class PacienteVisitList(PaginateListCreateAPIView):
         if toDate is not None:
             queryset = queryset.filter(date__lte=toDate)
 
-
-        state = self.request.query_params.get('state')
-        if state is not None:
-            queryset = queryset.filter(state=state)
-
-
-
         return queryset
 
     def create(self, request, *args, **kwargs):

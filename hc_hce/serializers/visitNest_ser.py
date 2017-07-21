@@ -24,11 +24,17 @@ class VisitNestSerializer(serializers.ModelSerializer):
             profesional=validated_data.get('profesional'),
             notaClinica=validated_data.get('notaClinica'),
             paciente=validated_data.get('paciente'),
+            reason=validated_data.get('reason'),
+            visitType=validated_data.get('visitType'),
         )
         return visit
 
     def update(self, instance, validated_data):
         instance.notaClinica = validated_data.get('notaClinica', instance.notaClinica)
+        instance.reason = validated_data.get('reason', instance.reason)
+        instance.visitType = validated_data.get('visitType', instance.visitType)
+        instance.status = validated_data.get('status', instance.visitType)
+
         if instance.state == Visit.STATE_OPEN and  validated_data.get('state') == Visit.STATE_CLOSED:
             instance.state = validated_data.get('state')
         instance.save()
@@ -37,4 +43,4 @@ class VisitNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Visit
-        fields = ('id', 'profesional', 'paciente', 'notaClinica', 'status', 'state', 'date', 'created_on')
+        fields = ('id', 'profesional', 'paciente', 'notaClinica', 'status', 'state', 'date', 'reason', 'visitType', 'created_on')

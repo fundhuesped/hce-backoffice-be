@@ -9,3 +9,6 @@ from .medicationTypeNested_ser import *
 from .medicationNest_ser import *
 from .medicationNested_ser import *
 
+from .vaccineNest_ser import *
+from .vaccineNested_ser import *
+

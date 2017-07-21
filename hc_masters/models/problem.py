@@ -3,7 +3,7 @@
 
 from django.db import models
 from hc_common.models import ActiveModel
-
+from hc_masters.models import ProblemType
 
 class Problem(ActiveModel):
     """
@@ -31,6 +31,7 @@ class Problem(ActiveModel):
                              choices=STATE_CHOICES,
                              default=STATE_TO_REVIEW)
     problemType = models.CharField(max_length=20, blank=True, null=True)
+    problemTypeTmp = models.ForeignKey(ProblemType, null=True)
 
     class Meta:
         """

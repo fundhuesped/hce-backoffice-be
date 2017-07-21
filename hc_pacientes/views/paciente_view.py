@@ -72,12 +72,16 @@ class PacienteList(PaginateListCreateAPIView):
             queryset = queryset.filter(pk__in=visitQuerySet.values_list('paciente', flat=True))
 
         if pnsCode is not None:
+            if len(pnsCode) != 12:
+                raise serializers.ValidationError({'error': 'Código PNS mal formado'})
+
             name = pnsCode[0:2]
-            print name
             lastName = pnsCode[2:4]
-            print lastName
-            print pnsCode[4:12]
-            pnsBirthDate = datetime.strptime(pnsCode[4:12], '%d%m%Y')
+            try:
+                pnsBirthDate = datetime.strptime(pnsCode[4:12], '%d%m%Y')
+            except Exception as e:
+                raise serializers.ValidationError({'error': 'Código PNS mal formado'})
+
             queryset = queryset.filter(firstName__istartswith=name, fatherSurname__istartswith=lastName, birthDate=pnsBirthDate)
 
 
