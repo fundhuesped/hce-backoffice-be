@@ -25,7 +25,7 @@ class Visit(ActiveModel):
     paciente = models.ForeignKey(Paciente, null=False)
     notaClinica = models.CharField(max_length=1000, null=True)
     reason = models.CharField(max_length=200, null=True)
-    visitType = models.CharField(max_length=20, null=True)
+    visitType = models.CharField(max_length=30, null=True)
 
     created_on = models.DateTimeField(auto_now=True)
     closed_on = models.DateTimeField(null=True)
