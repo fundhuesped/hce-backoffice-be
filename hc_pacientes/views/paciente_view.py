@@ -34,8 +34,10 @@ class PacienteList(PaginateListCreateAPIView):
         visitFromDate = self.request.query_params.get('visitFromDate')
         visitToDate = self.request.query_params.get('visitToDate')
         pnsCode = self.request.query_params.get('pnsCode')
+        socialService = self.request.query_params.get('socialService')
 
-        if firstName is None and fatherSurname is None and documentType is None and document is None and birthDate is None and pnsCode is None:
+
+        if firstName is None and fatherSurname is None and documentType is None and document is None and birthDate is None and pnsCode is None and socialService is None:
             if seenBy is None and visitFromDate is None and visitToDate is None:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
@@ -66,6 +68,9 @@ class PacienteList(PaginateListCreateAPIView):
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
         if birthDate is not None:
             queryset = queryset.filter(birthDate=birthDate)
+        
+        if socialService is not None:
+            queryset = queryset.filter(socialService=socialService)
 
         if seenBy is not None and visitFromDate is not None and visitToDate is not None:
             visitQuerySet = Visit.objects.filter(profesional=seenBy, date__gte=visitFromDate, date__lte=visitToDate)

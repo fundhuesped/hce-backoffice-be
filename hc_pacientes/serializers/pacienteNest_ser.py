@@ -67,8 +67,6 @@ class PacienteNestSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'primaryPhoneNumber': _('El teléfono primario es obligatorio para un paciente')})
 
         if ('prospect' in attrs) and not attrs['prospect']:
-            if (not 'primaryPhoneMessage' in attrs) or attrs['primaryPhoneMessage'] is None:
-                raise serializers.ValidationError({'primaryPhoneMessage': _('El teléfono primario es obligatorio para un paciente')})
             if ((not 'documentNumber' in attrs) or attrs['documentNumber'] is None) or ((not 'documentType' in attrs) or attrs['documentType']) is None:
                 raise serializers.ValidationError({'documentNumber': _('El tipo y número de documento son obligatorios')})
                 
