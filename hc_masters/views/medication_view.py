@@ -31,7 +31,7 @@ class MedicationList(PaginateListCreateAPIView):
         return queryset
 
 
-class MedicationmDetails(generics.RetrieveUpdateDestroyAPIView):
+class MedicationDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MedicationNestSerializer
     queryset = Medication.objects.all()
     # permission_classes = (DjangoModelPermissions,)

@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework import serializers
-from hc_masters.models import MedicationType
+from hc_masters.models import ClinicalStudy
 
 
-class MedicationTypeNestSerializer(serializers.ModelSerializer):
+class ClinicalStudyNestSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
 
     def create(self, validated_data):
-        medicationType = MedicationType.objects.create(
+        vaccine = ClinicalStudy.objects.create(
             name=validated_data.get('name'),
             status=validated_data.get('status'),
         )
-        return medicationType
+        return vaccine
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
@@ -23,5 +23,5 @@ class MedicationTypeNestSerializer(serializers.ModelSerializer):
         return instance
 
     class Meta:
-        model = MedicationType
-        fields = ('id', 'name')
+        model = ClinicalStudy
+        fields = ('id', 'name', 'status')

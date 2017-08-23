@@ -8,11 +8,6 @@ from hc_masters.models import Medication
 
 class MedicationNestedSerializer(TypeNestedSerializer):
 
-    url = serializers.HyperlinkedIdentityField(
-        view_name='api:hc_common:Medication-detail',
-        lookup_field='pk'
-    )
-
     def to_internal_value(self, data):
         if (isinstance(data, list) or isinstance(data, dict)):
             medications= Medication.objects.filter(pk=data['id'])

@@ -7,3 +7,4 @@ from .patientMedication import *
 from .patientVaccine import *
 from .patientFamilyHistoryProblem import *
 from .visitEvent import *
+from .patientClinicalStudyResult import *

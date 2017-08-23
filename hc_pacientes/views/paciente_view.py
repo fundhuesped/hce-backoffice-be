@@ -9,6 +9,7 @@ from hc_hce.models import Visit
 from hc_core.views import PaginateListCreateAPIView
 from rest_framework import serializers
 from datetime import datetime
+from django.db.models import Q
 
 
 class PacienteList(PaginateListCreateAPIView):
@@ -37,13 +38,13 @@ class PacienteList(PaginateListCreateAPIView):
         socialService = self.request.query_params.get('socialService')
 
 
-        if firstName is None and fatherSurname is None and documentType is None and document is None and birthDate is None and pnsCode is None and socialService is None:
+        if firstName is None and fatherSurname is None and document is None and birthDate is None and pnsCode is None and socialService is None:
             if seenBy is None and visitFromDate is None and visitToDate is None:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
         if firstName is not None :
             if  len(firstName) >= 3:
-                queryset = queryset.filter(firstName__istartswith=firstName)
+                queryset = queryset.filter(Q(firstName__istartswith=firstName) | Q(otherNames__istartswith=firstName))
             else:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
@@ -61,11 +62,10 @@ class PacienteList(PaginateListCreateAPIView):
                 queryset = queryset.filter(documentType=documentType)
             else:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
+
         if document is not None:
-            if documentType is not None:
-                queryset = queryset.filter(documentNumber=document)
-            else:
-                raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
+            queryset = queryset.filter(documentNumber=document)
+
         if birthDate is not None:
             queryset = queryset.filter(birthDate=birthDate)
         

@@ -23,13 +23,13 @@ class Visit(ActiveModel):
 
     profesional = models.ForeignKey(User, null=False)
     paciente = models.ForeignKey(Paciente, null=False)
-    notaClinica = models.CharField(max_length=1000, null=True)
+    notaClinica = models.CharField(max_length=2000, null=True)
     reason = models.CharField(max_length=200, null=True)
     visitType = models.CharField(max_length=30, null=True)
 
     created_on = models.DateTimeField(auto_now=True)
     closed_on = models.DateTimeField(null=True)
-    date = models.DateField(auto_now=True)
+    date = models.DateTimeField(auto_now=True)
 
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,

@@ -12,3 +12,5 @@ from .medicationNested_ser import *
 from .vaccineNest_ser import *
 from .vaccineNested_ser import *
 
+from .clinicalStudyNest_ser import *
+from .clinicalStudyNested_ser import *

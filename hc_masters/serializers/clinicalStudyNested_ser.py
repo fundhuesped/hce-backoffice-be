@@ -3,11 +3,12 @@
 
 from rest_framework import serializers
 from hc_masters.serializers import TypeNestedSerializer
-from hc_masters.models import Problem
+from hc_masters.models import ClinicalStudy
 
 
-class ProblemNestedSerializer(TypeNestedSerializer):
+class ClinicalStudyNestedSerializer(TypeNestedSerializer):
+
 
     class Meta(TypeNestedSerializer.Meta):
-        model = Problem
+        model = ClinicalStudy
         fields = '__all__'

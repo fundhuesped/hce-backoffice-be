@@ -6,3 +6,4 @@ from .problem import *
 from .medicationType import *
 from .medication import *
 from .vaccine import *
+from .clinicalStudy import *
