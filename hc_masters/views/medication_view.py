@@ -20,6 +20,8 @@ class MedicationList(PaginateListCreateAPIView):
         composition = self.request.query_params.get('composition')
         status = self.request.query_params.get('status')
         medicationType = self.request.query_params.get('medicationType')
+        medicationGroup = self.request.query_params.get('medicationGroup')
+        medicationTypeCode = self.request.query_params.get('medicationTypeCode')
         if name is not None:
             queryset = queryset.filter(name__icontains=name)
         if status is not None:
@@ -28,6 +30,11 @@ class MedicationList(PaginateListCreateAPIView):
             queryset = queryset.filter(composition_icontains=composition)
         if medicationType is not None:
             queryset = queryset.filter(medicationType=medicationType)
+        if medicationTypeCode is not None:
+            queryset = queryset.filter(medicationType__code=medicationTypeCode)
+        if medicationGroup is not None:
+            queryset = queryset.filter(medicationType__group=medicationGroup)
+
         return queryset
 
 

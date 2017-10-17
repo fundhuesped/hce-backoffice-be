@@ -18,7 +18,9 @@ class MedicationNestSerializer(serializers.ModelSerializer):
             name=validated_data.get('name'),
             composition=validated_data.get('composition'),
             status=validated_data.get('status'),
-            medicationType=validated_data.get('medicationType')
+            medicationType=validated_data.get('medicationType'),
+            abbreviation=validated_data.get('abbreviation'),
+
         )
         return medication
 
@@ -27,10 +29,11 @@ class MedicationNestSerializer(serializers.ModelSerializer):
         instance.composition = validated_data.get('composition', instance.composition)
         instance.status = validated_data.get('status', instance.status)
         instance.medicationType = validated_data.get('medicationType', instance.medicationType)
+        instance.abbreviation = validated_data.get('abbreviation', instance.abbreviation)
         instance.save()
 
         return instance
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'composition', 'status', 'medicationType')
+        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'abbreviation')

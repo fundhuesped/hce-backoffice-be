@@ -3,10 +3,15 @@
 
 from rest_framework import serializers
 from hc_masters.serializers import TypeNestedSerializer
+from hc_masters.serializers import MedicationTypeNestSerializer
 from hc_masters.models import Medication
 
 
 class MedicationNestedSerializer(TypeNestedSerializer):
+
+    medicationType = MedicationTypeNestSerializer(
+        many=False
+    )
 
     def to_internal_value(self, data):
         if (isinstance(data, list) or isinstance(data, dict)):
@@ -21,4 +26,4 @@ class MedicationNestedSerializer(TypeNestedSerializer):
 
     class Meta(TypeNestedSerializer.Meta):
         model = Medication
-        fields = '__all__'
+        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'abbreviation')

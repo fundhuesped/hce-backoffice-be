@@ -24,4 +24,4 @@ class MedicationTypeNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MedicationType
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'code', 'group')

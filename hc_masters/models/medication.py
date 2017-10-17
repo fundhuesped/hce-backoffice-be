@@ -13,6 +13,7 @@ class Medication(ActiveModel):
 
     name = models.CharField(max_length=150, null=False)
     composition = models.CharField(max_length=150, null=True)
+    abbreviation = models.CharField(max_length=20, null=True)
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
