@@ -9,5 +9,5 @@ from .patientVaccine import *
 from .patientFamilyHistoryProblem import *
 from .visitEvent import *
 from .patientClinicalStudyResult import *
-from .patientPrescriptionMedication import *
 from .patientPrescription import *
+from .patientPrescriptionMedication import *

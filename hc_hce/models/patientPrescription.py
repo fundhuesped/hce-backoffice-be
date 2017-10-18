@@ -3,7 +3,6 @@
 
 from django.db import models
 from hc_pacientes.models import Paciente
-from hc_hce.models import PatientPrescriptionMedication
 from hc_hce.models import PatientProblem
 from django.contrib.auth.models import User
 
@@ -30,9 +29,9 @@ class PatientPrescription(models.Model):
     prescripctionType = models.CharField(max_length=20,
                                          choices=TYPE_CHOICES,
                                          default=TYPE_GENERAL)
-    prescriptedMedications = models.ManyToManyField(PatientPrescriptionMedication)
     observations = models.CharField(max_length=200, null=True)
     createdOn = models.DateTimeField(auto_now=True)
+    issuedDate = models.DateTimeField(auto_now=True)
     createdBy = models.ForeignKey(User, null=False)
     duplicateRequired = models.BooleanField(default=False)
 

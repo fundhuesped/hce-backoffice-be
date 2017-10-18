@@ -6,3 +6,8 @@ from .patientVaccineNest_ser import *
 from .patientMedicationNest_ser import *
 from .patientARVTreatmentNest_ser import *
 from .patientClinicalStudyResultNest_ser import *
+
+
+from .patientPrescriptionMedicationNest_ser import *
+from .patientPrescriptionMedicationNested_ser import *
+from .patientPrescriptionNest_ser import *

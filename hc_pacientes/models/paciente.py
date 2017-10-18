@@ -22,5 +22,6 @@ class Paciente(Persona):
 
     idpaciente = models.CharField(max_length=20, null=True)
     prospect = models.BooleanField(default=False)
+    pns = models.CharField(max_length=20, null=True)
     consent = models.CharField(max_length=14, choices=CONSENT_CHOICES, default=CONSENT_NA)
     updated_on = models.DateField(auto_now=True)
