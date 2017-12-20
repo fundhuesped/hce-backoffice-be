@@ -45,20 +45,19 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
 
         # Edit problem
-        if instance.state == validated_data.get('state'):            
-            instance.observations = validated_data.get('observations', instance.observations)
+        if instance.state != PatientMedication.STATE_ERROR:
             instance.startDate = validated_data.get('startDate', instance.startDate)
             instance.endDate = validated_data.get('endDate', instance.endDate)
+            instance.state = validated_data.get('state', instance.state)
             instance.patientProblem = validated_data.get('patientProblem', instance.patientProblem)
-
+            instance.observations = validated_data.get('observations', instance.observations)
             instance.save()
             return instance
 
-        # Mark as error
-        if validated_data.get('state') == PatientMedication.STATE_ERROR:
-            instance.state = PatientMedication.STATE_ERROR
+        if instance.state == PatientMedication.STATE_ERROR:
             instance.observations = validated_data.get('observations', instance.observations)
             instance.save()
+            return instance
 
         return instance
 

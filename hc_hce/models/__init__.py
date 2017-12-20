@@ -5,6 +5,7 @@ from .visit import *
 from .patientProblem import *
 from .patientMedication import *
 from .patientARVTreatment import *
+from .patientARVTreatmentMedication import *
 from .patientVaccine import *
 from .patientFamilyHistoryProblem import *
 from .visitEvent import *

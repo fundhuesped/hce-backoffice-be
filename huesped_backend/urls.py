@@ -22,6 +22,7 @@ apps_patterns = ([
     url(r'^docs/', include('rest_framework_swagger.urls')),
     url(r'^comun/', include('hc_common.urls')),
     url(r'^practicas/', include('hc_practicas.urls')),
+    url(r'^laboratory/', include('hc_laboratory.urls')),
     url(r'^pacientes/', include('hc_pacientes.urls')),
     url(r'^core/', include('hc_core.urls')),
     url(r'^masters/', include('hc_masters.urls', namespace='masters')),

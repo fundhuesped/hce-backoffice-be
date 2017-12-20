@@ -14,7 +14,7 @@ class PatientPrescriptionMedication(models.Model):
 
     medication = models.ForeignKey(Medication, null=False)
     quantityPerDay = models.IntegerField(null=True)
-    dayCount = models.IntegerField(null=True)
+    quantityPerMonth = models.IntegerField(null=True)
     prescription = models.ForeignKey(PatientPrescription, null=False, related_name='prescriptedMedications')
     class Meta:        
         """

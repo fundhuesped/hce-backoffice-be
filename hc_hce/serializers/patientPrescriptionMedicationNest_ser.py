@@ -26,11 +26,11 @@ class PatientPrescriptionMedicationNestSerializer(serializers.ModelSerializer):
             prescription=validated_data.get('prescription'),
             medication=validated_data.get('medication'),
             quantityPerDay=validated_data.get('quantityPerDay'),
-            dayCount=validated_data.get('dayCount')
+            quantityPerMonth=validated_data.get('quantityPerMonth')
         )
 
         return instance
 
     class Meta:
         model = PatientPrescriptionMedication
-        fields = ('id', 'prescription', 'medication', 'quantityPerDay', 'dayCount')
+        fields = ('id', 'prescription', 'medication', 'quantityPerDay', 'quantityPerMonth')

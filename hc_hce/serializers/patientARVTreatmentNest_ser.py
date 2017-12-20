@@ -9,7 +9,8 @@ from hc_hce.models import PatientARVTreatment
 from hc_pacientes.models import Paciente
 
 from hc_pacientes.serializers import PacienteNestedSerializer
-from hc_masters.serializers import MedicationNestedSerializer
+from hc_hce.serializers import PatientARVTreatmentMedicationNestSerializer
+from hc_hce.serializers import PatientARVTreatmentMedicationNestedSerializer
 from hc_hce.serializers import PatientProblemNestedSerializer
 from rest_framework.exceptions import ValidationError
 
@@ -22,8 +23,9 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
         many=False,
     )
 
-    medications = MedicationNestedSerializer(
+    patientARVTreatmentMedications = PatientARVTreatmentMedicationNestedSerializer(
         many=True,
+        required=False
     )
 
     patientProblem = PatientProblemNestedSerializer(
@@ -41,9 +43,13 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
             startDate=validated_data.get('startDate'),
             endDate=validated_data.get('endDate'),
         )
-        medications = validated_data.get('medications')
-        for medication in medications:
-            instance.medications.add(medication)
+        patientARVTreatmentMedications = validated_data.get('patientARVTreatmentMedications')
+        for patientARVTreatmentMedication in patientARVTreatmentMedications:
+            patientARVTreatmentMedication['patientARVTreatment'] = instance.id
+            patientARVTreatmentMedication['medication'] = patientARVTreatmentMedication['medication'].id
+            serializer = PatientARVTreatmentMedicationNestSerializer(data=patientARVTreatmentMedication)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
         return instance
 
     def update(self, instance, validated_data):
@@ -81,4 +87,4 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientARVTreatment
-        fields = ('id', 'paciente', 'medications', 'observations', 'startDate', 'endDate', 'state', 'patientProblem', 'changeReason')
+        fields = ('id', 'paciente', 'observations', 'startDate', 'patientARVTreatmentMedications','endDate', 'state', 'patientProblem', 'changeReason')

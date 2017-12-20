@@ -12,6 +12,7 @@ class Medication(ActiveModel):
     """
 
     name = models.CharField(max_length=150, null=False)
+    recipeName = models.CharField(max_length=150, null=True)
     composition = models.CharField(max_length=150, null=True)
     abbreviation = models.CharField(max_length=20, null=True)
     status = models.CharField(max_length=8,
