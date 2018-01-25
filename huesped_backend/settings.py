@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'hc_hce',
     'hc_masters',
     'hc_practicas',
-    'reversion'
+    'hc_laboratory',
+    'reversion',
+    'django_extensions'
 ]
 
 MIDDLEWARE_CLASSES = [
