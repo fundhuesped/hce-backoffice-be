@@ -5,6 +5,7 @@ from rest_framework import serializers
 from hc_pacientes.models import Paciente
 from hc_common.serializers import DocumentTypeNestedSerializer
 from hc_common.serializers import SocialServiceNestedSerializer
+from hc_common.serializers import CountryNestedSerializer
 
 class PacienteNestedSerializer(serializers.ModelSerializer):
     """
@@ -23,6 +24,10 @@ class PacienteNestedSerializer(serializers.ModelSerializer):
     )
 
     socialService= SocialServiceNestedSerializer(
+        many=False,
+        read_only=True
+    )
+    bornPlace= CountryNestedSerializer(
         many=False,
         read_only=True
     )
@@ -51,4 +56,4 @@ class PacienteNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Paciente
-        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'documentType', 'documentNumber','genderAtBirth', 'email','primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'url', 'socialService', 'socialServiceNumber', 'pns')
+        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'documentType', 'documentNumber','genderAtBirth', 'email','primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'url', 'socialService', 'bornPlace','socialServiceNumber', 'pns')

@@ -6,7 +6,8 @@ from rest_framework import serializers
 from hc_pacientes.models import Paciente
 from hc_common.models import Persona
 from hc_common.serializers import DocumentTypeNestedSerializer, SexTypeNestedSerializer, LocationNestedSerializer, \
-    CivilStatusTypeNestedSerializer, SocialServiceNestedSerializer, EducationTypeNestedSerializer
+    CivilStatusTypeNestedSerializer, SocialServiceNestedSerializer, EducationTypeNestedSerializer, CountryNestedSerializer
+
 from django.utils.translation import gettext as _
 
 class PacienteNestSerializer(serializers.ModelSerializer):
@@ -62,6 +63,11 @@ class PacienteNestSerializer(serializers.ModelSerializer):
         required=False
     )
 
+    bornPlace = CountryNestedSerializer(
+        many=False,
+        allow_null=True,
+        required=False
+    )
     def validate(self, attrs):
         if (not 'primaryPhoneNumber' in attrs) or attrs['primaryPhoneNumber'] is None:
             raise serializers.ValidationError({'primaryPhoneNumber': _('El teléfono primario es obligatorio para un paciente')})
