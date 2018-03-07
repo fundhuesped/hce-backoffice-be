@@ -23,8 +23,8 @@ class PatientARVTreatmentMedication(models.Model):
 
     medication = models.ForeignKey(Medication, null=True, blank=True)
     patientARVTreatment = models.ForeignKey(PatientARVTreatment, null=True, blank=True, related_name='patientARVTreatmentMedications')
-    quantityPerDay = models.IntegerField(null=True)
-    quantityPerMonth = models.IntegerField(null=True)
+    quantityPerDay = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=2, null=True)
 
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,

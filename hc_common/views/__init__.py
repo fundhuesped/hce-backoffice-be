@@ -6,3 +6,4 @@ from .location_view import *
 from .civilStatusType_view import *
 from .educationType_view import *
 from .socialService_view import *
+from .country_view import *

@@ -6,3 +6,5 @@ from .patientMedication_view import *
 from .patientARVTreatment_view import *
 from .patientClinicalStudyResult_view import *
 from .patientPrescription_view import *
+from .patientVaccinePrescription_view import *
+from .patientARVPrescription_view import *

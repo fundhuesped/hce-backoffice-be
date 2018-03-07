@@ -4,6 +4,7 @@
 from rest_framework import serializers
 from hc_masters.models import Medication
 from hc_masters.serializers import MedicationTypeNestSerializer
+from hc_masters.serializers import MedicationPresentationNestedSerializer
 
 
 class MedicationNestSerializer(serializers.ModelSerializer):
@@ -11,6 +12,9 @@ class MedicationNestSerializer(serializers.ModelSerializer):
 
     medicationType = MedicationTypeNestSerializer(
         many=False
+    )
+    presentations = MedicationPresentationNestedSerializer(
+        many=True
     )
 
     def create(self, validated_data):
@@ -36,4 +40,4 @@ class MedicationNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'abbreviation')
+        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'presentations', 'abbreviation')

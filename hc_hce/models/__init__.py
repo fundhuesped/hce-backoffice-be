@@ -12,3 +12,5 @@ from .visitEvent import *
 from .patientClinicalStudyResult import *
 from .patientPrescription import *
 from .patientPrescriptionMedication import *
+from .patientARVPrescription import *
+from .patientARVPrescriptionMedication import *

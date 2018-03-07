@@ -15,6 +15,10 @@ urlpatterns = [
     url(r'^province/$', views.ProvinceList.as_view(), name='Province-list'),
     url(r'^province/(?P<pk>[0-9]+)/$', views.ProvinceDetails.as_view(), name='Province-detail'),
 
+    url(r'^country/$', views.CountryList.as_view(), name='Country-list'),
+    url(r'^country/(?P<pk>[0-9]+)/$', views.CountryDetails.as_view(), name='Country-detail'),
+
+
     url(r'^district/$', views.DistrictList.as_view(), name='District-list'),
     url(r'^district/(?P<pk>[0-9]+)/$', views.DistrictDetails.as_view(), name='District-detail'),
 

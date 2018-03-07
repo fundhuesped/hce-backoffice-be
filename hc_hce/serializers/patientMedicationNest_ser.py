@@ -9,6 +9,7 @@ from hc_pacientes.models import Paciente
 
 from hc_pacientes.serializers import PacienteNestedSerializer
 from hc_masters.serializers import MedicationNestedSerializer
+from hc_masters.serializers import MedicationPresentationNestedSerializer
 from hc_hce.serializers import PatientProblemNestedSerializer
 
 from hc_core.serializers import UserNestedSerializer
@@ -29,6 +30,12 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
         required=False
     )
 
+    medicationPresentation = MedicationPresentationNestedSerializer(
+        many=False,
+        required=False
+    )
+
+
     def create(self, validated_data):
 
         patientMedication = PatientMedication.objects.create(
@@ -36,7 +43,10 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
             state=validated_data.get('state', PatientMedication.STATE_ACTIVE),
             paciente=validated_data.get('paciente'),
             patientProblem=validated_data.get('patientProblem'),
+            quantityPerMonth=validated_data.get('quantityPerMonth'),
+            quantityPerDay=validated_data.get('quantityPerDay'),
             medication=validated_data.get('medication'),
+            medicationPresentation=validated_data.get('medicationPresentation'),
             startDate=validated_data.get('startDate'),
             endDate=validated_data.get('endDate'),
         )
@@ -49,6 +59,8 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
             instance.startDate = validated_data.get('startDate', instance.startDate)
             instance.endDate = validated_data.get('endDate', instance.endDate)
             instance.state = validated_data.get('state', instance.state)
+            instance.quantityPerMonth = validated_data.get('quantityPerMonth', instance.quantityPerMonth)
+            instance.quantityPerDay = validated_data.get('quantityPerDay', instance.quantityPerDay)
             instance.patientProblem = validated_data.get('patientProblem', instance.patientProblem)
             instance.observations = validated_data.get('observations', instance.observations)
             instance.save()
@@ -64,4 +76,4 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientMedication
-        fields = ('id', 'paciente', 'medication', 'observations', 'startDate', 'endDate', 'state', 'patientProblem')
+        fields = ('id', 'paciente', 'medication', 'quantityPerMonth', 'quantityPerDay', 'observations', 'startDate', 'endDate', 'state', 'patientProblem', 'medicationPresentation')

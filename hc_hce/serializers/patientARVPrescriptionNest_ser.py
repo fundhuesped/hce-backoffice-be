@@ -4,23 +4,22 @@
 import datetime
 from rest_framework import serializers
 from hc_hce.models import Visit
-from hc_hce.models import PatientPrescription
+from hc_hce.models import PatientARVPrescription
 from hc_pacientes.models import Paciente
 
 from hc_pacientes.serializers import PacienteNestedSerializer
-from hc_hce.serializers import PatientPrescriptionMedicationNestSerializer
-from hc_hce.serializers import PatientPrescriptionMedicationNestedSerializer
+from hc_hce.serializers import PatientARVPrescriptionMedicationNestSerializer
 
 from hc_core.serializers import UserNestedSerializer
 
 
-class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
+class PatientARVPrescriptionNestSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     paciente = PacienteNestedSerializer(
         many=False,
     )
 
-    prescriptedMedications = PatientPrescriptionMedicationNestSerializer(
+    prescriptedMedications = PatientARVPrescriptionMedicationNestSerializer(
         many=True,
         required=False
     )
@@ -31,7 +30,7 @@ class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         print validated_data.get('issuedDate')
-        instance = PatientPrescription.objects.create(
+        instance = PatientARVPrescription.objects.create(
             observations=validated_data.get('observations'),
             prescripctionType=validated_data.get('prescripctionType'),
             paciente=validated_data.get('paciente'),
@@ -44,13 +43,13 @@ class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
         for prescriptedMedication in validated_data.get('prescriptedMedications'):
             prescriptedMedication['prescription'] = instance.id
             print prescriptedMedication
-            prescriptedMedication['patientMedication'] = prescriptedMedication['patientMedication'].id;
-            serializer = PatientPrescriptionMedicationNestSerializer(data=prescriptedMedication)
+            prescriptedMedication['medication'] = prescriptedMedication['medication'].id;
+            serializer = PatientARVPrescriptionMedicationNestSerializer(data=prescriptedMedication)
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
         return instance
 
     class Meta:
-        model = PatientPrescription
+        model = PatientARVPrescription
         fields = ('id', 'paciente', 'createdBy', 'observations', 'createdOn', 'duplicateRequired', 'prescriptedMedications', 'issuedDate', 'prescripctionType')

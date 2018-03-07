@@ -4,8 +4,6 @@
 from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
 from hc_hce.serializers import PatientPrescriptionNestSerializer
-from hc_hce.serializers import PatientARVPrescriptionNestSerializer
-
 from hc_hce.models import Visit
 from hc_hce.models import PatientPrescription
 from hc_pacientes.models import Paciente
@@ -18,7 +16,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import timedelta  
 from datetime import datetime
 
-class PatientPrescriptionList(PaginateListCreateAPIView):
+class PatientVaccinePrescriptionList(PaginateListCreateAPIView):
     serializer_class = PatientPrescriptionNestSerializer
     filter_backends = (filters.OrderingFilter,)
     # permission_classes = (DjangoModelPermissions,)
@@ -70,20 +68,14 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
                 print x
                 data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%dT%H:%M:%S.000Z").date() + timedelta(days=28*(x+1))  
                 print data['issuedDate']
-                if data['prescripctionType'] == 'Arv':
-                    serializer = PatientARVPrescriptionNestSerializer(data=data, context={'request': request})
-                else:
-                    serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
+                serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
                 serializer.is_valid(raise_exception=True)
                 self.perform_create(serializer)
                 prescriptionsIds.append(serializer.data['id'])
             return Response({"prescriptionsIds":prescriptionsIds})
 
         else:
-            if data['prescripctionType'] == 'Arv':
-                serializer = PatientARVPrescriptionNestSerializer(data=data, context={'request': request})
-            else:
-                serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
+            serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
         return Response(serializer.data)

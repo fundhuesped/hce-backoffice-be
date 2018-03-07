@@ -6,7 +6,7 @@ from hc_pacientes.models import Paciente
 from hc_hce.models import PatientProblem
 from django.contrib.auth.models import User
 
-class PatientPrescription(models.Model):
+class PatientARVPrescription(models.Model):
     """
     Clase que representa un problema de un paciente
     """
