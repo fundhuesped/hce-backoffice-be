@@ -9,22 +9,28 @@ from hc_masters.models import MedicationType
 
 
 class ProblemAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'description', 'status', 'problemType')
+    list_display = ('id', 'name', 'description', 'status', 'problemType')
+    list_editable = ('name', 'description', 'status', 'problemType')
 
 class SocialServiceAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'description', 'status')
+    list_display = ('id', 'name', 'description', 'status')
+    list_editable = ('name', 'description', 'status')
 
 class ClinicalStudyAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'status')
+    list_display = ('id', 'name', 'status')
+    list_editable = ('name', 'status')
 
 class VaccineAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'status')
+    list_display = ('id', 'name', 'status')
+    list_editable = ('name', 'status')
 
 class MedicationAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'status')
+    list_display = ('id', 'name', 'status')
+    list_editable = ('name', 'status')
 
 class MedicationTypeAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'code', 'group')
+    list_display = ('id', 'name', 'code', 'group')
+    list_editable = ('name', 'code', 'group')
 
 admin.site.register(Problem, ProblemAdmin)
 admin.site.register(SocialService, SocialServiceAdmin)
