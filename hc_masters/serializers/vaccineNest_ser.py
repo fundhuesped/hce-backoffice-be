@@ -24,4 +24,4 @@ class VaccineNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vaccine
-        fields = ('id', 'name', 'status')
+        fields = ('id', 'name', 'status', 'synonym')

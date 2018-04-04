@@ -6,7 +6,7 @@ from rest_framework.permissions import DjangoModelPermissions
 from hc_masters.serializers import ClinicalStudyNestSerializer
 from hc_masters.models import ClinicalStudy
 from hc_core.views import PaginateListCreateAPIView
-
+from django.db.models import Q
 
 class ClinicalStudyList(PaginateListCreateAPIView):
     serializer_class = ClinicalStudyNestSerializer
@@ -19,7 +19,7 @@ class ClinicalStudyList(PaginateListCreateAPIView):
         name = self.request.query_params.get('name')
         status = self.request.query_params.get('status')
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(Q(name__icontains=name) | Q(synonym__icontains=name))
         if status is not None:
             queryset = queryset.filter(status=status)
         return queryset

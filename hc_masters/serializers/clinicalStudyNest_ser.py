@@ -24,4 +24,4 @@ class ClinicalStudyNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClinicalStudy
-        fields = ('id', 'name', 'status')
+        fields = ('id', 'name', 'status', 'synonym')

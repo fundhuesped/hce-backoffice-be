@@ -15,6 +15,8 @@ class Vaccine(ActiveModel):
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
+    synonym = models.CharField(max_length=150, null=True)
+
     class Meta:
         """
         Metadata de la clase
