@@ -3,6 +3,7 @@
 
 from .activeModel import *
 from .abstractType import *
+from .orderedAbstractType import *
 from .province import *
 from .district import *
 from .location import *

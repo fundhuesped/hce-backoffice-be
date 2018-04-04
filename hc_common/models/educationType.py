@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from hc_common.models import AbstractType
+from hc_common.models import OrderedAbstractType
 
 
-class EducationType(AbstractType):
+class EducationType(OrderedAbstractType):
     """
     Clase que representa el nivel educativo de una persona
     """
