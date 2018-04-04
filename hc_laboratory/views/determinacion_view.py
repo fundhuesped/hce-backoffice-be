@@ -24,7 +24,6 @@ class DeterminacionList(PaginateListCreateAPIView):
             queryset = queryset.filter(status=status)
         return queryset
 
-
 class DeterminacionDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DeterminacionNestSerializer
     queryset = Determinacion.objects.all()

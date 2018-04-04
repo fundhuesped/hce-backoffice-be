@@ -3,10 +3,15 @@
 
 from rest_framework import serializers
 from hc_laboratory.models import Determinacion
+from hc_laboratory.serializers import CategoriaDeterminacionNestedSerializer
 
 
 class DeterminacionNestSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
+
+    category = CategoriaDeterminacionNestedSerializer(
+        many=False
+    )
 
     def create(self, validated_data):
         instance = Determinacion.objects.create(
@@ -27,4 +32,4 @@ class DeterminacionNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Determinacion
-        fields = ('id', 'code', 'label', 'description', 'status')
+        fields = ('id', 'code', 'label', 'description', 'unitOfMeasure', 'status', 'category')
