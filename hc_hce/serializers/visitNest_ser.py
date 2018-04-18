@@ -25,8 +25,7 @@ class VisitNestSerializer(serializers.ModelSerializer):
             notaClinica=validated_data.get('notaClinica'),
             paciente=validated_data.get('paciente'),
             reason=validated_data.get('reason'),
-            visitType=validated_data.get('visitType'),
-            isEpicrisis=validated_data.get('isEpicrisis')
+            visitType=validated_data.get('visitType')
         )
         return visit
 
@@ -35,7 +34,6 @@ class VisitNestSerializer(serializers.ModelSerializer):
         instance.reason = validated_data.get('reason', instance.reason)
         instance.visitType = validated_data.get('visitType', instance.visitType)
         instance.status = validated_data.get('status', instance.visitType)
-        instance.isEpicrisis=validated_data.get('isEpicrisis', instance.isEpicrisis)
 
         if instance.state == Visit.STATE_OPEN and  validated_data.get('state') == Visit.STATE_CLOSED:
             instance.state = validated_data.get('state')
