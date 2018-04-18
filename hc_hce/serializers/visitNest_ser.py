@@ -45,4 +45,4 @@ class VisitNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Visit
-        fields = ('id', 'profesional', 'paciente', 'notaClinica', 'status', 'state', 'date', 'reason', 'visitType', 'isEpicrisis', 'created_on')
+        fields = ('id', 'profesional', 'paciente', 'notaClinica', 'status', 'state', 'date', 'reason', 'visitType', 'created_on')
