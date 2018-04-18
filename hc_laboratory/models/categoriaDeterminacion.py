@@ -14,8 +14,10 @@ class CategoriaDeterminacion(ActiveModel):
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
+    order = models.IntegerField(null=True)
+
     class Meta:
         """
         Metadata de la clase
         """
-        ordering = ['name']
+        ordering = ['order']

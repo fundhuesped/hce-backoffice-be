@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from .activeModel import *
+from .orderedType import *
 from .abstractType import *
 from .orderedAbstractType import *
 from .province import *

@@ -38,4 +38,4 @@ class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = LabResult
-        fields = ('id', 'date', 'values', 'paciente','status', 'createdOn', 'modifiedOn')
+        fields = ('id', 'date', 'values', 'paciente', 'status', 'createdOn', 'modifiedOn')

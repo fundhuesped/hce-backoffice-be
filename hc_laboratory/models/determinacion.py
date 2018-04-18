@@ -19,9 +19,11 @@ class Determinacion(ActiveModel):
                               default=ActiveModel.STATUS_ACTIVE)
     order = models.IntegerField(null=True)
     category = models.ForeignKey(CategoriaDeterminacion, null=True)
+    upperLimit = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    lowerLimit = models.DecimalField(null=True, max_digits=10, decimal_places=2)
 
     class Meta:
         """
         Metadata de la clase
         """
-        ordering = ['code']
+        ordering = ['order']

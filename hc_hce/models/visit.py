@@ -30,7 +30,7 @@ class Visit(ActiveModel):
     created_on = models.DateTimeField(auto_now=True)
     closed_on = models.DateTimeField(null=True)
     date = models.DateTimeField(auto_now=True)
-
+    isEpicrisis = models.BooleanField(null=False, default=False)
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
