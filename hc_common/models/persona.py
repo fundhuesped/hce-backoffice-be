@@ -13,6 +13,7 @@ class Persona(ActiveModel):
     otherNames = models.CharField(max_length=80, null=True, blank=True)
     fatherSurname = models.CharField(max_length=80, null=False)
     motherSurname = models.CharField(max_length=40, null=True, blank=True)
+    alias = models.CharField(max_length=80, null=True, blank=True)
     birthDate = models.DateField(null=True, blank=True)
     documentType = models.ForeignKey(DocumentType, null=True, blank=True)
     documentNumber = models.CharField(max_length=15, null=True, blank=True)

@@ -126,6 +126,7 @@ class PacienteNestSerializer(serializers.ModelSerializer):
             otherNames=validated_data.get('otherNames'),
             fatherSurname=validated_data.get('fatherSurname'),
             motherSurname=validated_data.get('motherSurname'),
+            alias=validated_data.get('alias'),
             birthDate=validated_data.get('birthDate'),
             consent=validated_data.get('consent', Paciente.CONSENT_NA),
             documentNumber=validated_data.get('documentNumber'),
@@ -202,6 +203,7 @@ class PacienteNestSerializer(serializers.ModelSerializer):
         instance.otherNames = validated_data.get('otherNames', instance.otherNames)
         instance.fatherSurname = validated_data.get('fatherSurname', instance.fatherSurname)
         instance.motherSurname = validated_data.get('motherSurname', instance.motherSurname)
+        instance.alias = validated_data.get('alias', instance.alias)
         instance.birthDate = validated_data.get('birthDate', instance.birthDate)
         instance.consent = validated_data.get('consent', instance.consent)
         instance.documentNumber = validated_data.get('documentNumber', instance.documentNumber)
@@ -239,7 +241,7 @@ class PacienteNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Paciente
-        fields = ('id', 'idpaciente', 'prospect', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email',
+        fields = ('id', 'idpaciente', 'prospect', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'alias','birthDate', 'email',
                   'street', 'postal', 'status', 'consent','documentType', 'documentNumber', 'genderAtBirth',
                   'genderOfChoice', 'location', 'occupation', 'civilStatus', 'education', 'socialService',
                   'socialServiceNumber', 'bornPlace', 'firstVisit', 'notes', 'primaryPhoneNumber',
