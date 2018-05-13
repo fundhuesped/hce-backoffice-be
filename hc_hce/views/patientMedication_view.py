@@ -44,6 +44,10 @@ class PatientMedicationsList(PaginateListCreateAPIView):
         if medicationTypeCode is not None:
             queryset = queryset.filter(medication__medicationType__code=medicationTypeCode)
 
+        notMedicationTypeCode = self.request.query_params.get('notMedicationTypeCode')
+        if notMedicationTypeCode is not None:
+            queryset = queryset.all().exclude(medication__medicationType__code=notMedicationTypeCode)
+
         return queryset
 
 
