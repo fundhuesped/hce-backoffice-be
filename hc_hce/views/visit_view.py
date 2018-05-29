@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+import datetime
+import pytz
 from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
 from hc_hce.serializers import VisitNestSerializer
@@ -11,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
-
+ 
 class PacienteVisitList(PaginateListCreateAPIView):
     serializer_class = VisitNestSerializer
     filter_backends = (filters.OrderingFilter,)
@@ -58,6 +59,26 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Visit.objects.all()
     # permission_classes = (DjangoModelPermissions,)
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+
+        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.date
+        days, seconds = diff.days, diff.seconds
+        hours = days * 24 + seconds // 3600
+
+        if hours > 12:
+            return Response('Solo se pueden modificar dentro de las 12 horas', status=status.HTTP_403_FORBIDDEN)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
 
 class CurrentVisitDetail(generics.RetrieveUpdateAPIView):
     serializer_class = VisitNestSerializer
