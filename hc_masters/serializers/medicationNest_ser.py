@@ -40,4 +40,4 @@ class MedicationNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'presentations', 'abbreviation')
+        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'presentations', 'abbreviation', 'presentation')

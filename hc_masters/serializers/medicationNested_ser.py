@@ -26,4 +26,4 @@ class MedicationNestedSerializer(TypeNestedSerializer):
 
     class Meta(TypeNestedSerializer.Meta):
         model = Medication
-        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'abbreviation')
+        fields = ('id', 'name', 'composition', 'status', 'medicationType', 'abbreviation', 'presentation', 'recipeName')

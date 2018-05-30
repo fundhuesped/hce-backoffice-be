@@ -22,7 +22,8 @@ class PatientMedicationNestedSerializer(serializers.ModelSerializer):
         many=False
     )
     patientProblem = PatientProblemNestedSerializer(
-        many=False
+        many=False,
+        required=False
     )
     medicationPresentation = MedicationPresentationNestedSerializer(
         many=False,
