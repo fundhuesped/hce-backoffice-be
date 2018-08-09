@@ -16,3 +16,4 @@ from .patientPrescriptionMedicationNested_ser import *
 from .patientPrescriptionNest_ser import *
 from .patientARVPrescriptionMedicationNest_ser import *
 from .patientARVPrescriptionNest_ser import *
+from .patientVaccinePrescriptionNest_ser import *

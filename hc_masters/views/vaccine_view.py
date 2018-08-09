@@ -19,9 +19,15 @@ class VaccineList(PaginateListCreateAPIView):
         name = self.request.query_params.get('name')
         status = self.request.query_params.get('status')
         if name is not None:
-            queryset = queryset.filter(Q(name__icontains=name) | Q(synonym__icontains=name))
+            queryset = queryset.filter(Q(name__unaccent__icontains=name) | Q(synonym__unaccent__icontains=name))
         if status is not None:
             queryset = queryset.filter(status=status)
+        print queryset.all()[0].name
+        print queryset.all()[1].name
+        print queryset.all()[2].name
+        print queryset.all()[3].name
+        print queryset.all()[4].name
+        print queryset.all()[5].name
         return queryset
 
 

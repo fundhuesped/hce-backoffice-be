@@ -13,6 +13,9 @@ class MedicationType(ActiveModel):
     name = models.CharField(max_length=150, null=False)
     code = models.CharField(max_length=10, null=False)
     group = models.CharField(max_length=10, null=False)
+    
+    def __unicode__(self):
+        return self.name + '(' + self.group + ')'
 
     class Meta:
         """

@@ -3,9 +3,9 @@
 
 from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
-from hc_hce.serializers import PatientPrescriptionNestSerializer
+from hc_hce.serializers import PatientVaccinePrescriptionNestSerializer
 from hc_hce.models import Visit
-from hc_hce.models import PatientPrescription
+from hc_hce.models import PatientVaccinePrescription
 from hc_pacientes.models import Paciente
 from hc_core.views import PaginateListCreateAPIView
 from hc_core.exceptions import FailedDependencyException
@@ -17,12 +17,12 @@ from datetime import timedelta
 from datetime import datetime
 
 class PatientVaccinePrescriptionList(PaginateListCreateAPIView):
-    serializer_class = PatientPrescriptionNestSerializer
+    serializer_class = PatientVaccinePrescriptionNestSerializer
     filter_backends = (filters.OrderingFilter,)
     # permission_classes = (DjangoModelPermissions,)
 
     def get_queryset(self):
-        queryset = PatientPrescription.objects.all()
+        queryset = PatientVaccinePrescription.objects.all()
 
         patient_id = self.kwargs.get('pacienteId')
         if patient_id is not None:
@@ -68,19 +68,19 @@ class PatientVaccinePrescriptionList(PaginateListCreateAPIView):
                 print x
                 data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%dT%H:%M:%S.000Z").date() + timedelta(days=28*(x+1))  
                 print data['issuedDate']
-                serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
+                serializer = PatientVaccineNestSerializer(data=data, context={'request': request})
                 serializer.is_valid(raise_exception=True)
                 self.perform_create(serializer)
                 prescriptionsIds.append(serializer.data['id'])
             return Response({"prescriptionsIds":prescriptionsIds})
 
         else:
-            serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
+            serializer = PatientVaccineNestSerializer(data=data, context={'request': request})
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
         return Response(serializer.data)
 
-class PatientPrescriptionDetail(generics.RetrieveAPIView):
-    serializer_class = PatientPrescriptionNestSerializer
-    queryset = PatientPrescription.objects.all()
+class PatientVaccinePrescriptionDetail(generics.RetrieveAPIView):
+    serializer_class = PatientVaccinePrescriptionNestSerializer
+    queryset = PatientVaccinePrescription.objects.all()
     # permission_classes = (DjangoModelPermissions,)

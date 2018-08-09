@@ -5,6 +5,7 @@ from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
 from hc_hce.serializers import PatientPrescriptionNestSerializer
 from hc_hce.serializers import PatientARVPrescriptionNestSerializer
+from hc_hce.serializers import PatientVaccinePrescriptionNestSerializer
 
 from hc_hce.models import Visit
 from hc_hce.models import PatientPrescription
@@ -82,6 +83,8 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
         else:
             if data['prescripctionType'] == 'Arv':
                 serializer = PatientARVPrescriptionNestSerializer(data=data, context={'request': request})
+            elif data['prescripctionType'] == 'Vaccine':
+                serializer = PatientVaccinePrescriptionNestSerializer(data=data, context={'request': request})
             else:
                 serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
             serializer.is_valid(raise_exception=True)

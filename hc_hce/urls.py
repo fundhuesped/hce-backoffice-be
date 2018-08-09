@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^patientClinicalStudyResult/(?P<pk>[0-9]+)/$', views.PatientClinicalStudyResultDetail.as_view(), name='Patient-ClinicalStudyResult-detail'),
     url(r'^patientPrescriptions/(?P<pk>[0-9]+)$', views.PatientPrescriptionDetail.as_view(), name='Patient-Prescription-detail'),
     url(r'^patientARVPrescriptions/(?P<pk>[0-9]+)$', views.PatientARVPrescriptionDetail.as_view(), name='Patient-Prescription-detail'),
+    url(r'^patientVaccinePrescriptions/(?P<pk>[0-9]+)$', views.PatientVaccinePrescriptionDetail.as_view(), name='Patient-Vaccine-Prescription-detail'),
+
 ]
