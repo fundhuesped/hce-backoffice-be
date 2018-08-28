@@ -13,9 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url 
+from django.conf.urls import include
 from django.contrib import admin
 from huesped_backend import views
+from rest_framework import routers
+from dynamic_preferences.api.viewsets import GlobalPreferencesViewSet
+from dynamic_preferences.users.viewsets import UserPreferencesViewSet
+from django.conf.urls.static import static
+from django.conf import settings
+
+
+router = routers.SimpleRouter()
+router.register(r'global', GlobalPreferencesViewSet, base_name='global')
+
 
 apps_patterns = ([
     url(r'^api-auth/', include('rest_framework.urls')),
@@ -26,11 +37,12 @@ apps_patterns = ([
     url(r'^pacientes/', include('hc_pacientes.urls')),
     url(r'^core/', include('hc_core.urls')),
     url(r'^masters/', include('hc_masters.urls', namespace='masters')),
-    url(r'^hce/', include('hc_hce.urls', namespace='hce'))
+    url(r'^hce/', include('hc_hce.urls', namespace='hce')),
+    url(r'^preferences/', include(router.urls, namespace='preferences'))
 ])
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^info/', views.info_view.info),
     url(r'^api/', include(apps_patterns, namespace='api')),
-]
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

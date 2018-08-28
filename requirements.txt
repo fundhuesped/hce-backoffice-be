@@ -10,6 +10,7 @@ django-extensions==1.6.7
 django-audit-log==0.7.0
 django-cors-headers==1.1.0
 django-reversion==2.0.6
-psycopg2==2.6.1
 gunicorn==19.6.0
 requests==2.11.1
+django-background-tasks==1.1.13
+django-dynamic-preferences==1.5.1

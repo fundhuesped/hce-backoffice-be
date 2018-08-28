@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
+    'background_task',
     'hc_common',
     'hc_pacientes',
     'hc_core',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'hc_practicas',
     'hc_laboratory',
     'reversion',
+    'dynamic_preferences',
     'django_extensions'
 ]
 
@@ -62,6 +64,10 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'huesped_backend.urls'
+
+MEDIA_ROOT = './media/'
+
+MEDIA_URL = '/media/'
 
 TEMPLATES = [
     {
@@ -159,36 +165,6 @@ CORS_ALLOW_HEADERS = (
 CORS_EXPOSE_HEADERS = {
     'auth-token'
 }
-
-#
-# Notifications configuration
-#
-
-# Days to look in advance to send notifications
-NOTIFICATION_ANTICIPATION_DAYS = os.getenv('NOTIFICATION_ANTICIPATION_DAYS', 2)
-
-# Set to true to activate these chanels
-SEND_SMS_NOTIFICATIONS = False
-SEND_EMAIL_NOTIFICATIONS = True
-
-# Email configuration
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'mail.2peoplestudio.com')
-EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'cmh@incubator.com.ar')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'HuesDev2016')
-EMAIL_SENDER_ADDRESS = os.getenv('EMAIL_SENDER_ADDRESS', 'cmh@incubator.com.ar')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
-EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', False)
-
-
-
-
-
-# SMS Configurations
-BASE_SMS_URL = os.getenv('BASE_SMS_URL', 'BASE_SMS_URL')
-SMS_SERVICE_USER = os.getenv('SMS_SERVICE_USER', 'SMS_SERVICE_USER')
-SMS_SERVICE_PASSWORD = os.getenv('SMS_SERVICE_PASSWORD', 'SMS_SERVICE_PASSWORD')
-
 
 
 # TODO Replace this with jenkins build info file

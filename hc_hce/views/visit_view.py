@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
+from hc_hce.services.visitService import schedule_close
  
 class PacienteVisitList(PaginateListCreateAPIView):
     serializer_class = VisitNestSerializer
@@ -51,6 +52,10 @@ class PacienteVisitList(PaginateListCreateAPIView):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+
+        if serializer.data['id'] is not None:
+            schedule_close(serializer.data['id'])
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
