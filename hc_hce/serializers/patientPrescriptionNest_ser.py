@@ -43,7 +43,6 @@ class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
 
         for prescriptedMedication in validated_data.get('prescriptedMedications'):
             prescriptedMedication['prescription'] = instance.id
-            print prescriptedMedication
             prescriptedMedication['patientMedication'] = prescriptedMedication['patientMedication'].id;
             serializer = PatientPrescriptionMedicationNestSerializer(data=prescriptedMedication)
             serializer.is_valid(raise_exception=True)

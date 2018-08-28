@@ -69,7 +69,7 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
             originalDate = data['issuedDate']
             for x in xrange(0,data['cantRecetas']):
                 print x
-                data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%dT%H:%M:%S.000Z").date() + timedelta(days=28*(x+1))  
+                data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%d").date() + timedelta(days=28*(x+1))  
                 print data['issuedDate']
                 if data['prescripctionType'] == 'Arv':
                     serializer = PatientARVPrescriptionNestSerializer(data=data, context={'request': request})
