@@ -30,9 +30,9 @@ class ProfesionalList(PaginateListCreateAPIView):
         especialidad = self.request.query_params.get('especialidad')
 
         if firstName is not None and len(firstName) > 3:
-            queryset = queryset.filter(firstName__istartswith=firstName)
+            queryset = queryset.filter(firstName__unaccent__istartswith=firstName)
         if fatherSurename is not None and len(fatherSurename) > 3:
-            queryset = queryset.filter(fatherSurename__istartswith=fatherSurename)
+            queryset = queryset.filter(fatherSurename__unaccent__istartswith=fatherSurename)
         if status is not None:
             queryset = queryset.filter(status=status)            
         if prestacion is not None:

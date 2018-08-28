@@ -19,7 +19,7 @@ class DeterminacionList(PaginateListCreateAPIView):
         name = self.request.query_params.get('name')
         status = self.request.query_params.get('status')
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name__unaccent__icontains=name)
         if status is not None:
             queryset = queryset.filter(status=status)
         return queryset

@@ -44,13 +44,13 @@ class PacienteList(PaginateListCreateAPIView):
 
         if firstName is not None :
             if  len(firstName) >= 3:
-                queryset = queryset.filter(Q(firstName__istartswith=firstName) | Q(otherNames__istartswith=firstName))
+                queryset = queryset.filter(Q(firstName__unaccent__istartswith=firstName) | Q(otherNames__unaccent__istartswith=firstName))
             else:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
         if fatherSurname is not None:
             if len(fatherSurname) >= 3:
-                queryset = queryset.filter(fatherSurname__istartswith=fatherSurname)
+                queryset = queryset.filter(fatherSurname__unaccent__istartswith=fatherSurname)
             else:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
@@ -87,7 +87,7 @@ class PacienteList(PaginateListCreateAPIView):
             except Exception as e:
                 raise serializers.ValidationError({'error': 'Código PNS mal formado'})
 
-            queryset = queryset.filter(firstName__istartswith=name, fatherSurname__istartswith=lastName, birthDate=pnsBirthDate)
+            queryset = queryset.filter(firstName__unaccent__istartswith=name, fatherSurname__unaccent__istartswith=lastName, birthDate=pnsBirthDate)
 
 
         #Order
