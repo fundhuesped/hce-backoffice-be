@@ -73,7 +73,7 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
         hours = days * 24 + seconds // 3600
 
         if hours > 12:
-            return Response('Solo se pueden modificar dentro de las 12 horas', status=status.HTTP_403_FORBIDDEN)
+            return Response('Solo se pueden modificar dentro de las 12 horas', status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
