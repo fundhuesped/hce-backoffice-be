@@ -19,7 +19,7 @@ class ClinicalStudyList(PaginateListCreateAPIView):
         name = self.request.query_params.get('name')
         status = self.request.query_params.get('status')
         if name is not None:
-            queryset = queryset.filter(Q(name__icontains=name) | Q(synonym__icontains=name))
+            queryset = queryset.filter(Q(name__unaccent__icontains=name) | Q(synonym__unaccent__icontains=name))
         if status is not None:
             queryset = queryset.filter(status=status)
         return queryset
