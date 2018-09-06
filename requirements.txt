@@ -14,3 +14,5 @@ gunicorn==19.6.0
 requests==2.11.1
 django-background-tasks==1.1.13
 django-dynamic-preferences==1.5.1
+psycopg2==2.6.1
+pytz==2017.2

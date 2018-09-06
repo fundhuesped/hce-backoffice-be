@@ -4,7 +4,6 @@
 import reversion
 from rest_framework import serializers
 from hc_pacientes.models import Paciente
-from hc_common.models import Persona
 from hc_common.serializers import DocumentTypeNestedSerializer, SexTypeNestedSerializer, LocationNestedSerializer, \
     CivilStatusTypeNestedSerializer, SocialServiceNestedSerializer, EducationTypeNestedSerializer, CountryNestedSerializer
 
@@ -23,8 +22,8 @@ class PacienteNestSerializer(serializers.ModelSerializer):
     )
     status = serializers.CharField(
         max_length=8,
-        initial=Persona.STATUS_ACTIVE,
-        default=Persona.STATUS_ACTIVE
+        initial=Paciente.STATUS_ACTIVE,
+        default=Paciente.STATUS_ACTIVE
     )
 
     genderAtBirth = SexTypeNestedSerializer(
