@@ -22,7 +22,7 @@ class Paciente(ActiveModel):
 
     idpaciente = models.CharField(max_length=20, null=True)
     prospect = models.BooleanField(default=False)
-    pns = models.CharField(max_length=20, null=True)
+    # pns = models.CharField(max_length=20, null=True)
     consent = models.CharField(max_length=14, choices=CONSENT_CHOICES, default=CONSENT_NA)
     updated_on = models.DateField(auto_now=True)
 
@@ -59,6 +59,18 @@ class Paciente(ActiveModel):
     thirdPhoneNumber = models.CharField(max_length=20, blank=True, null=True)
     thirdPhoneContact = models.CharField(max_length=40, blank=True, null=True)
     thirdPhoneMessage = models.NullBooleanField(default=False, null=True, blank=True)
+
+    @property
+    def pns(self):
+        """
+        Calculates the PNS code
+        """
+        if self.genderAtBirth.name == 'Masculino': 
+            pns = 'M'
+        else:
+            pns = 'F'
+        pns = pns + self.firstName[:2] + self.fatherSurname[:2] + self.birthDate.strftime('%d%m%Y')
+        return pns.upper()
 
     class Meta:
         ordering = ['fatherSurname']

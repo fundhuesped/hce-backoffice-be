@@ -52,7 +52,7 @@ class PacienteList(PaginateListCreateAPIView):
 
         if fatherSurname is not None:
             if len(fatherSurname) >= 3:
-                queryset = queryset.filter(fatherSurname__unaccent__istartswith=fatherSurname)
+                queryset = queryset.filter(Q(fatherSurname__unaccent__istartswith=fatherSurname) | Q(motherSurname__unaccent__istartswith=fatherSurname))
             else:
                 raise serializers.ValidationError({'error': 'Se debe realizar una consulta con parametros de busqueda validos'})
 
