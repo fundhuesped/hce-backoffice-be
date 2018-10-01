@@ -65,7 +65,7 @@ class Paciente(ActiveModel):
         """
         Calculates the PNS code
         """
-        if self.genderAtBirth.name == 'Masculino': 
+        if self.genderOfChoice.name == 'Masculino': 
             pns = 'M'
         else:
             pns = 'F'

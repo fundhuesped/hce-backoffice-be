@@ -78,4 +78,4 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientMedication
-        fields = ('id', 'paciente', 'medication', 'quantityPerMonth', 'quantityPerDay', 'observations', 'startDate', 'endDate', 'state', 'patientProblem', 'medicationPresentation')
+        fields = ('id', 'paciente', 'medication', 'quantityPerMonth', 'quantityPerDay', 'observations', 'startDate', 'endDate', 'state', 'patientProblem', 'medicationPresentation', 'createdOn')

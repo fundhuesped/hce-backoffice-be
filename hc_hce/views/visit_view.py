@@ -73,7 +73,13 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
         hours = days * 24 + seconds // 3600
 
         if hours > 8:
-            return Response('Solo se pueden modificar dentro de las 8 horas', status=status.HTTP_400_BAD_REQUEST)
+            if instance.state == Visit.STATE_OPEN and request.data.state == Visit.STATE_CLOSE:
+                instance.state = Visit.STATE_CLOSE
+                instance.save();
+                serializer = self.get_serializer(instance)
+                return Response(serializer.data)
+            else:
+                return Response('Solo se pueden modificar dentro de las 8 horas', status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)

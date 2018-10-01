@@ -53,4 +53,4 @@ class PatientClinicalStudyResultNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientClinicalStudyResult
-        fields = ('id', 'paciente', 'clinicalStudy', 'observations', 'studyDate', 'state')
+        fields = ('id', 'paciente', 'clinicalStudy', 'observations', 'studyDate', 'state', 'createdOn')
