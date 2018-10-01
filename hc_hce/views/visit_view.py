@@ -73,7 +73,7 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
         hours = days * 24 + seconds // 3600
 
         if hours > 8:
-            if instance.state == Visit.STATE_OPEN and request.data.state == Visit.STATE_CLOSE:
+            if instance.state == Visit.STATE_OPEN and request.data['state'] == Visit.STATE_CLOSE:
                 instance.state = Visit.STATE_CLOSE
                 instance.save();
                 serializer = self.get_serializer(instance)
