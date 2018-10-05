@@ -7,6 +7,7 @@ from hc_laboratory.serializers import LabResultNestSerializer
 from hc_laboratory.serializers import DeterminacionValorNestSerializer
 from hc_hce.models import Visit
 from hc_laboratory.models import LabResult
+from hc_laboratory.models import DeterminacionValor
 from hc_pacientes.models import Paciente
 from hc_core.views import PaginateListCreateAPIView
 from hc_core.exceptions import FailedDependencyException
@@ -87,6 +88,32 @@ class PatientLabResults(PaginateListCreateAPIView):
         return result
 
 
+
+class PatientCD4Detail(generics.RetrieveAPIView):
+    serializer_class = LabResultNestSerializer
+    queryset = LabResult.objects.all()
+    # permission_classes = (DjangoModelPermissions,)
+
+    def get(self, request, *args, **kwargs):
+        patient_id = self.kwargs.get('pacienteId')
+        determinacion = DeterminacionValor.objects.filter(labResult__paciente=patient_id, determinacion__code="CD4").order_by('-labResult__createdOn')
+        if determinacion.exists():
+            return Response({ "date": determinacion[0].labResult.date,"value": determinacion[0].value, "unitOfMeasure": determinacion[0].determinacion.unitOfMeasure})
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class PatientCVDetail(generics.RetrieveAPIView):
+    serializer_class = LabResultNestSerializer
+    queryset = LabResult.objects.all()
+    # permission_classes = (DjangoModelPermissions,)
+
+    def get(self, request, *args, **kwargs):
+        patient_id = self.kwargs.get('pacienteId')
+        determinacion = DeterminacionValor.objects.filter(labResult__paciente=patient_id, determinacion__code="CARGA VIRAL").order_by('-labResult__createdOn')
+        if determinacion.exists():
+            return Response({ "date": determinacion[0].labResult.date,"value": determinacion[0].value, "unitOfMeasure": determinacion[0].determinacion.unitOfMeasure})
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 class PatientLabResultDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = LabResultNestSerializer
