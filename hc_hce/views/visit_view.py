@@ -80,7 +80,7 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
                 if instance.state == Visit.STATE_OPEN:
                     instance.state = Visit.STATE_CLOSED
                     instance.save();
-                    return Response('Cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
+                    return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
                 else:
                     return Response('Solo se pueden modificar dentro de las 8 horas', status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)

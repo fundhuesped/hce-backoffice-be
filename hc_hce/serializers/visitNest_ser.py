@@ -37,6 +37,9 @@ class VisitNestSerializer(serializers.ModelSerializer):
 
         if instance.state == Visit.STATE_OPEN and  validated_data.get('state') == Visit.STATE_CLOSED:
             instance.state = validated_data.get('state')
+        else:
+            if(validated_data.get('state') == Visit.STATE_CANCELED):
+                instance.state = validated_data.get('state')
         instance.save()
 
         return instance
