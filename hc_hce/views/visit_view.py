@@ -27,8 +27,6 @@ class PacienteVisitList(PaginateListCreateAPIView):
         status = self.request.query_params.get('status')
         if status is not None:
             queryset = queryset.filter(status=status)
-        else:
-            queryset = queryset.filter(status=Visit.STATUS_ACTIVE)
 
         state = self.request.query_params.get('state')
         if state is not None:

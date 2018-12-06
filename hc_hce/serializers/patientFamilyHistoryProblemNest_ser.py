@@ -22,12 +22,17 @@ class PatientFamilyHistoryProblemNestSerializer(serializers.ModelSerializer):
         many=False,
     )
 
+    profesional = UserNestedSerializer(
+        many=False,
+    )
+
     def create(self, validated_data):
 
         patientFamilyHistoryProblem = PatientFamilyHistoryProblem.objects.create(
             observations=validated_data.get('observations'),
             state=validated_data.get('state', PatientFamilyHistoryProblem.STATE_ACTIVE),
             paciente=validated_data.get('paciente'),
+            profesional=validated_data.get('profesional'),
             problem=validated_data.get('problem'),
             relationship=validated_data.get('relationship'),
         )
@@ -52,4 +57,4 @@ class PatientFamilyHistoryProblemNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientFamilyHistoryProblem
-        fields = ('id', 'paciente', 'problem', 'observations', 'relationship', 'createdOn', 'state')
+        fields = ('id', 'paciente', 'profesional', 'problem', 'observations', 'relationship', 'createdOn', 'state')

@@ -9,7 +9,6 @@ from hc_laboratory.serializers import DeterminacionValorNestSerializer
 from hc_pacientes.serializers import PacienteNestedSerializer
 from rest_framework import serializers
 
-
 class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
 
@@ -23,7 +22,6 @@ class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-
         instance = LabResult.objects.create(
             paciente=validated_data.get('paciente'),
             date=validated_data.get('date')

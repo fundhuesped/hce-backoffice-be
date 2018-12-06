@@ -3,6 +3,7 @@
 
 from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated
 from hc_hce.serializers import PatientMedicationNestSerializer
 from hc_hce.models import Visit
 from hc_hce.models import PatientMedication
@@ -18,6 +19,7 @@ class PatientMedicationsList(PaginateListCreateAPIView):
     serializer_class = PatientMedicationNestSerializer
     filter_backends = (filters.OrderingFilter,)
     # permission_classes = (DjangoModelPermissions,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         patient_id = self.kwargs.get('pacienteId')
@@ -57,6 +59,7 @@ class PatientMedicationsList(PaginateListCreateAPIView):
 
         data = request.data.copy()
         data['paciente'] = patient_id
+        data['profesional'] = profesional.id
 
         try:
             PatientMedication.objects.get(paciente=patient_id,medication=data['medication']['id'], state=PatientMedication.STATE_ACTIVE)

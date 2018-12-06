@@ -24,6 +24,7 @@ class PatientARVTreatmentMedicationNestSerializer(serializers.ModelSerializer):
         patientMedication = PatientARVTreatmentMedication.objects.create(
             patientARVTreatment=validated_data.get('patientARVTreatment'),
             quantityPerDay=validated_data.get('quantityPerDay'),
+            profesional=validated_data.get('profesional'),
             quantityPerMonth=validated_data.get('quantityPerMonth'),
             medication=validated_data.get('medication')
         )

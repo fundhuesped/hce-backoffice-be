@@ -96,7 +96,7 @@ class PatientCD4Detail(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
-        determinacion = DeterminacionValor.objects.filter(labResult__paciente=patient_id, determinacion__code="CD4").order_by('-labResult__createdOn')
+        determinacion = DeterminacionValor.objects.filter(labResult__paciente=patient_id, determinacion__code="CD4", labResult__status=LabResult.STATUS_ACTIVE).order_by('-labResult__createdOn')
         if determinacion.exists():
             return Response({ "date": determinacion[0].labResult.date,"value": determinacion[0].value, "unitOfMeasure": determinacion[0].determinacion.unitOfMeasure})
         else:
@@ -109,7 +109,7 @@ class PatientCVDetail(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
-        determinacion = DeterminacionValor.objects.filter(labResult__paciente=patient_id, determinacion__code="CARGA VIRAL").order_by('-labResult__createdOn')
+        determinacion = DeterminacionValor.objects.filter(labResult__paciente=patient_id, determinacion__code="CARGA VIRAL", labResult__status=LabResult.STATUS_ACTIVE).order_by('-labResult__createdOn')
         if determinacion.exists():
             return Response({ "date": determinacion[0].labResult.date,"value": determinacion[0].value, "unitOfMeasure": determinacion[0].determinacion.unitOfMeasure})
         else:

@@ -4,6 +4,7 @@
 from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import Vaccine
+from django.contrib.auth.models import User
 
 class PatientVaccine(models.Model):
     """
@@ -24,6 +25,7 @@ class PatientVaccine(models.Model):
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
                              default=STATE_APPLIED)
+    profesional = models.ForeignKey(User, null=False)
     createdOn = models.DateTimeField(auto_now=True)
     appliedDate = models.DateField(blank=True, null=True)
 

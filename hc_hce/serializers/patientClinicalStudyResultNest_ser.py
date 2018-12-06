@@ -22,12 +22,18 @@ class PatientClinicalStudyResultNestSerializer(serializers.ModelSerializer):
         many=False,
     )
 
+    profesional = UserNestedSerializer(
+        many=False,
+    )
+
+
     def create(self, validated_data):
 
         patientClinicalStudyResult = PatientClinicalStudyResult.objects.create(
             observations=validated_data.get('observations'),
             state=validated_data.get('state', PatientClinicalStudyResult.STATE_ACTIVE),
             paciente=validated_data.get('paciente'),
+            profesional=validated_data.get('profesional'),
             clinicalStudy=validated_data.get('clinicalStudy'),
             studyDate=validated_data.get('studyDate'),
         )
@@ -53,4 +59,4 @@ class PatientClinicalStudyResultNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientClinicalStudyResult
-        fields = ('id', 'paciente', 'clinicalStudy', 'observations', 'studyDate', 'state', 'createdOn')
+        fields = ('id', 'paciente', 'profesional', 'clinicalStudy', 'observations', 'studyDate', 'state', 'createdOn')

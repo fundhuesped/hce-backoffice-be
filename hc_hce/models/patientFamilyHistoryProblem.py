@@ -4,6 +4,7 @@
 from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import Problem
+from django.contrib.auth.models import User
 
 class PatientFamilyHistoryProblem(models.Model):
     """
@@ -36,6 +37,7 @@ class PatientFamilyHistoryProblem(models.Model):
 
     paciente = models.ForeignKey(Paciente,blank=True, null=False)
     problem = models.ForeignKey(Problem, null=False)
+    profesional = models.ForeignKey(User, null=False)
 
     relationship = models.CharField(max_length=15,
                                     choices=RELATIONSHIP_CHOICES,

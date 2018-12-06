@@ -54,6 +54,8 @@ class PatientVaccineList(PaginateListCreateAPIView):
 
         data = request.data.copy()
         data['paciente'] = patient_id
+        data['profesional'] = profesional.id
+
         serializer = PatientVaccineNestSerializer(data=data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

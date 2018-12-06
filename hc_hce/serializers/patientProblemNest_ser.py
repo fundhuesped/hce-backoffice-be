@@ -22,12 +22,17 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
         many=False,
     )
 
+    profesional = UserNestedSerializer(
+        many=False,
+    )
+
     def create(self, validated_data):
 
         patientProblem = PatientProblem.objects.create(
             observations=validated_data.get('observations'),
             state=validated_data.get('state', PatientProblem.STATE_ACTIVE),
             paciente=validated_data.get('paciente'),
+            profesional=validated_data.get('profesional'),
             problem=validated_data.get('problem'),
             startDate=validated_data.get('startDate'),
             closeDate=validated_data.get('closeDate')
@@ -51,8 +56,8 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
         if instance.state == PatientProblem.STATE_ACTIVE and  validated_data.get('state') == PatientProblem.STATE_CLOSED:
             instance.state = PatientProblem.STATE_CLOSED
             closeDate = validated_data.get('closeDate')
-            # if closeDate is None:
-            #     instance.closeDate = closeDate
+            if closeDate is not None:
+                instance.closeDate = closeDate
             instance.save()
 
             return instance
@@ -67,4 +72,4 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientProblem
-        fields = ('id', 'paciente', 'problem', 'observations', 'state', 'startDate', 'closeDate', 'createdOn')
+        fields = ('id', 'paciente', 'profesional', 'problem', 'observations', 'state', 'startDate', 'closeDate', 'createdOn')

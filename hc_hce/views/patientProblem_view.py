@@ -53,6 +53,8 @@ class PatientProblemsList(PaginateListCreateAPIView):
 
         data = request.data.copy()
         data['paciente'] = patient_id
+        data['profesional'] = profesional.id
+
         try:
             PatientProblem.objects.get(paciente=patient_id,problem=data['problem']['id'], state=PatientProblem.STATE_ACTIVE)
             raise FailedDependencyException('El problema a dar de alta ya esta activo')

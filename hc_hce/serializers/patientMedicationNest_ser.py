@@ -37,6 +37,10 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
         allow_null=True
     )
 
+    profesional = UserNestedSerializer(
+        many=False,
+    )
+
 
     def create(self, validated_data):
 
@@ -45,6 +49,7 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
             state=validated_data.get('state', PatientMedication.STATE_ACTIVE),
             paciente=validated_data.get('paciente'),
             patientProblem=validated_data.get('patientProblem'),
+            profesional=validated_data.get('profesional'),
             quantityPerMonth=validated_data.get('quantityPerMonth'),
             quantityPerDay=validated_data.get('quantityPerDay'),
             medication=validated_data.get('medication'),
@@ -78,4 +83,4 @@ class PatientMedicationNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientMedication
-        fields = ('id', 'paciente', 'medication', 'quantityPerMonth', 'quantityPerDay', 'observations', 'startDate', 'endDate', 'state', 'patientProblem', 'medicationPresentation', 'createdOn')
+        fields = ('id', 'paciente', 'profesional', 'medication',  'quantityPerMonth', 'quantityPerDay', 'observations', 'startDate', 'endDate', 'state', 'patientProblem', 'medicationPresentation', 'createdOn')

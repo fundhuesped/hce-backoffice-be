@@ -6,6 +6,7 @@ from hc_pacientes.models import Paciente
 from hc_masters.models import Medication
 from hc_masters.models import MedicationPresentation
 from hc_hce.models import PatientProblem
+from django.contrib.auth.models import User
 
 class PatientMedication(models.Model):
     """
@@ -26,6 +27,7 @@ class PatientMedication(models.Model):
     medication = models.ForeignKey(Medication, null=False)
     patientProblem = models.ForeignKey(PatientProblem, null=True, blank=True)
     medicationPresentation = models.ForeignKey(MedicationPresentation, null=True, blank=True)
+    profesional = models.ForeignKey(User, null=False)
 
     observations = models.CharField(max_length=200, null=True)
     quantityPerDay = models.DecimalField(max_digits=5, decimal_places=2, null=True)

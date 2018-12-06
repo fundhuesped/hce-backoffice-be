@@ -22,12 +22,17 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
         many=False,
     )
 
+    profesional = UserNestedSerializer(
+        many=False,
+    )
+
     def create(self, validated_data):
 
         patientVaccine = PatientVaccine.objects.create(
             observations=validated_data.get('observations'),
             state=validated_data.get('state', PatientVaccine.STATE_APPLIED),
             paciente=validated_data.get('paciente'),
+            profesional=validated_data.get('profesional'),
             vaccine=validated_data.get('vaccine'),
             appliedDate=validated_data.get('appliedDate'),
         )
@@ -53,4 +58,4 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientVaccine
-        fields = ('id', 'paciente', 'vaccine', 'observations', 'appliedDate', 'state')
+        fields = ('id', 'paciente', 'profesional', 'vaccine', 'observations', 'appliedDate', 'state')

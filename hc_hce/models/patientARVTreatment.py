@@ -5,6 +5,7 @@ from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import Medication
 from hc_hce.models import PatientProblem
+from django.contrib.auth.models import User
 
 class PatientARVTreatment(models.Model):
     """
@@ -35,7 +36,7 @@ class PatientARVTreatment(models.Model):
     paciente = models.ForeignKey(Paciente,blank=True, null=False)
     medications = models.ManyToManyField(Medication)
     patientProblem = models.ForeignKey(PatientProblem, null=True, blank=True)
-
+    profesional = models.ForeignKey(User, null=False)
     observations = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,

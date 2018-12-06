@@ -36,6 +36,7 @@ class PatientFamilyHistoryProblemsList(PaginateListCreateAPIView):
 
         data = request.data.copy()
         data['paciente'] = patient_id
+        data['profesional'] = profesional.id
         visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         paciente = Paciente.objects.filter(pk=patient_id).get()
 

@@ -4,6 +4,7 @@
 from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import ClinicalStudy
+from django.contrib.auth.models import User
 
 class PatientClinicalStudyResult(models.Model):
     """
@@ -26,6 +27,7 @@ class PatientClinicalStudyResult(models.Model):
                              default=STATE_ACTIVE)
     createdOn = models.DateTimeField(auto_now=True)
     studyDate = models.DateField(blank=True, null=True)
+    profesional = models.ForeignKey(User, null=False)
 
     class Meta:        
         """

@@ -4,6 +4,7 @@
 from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import Problem
+from django.contrib.auth.models import User
 
 class PatientProblem(models.Model):
     """
@@ -26,6 +27,7 @@ class PatientProblem(models.Model):
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
                              default=STATE_ACTIVE)
+    profesional = models.ForeignKey(User, null=False)
     createdOn = models.DateTimeField(auto_now=True)
     startDate = models.DateField(blank=True, null=True)
     closeDate = models.DateField(blank=True, null=True)

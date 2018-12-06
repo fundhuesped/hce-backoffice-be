@@ -14,10 +14,12 @@ class Visit(ActiveModel):
 
     STATE_OPEN = 'Open'
     STATE_CLOSED = 'Closed'
+    STATE_CANCELED = 'Canceled'
 
     STATE_CHOICES = (
         (STATE_OPEN, 'Open'),
-        (STATE_CLOSED, 'Closed')
+        (STATE_CLOSED, 'Closed'),
+        (STATE_CANCELED, 'Canceled')
     )
 
 
@@ -26,7 +28,6 @@ class Visit(ActiveModel):
     notaClinica = models.CharField(max_length=2000, null=True)
     reason = models.CharField(max_length=200, null=True)
     visitType = models.CharField(max_length=30, null=True)
-
     created_on = models.DateTimeField(auto_now=True)
     closed_on = models.DateTimeField(null=True)
     date = models.DateTimeField(auto_now=True)
@@ -41,4 +42,4 @@ class Visit(ActiveModel):
         """
         Metadata de la clase
         """
-        ordering = ['-date']
+        ordering = ['status', '-date']
