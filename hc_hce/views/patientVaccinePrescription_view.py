@@ -65,9 +65,7 @@ class PatientVaccinePrescriptionList(PaginateListCreateAPIView):
             prescriptionsIds = []
             originalDate = data['issuedDate']
             for x in xrange(0,data['cantRecetas']):
-                print x
                 data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%dT%H:%M:%S.000Z").date() + timedelta(days=28*(x+1))  
-                print data['issuedDate']
                 serializer = PatientVaccineNestSerializer(data=data, context={'request': request})
                 serializer.is_valid(raise_exception=True)
                 self.perform_create(serializer)

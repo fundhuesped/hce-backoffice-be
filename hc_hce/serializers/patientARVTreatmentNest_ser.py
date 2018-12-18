@@ -49,9 +49,11 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
             startDate=validated_data.get('startDate'),
             endDate=validated_data.get('endDate'),
         )
+
         patientARVTreatmentMedications = validated_data.get('patientARVTreatmentMedications')
         for patientARVTreatmentMedication in patientARVTreatmentMedications:
             patientARVTreatmentMedication['patientARVTreatment'] = instance.id
+            patientARVTreatmentMedication['profesional'] = validated_data.get('profesional').id
             patientARVTreatmentMedication['medication'] = patientARVTreatmentMedication['medication'].id
             serializer = PatientARVTreatmentMedicationNestSerializer(data=patientARVTreatmentMedication)
             serializer.is_valid(raise_exception=True)

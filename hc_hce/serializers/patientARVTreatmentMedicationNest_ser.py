@@ -11,11 +11,15 @@ from hc_pacientes.serializers import PacienteNestedSerializer
 from hc_masters.serializers import MedicationNestedSerializer
 
 from hc_core.serializers import UserNestedSerializer
+from hc_core.serializers import UserNestedSerializer
 
 
 class PatientARVTreatmentMedicationNestSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     medication = MedicationNestedSerializer(
+        many=False,
+    )
+    profesional = UserNestedSerializer(
         many=False,
     )
 
@@ -32,4 +36,4 @@ class PatientARVTreatmentMedicationNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientARVTreatmentMedication
-        fields = ('id', 'patientARVTreatment', 'medication', 'quantityPerDay', 'quantityPerMonth')
+        fields = ('id', 'patientARVTreatment', 'profesional', 'medication', 'quantityPerDay', 'quantityPerMonth')

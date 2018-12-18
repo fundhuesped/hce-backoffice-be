@@ -36,6 +36,11 @@ class PatientVaccineList(PaginateListCreateAPIView):
         if appliedDate is not None:
             queryset = queryset.filter(appliedDate=appliedDate)
 
+        order = self.request.query_params.get('order')
+        if order is not None:
+            if order == 'name':
+                queryset = queryset.order_by('vaccine__name')
+
         return queryset
 
 
@@ -68,7 +73,6 @@ class PatientVaccineDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         profesional = self.request.user
-        print request.data['paciente']
         visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 

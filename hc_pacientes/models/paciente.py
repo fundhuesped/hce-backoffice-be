@@ -2,7 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel
+from hc_common.models import DocumentType
+from hc_common.models import SexType
+from hc_common.models import Location
+from hc_common.models import SocialService
+from hc_common.models import CivilStatusType
+from hc_common.models import EducationType
+from hc_common.models import Country
+from hc_common.models import ActiveModel
 import reversion
 
 @reversion.register()
@@ -47,7 +54,7 @@ class Paciente(ActiveModel):
     socialServiceNumber = models.CharField(max_length=30, null=True, blank=True)
     civilStatus = models.ForeignKey(CivilStatusType, models.SET_NULL, blank=True, null=True)
     education = models.ForeignKey(EducationType, models.SET_NULL, blank=True, null=True)
-    bornPlace = models.CharField(max_length=50, null=True, blank=True)
+    bornPlace = models.ForeignKey(Country, models.SET_NULL, blank=True, null=True)
     firstVisit = models.DateField(null=True, blank=True)
     notes = models.CharField(max_length=200, null=True, blank=True)
     primaryPhoneNumber = models.CharField(max_length=20, null=True, blank=True)

@@ -6,6 +6,7 @@ from hc_pacientes.models import Paciente
 from hc_masters.models import Medication
 from hc_hce.models import PatientProblem
 from hc_hce.models import PatientARVTreatment
+from django.contrib.auth.models import User
 
 class PatientARVTreatmentMedication(models.Model):
     """
@@ -25,7 +26,8 @@ class PatientARVTreatmentMedication(models.Model):
     patientARVTreatment = models.ForeignKey(PatientARVTreatment, null=True, blank=True, related_name='patientARVTreatmentMedications')
     quantityPerDay = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=2, null=True)
-
+    profesional = models.ForeignKey(User, null=False)
+    
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
                              default=STATE_ACTIVE)

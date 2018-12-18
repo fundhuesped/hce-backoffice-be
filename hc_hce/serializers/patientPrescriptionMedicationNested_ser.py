@@ -21,7 +21,6 @@ class PatientPrescriptionMedicationNestedSerializer(serializers.ModelSerializer)
     )
 
     def to_internal_value(self, data):
-    	print data
         if (isinstance(data, list) or isinstance(data, dict)):
             medications= PatientPrescriptionMedication.objects.filter(pk=data['id'])
         else:

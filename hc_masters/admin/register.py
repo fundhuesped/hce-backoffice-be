@@ -15,8 +15,8 @@ class ProblemAdmin(admin.ModelAdmin):
     list_filter = ('problemType', 'problemTypeTmp', 'status')
 
 class SocialServiceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'status')
-    list_editable = ('name', 'description', 'status')
+    list_display = ('id', 'name', 'description', 'order', 'status')
+    list_editable = ('name', 'description', 'order', 'status')
     search_fields = ['name',]
     list_filter = ('status',)
 

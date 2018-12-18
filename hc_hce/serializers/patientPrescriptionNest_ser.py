@@ -30,7 +30,6 @@ class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
     )
 
     def create(self, validated_data):
-        print validated_data.get('issuedDate')
         instance = PatientPrescription.objects.create(
             observations=validated_data.get('observations'),
             prescripctionType=validated_data.get('prescripctionType'),

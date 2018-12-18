@@ -85,7 +85,6 @@ class PatientMedicationDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         profesional = self.request.user
-        print request.data['paciente']
         visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 

@@ -33,4 +33,4 @@ class PatientVaccine(models.Model):
         """
         Metadata de la clase
         """
-        ordering = ['state', 'vaccine__name', '-appliedDate']
+        ordering = ['state', '-appliedDate']
