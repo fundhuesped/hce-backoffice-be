@@ -46,6 +46,7 @@ class PatientClinicalStudyResultList(PaginateListCreateAPIView):
 
         data = request.data.copy()
         data['paciente'] = patient_id
+        data['profesional'] = profesional.id
 
         visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         if visits.count()==0:
