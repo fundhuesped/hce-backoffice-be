@@ -48,6 +48,7 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
             patientProblem=validated_data.get('patientProblem'),
             startDate=validated_data.get('startDate'),
             endDate=validated_data.get('endDate'),
+            changeReason=validated_data.get('changeReason')
         )
 
         patientARVTreatmentMedications = validated_data.get('patientARVTreatmentMedications')
