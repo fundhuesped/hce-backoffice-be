@@ -4,4 +4,9 @@ db.sqlite3
 venv
 fixtures
 ENV
-**/migrations
+*.csv
+*.xlsx
+*.xls
+*.png
+*.jpg
+*.jpeg
