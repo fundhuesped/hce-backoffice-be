@@ -10,3 +10,14 @@ ENV
 *.png
 *.jpg
 *.jpeg
+hec-backend/lib/python2\.7/
+
+hec-backend/bin/
+
+bin/
+lib/
+share/
+
+\.vscode/
+
+include/python3\.6m
