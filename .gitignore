@@ -21,3 +21,7 @@ share/
 \.vscode/
 
 include/python3\.6m
+
+include/python2\.7
+
+local/
