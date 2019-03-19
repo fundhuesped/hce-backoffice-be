@@ -29,20 +29,21 @@ class PatientARVPrescriptionNestSerializer(serializers.ModelSerializer):
     )
 
     def create(self, validated_data):
+        
         instance = PatientARVPrescription.objects.create(
             observations=validated_data.get('observations'),
             prescripctionType=validated_data.get('prescripctionType'),
             paciente=validated_data.get('paciente'),
-            profesional=validated_data.get('profesional'),
             issuedDate=validated_data.get('issuedDate'),
             createdBy=validated_data.get('createdBy'),
             duplicateRequired=validated_data.get('duplicateRequired', False),
         )
 
-
         for prescriptedMedication in validated_data.get('prescriptedMedications'):
+
             prescriptedMedication['prescription'] = instance.id
-            prescriptedMedication['medication'] = prescriptedMedication['medication'].id;
+            prescriptedMedication['medication'] = prescriptedMedication['medication'].id
+
             serializer = PatientARVPrescriptionMedicationNestSerializer(data=prescriptedMedication)
             serializer.is_valid(raise_exception=True)
             serializer.save()
