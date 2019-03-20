@@ -21,16 +21,12 @@ class PatientARVPrescriptionMedicationNestSerializer(serializers.ModelSerializer
     medication = MedicationNestedSerializer(
         many=False,
     )
-    profesional = UserNestedSerializer(
-        many=False,
-    )
 
 
     def create(self, validated_data):
         instance = PatientARVPrescriptionMedication.objects.create(
             prescription=validated_data.get('prescription'),
             medication=validated_data.get('medication'),
-            profesional=validated_data.get('profesional'),
             quantityPerDay=validated_data.get('quantityPerDay'),
             quantityPerMonth=validated_data.get('quantityPerMonth')
         )

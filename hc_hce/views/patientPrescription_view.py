@@ -57,6 +57,7 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
         # TODO Remove to new class
 
         visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
+        
         if visits.count()==0:
             paciente = Paciente.objects.filter(pk=patient_id).get()
             Visit.objects.create(
@@ -68,24 +69,31 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
 
             prescriptionsIds = []
             originalDate = data['issuedDate']
+
             for x in xrange(0,data['cantRecetas']):
                 data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%d").date() + timedelta(days=28*(x+1))  
+
                 if data['prescripctionType'] == 'Arv':
                     serializer = PatientARVPrescriptionNestSerializer(data=data, context={'request': request})
                 else:
                     serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
                 serializer.is_valid(raise_exception=True)
                 self.perform_create(serializer)
+                
                 prescriptionsIds.append(serializer.data['id'])
             return Response({"prescriptionsIds":prescriptionsIds})
 
         else:
+            
             if data['prescripctionType'] == 'Arv':
                 serializer = PatientARVPrescriptionNestSerializer(data=data, context={'request': request})
+            
             elif data['prescripctionType'] == 'Vaccine':
                 serializer = PatientVaccinePrescriptionNestSerializer(data=data, context={'request': request})
+           
             else:
                 serializer = PatientPrescriptionNestSerializer(data=data, context={'request': request})
+           
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
         return Response(serializer.data)
