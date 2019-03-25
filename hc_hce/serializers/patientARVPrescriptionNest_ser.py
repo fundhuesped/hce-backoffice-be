@@ -34,9 +34,8 @@ class PatientARVPrescriptionNestSerializer(serializers.ModelSerializer):
             observations=validated_data.get('observations'),
             prescripctionType=validated_data.get('prescripctionType'),
             paciente=validated_data.get('paciente'),
-            profesional=validated_data.get('profesional'),
             issuedDate=validated_data.get('issuedDate'),
-            createdBy=validated_data.get('createdBy'),
+            createdBy=validated_data.get('createdBy'), # Professional that created the prescription
             duplicateRequired=validated_data.get('duplicateRequired', False),
         )
 
