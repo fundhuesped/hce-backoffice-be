@@ -13,8 +13,8 @@ class PatientARVPrescriptionMedication(models.Model):
     """
 
     medication = models.ForeignKey(Medication, null=True, blank=True)
-    quantityPerDay = models.DecimalField(max_digits=5, decimal_places=2, null=True)
-    quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    quantityPerDay = models.DecimalField(max_digits=5, decimal_places=1, null=True)
+    quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=1, null=True)
     prescription = models.ForeignKey(PatientARVPrescription, null=True, related_name='prescriptedMedications')
     class Meta:        
         """

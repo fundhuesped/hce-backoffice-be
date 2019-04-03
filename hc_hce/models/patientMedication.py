@@ -30,8 +30,8 @@ class PatientMedication(models.Model):
     profesional = models.ForeignKey(User, null=False)
 
     observations = models.CharField(max_length=200, null=True)
-    quantityPerDay = models.DecimalField(max_digits=5, decimal_places=2, null=True)
-    quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    quantityPerDay = models.DecimalField(max_digits=5, decimal_places=1, null=True)
+    quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=1, null=True)
     observations = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
