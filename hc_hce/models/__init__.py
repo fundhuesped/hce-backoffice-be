@@ -3,6 +3,7 @@
 
 from .visit import *
 from .patientProblem import *
+from .problemHivDetails import *
 from .patientMedication import *
 from .patientARVTreatment import *
 from .patientARVTreatmentMedication import *
