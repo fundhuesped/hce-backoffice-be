@@ -5,6 +5,7 @@ from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import Problem
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
 
 class PatientProblem(models.Model):
     """
@@ -31,6 +32,7 @@ class PatientProblem(models.Model):
     createdOn = models.DateTimeField(auto_now=True)
     startDate = models.DateField(blank=True, null=True)
     closeDate = models.DateField(blank=True, null=True)
+    aditionalData = JSONField(null=True)
 
     class Meta:        
         """

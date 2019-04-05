@@ -35,7 +35,8 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
             profesional=validated_data.get('profesional'),
             problem=validated_data.get('problem'),
             startDate=validated_data.get('startDate'),
-            closeDate=validated_data.get('closeDate')
+            closeDate=validated_data.get('closeDate'),
+            aditionalData=validated_data.get('aditionalData',None)
         )
         return patientProblem
 
@@ -72,4 +73,4 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientProblem
-        fields = ('id', 'paciente', 'profesional', 'problem', 'observations', 'state', 'startDate', 'closeDate', 'createdOn')
+        fields = ('id', 'paciente', 'profesional', 'problem', 'observations', 'state', 'startDate', 'closeDate', 'createdOn', 'aditionalData')
