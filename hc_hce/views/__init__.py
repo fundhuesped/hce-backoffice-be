@@ -8,3 +8,4 @@ from .patientClinicalStudyResult_view import *
 from .patientPrescription_view import *
 from .patientVaccinePrescription_view import *
 from .patientARVPrescription_view import *
+from .patientHIVChart_view import *
