@@ -34,7 +34,6 @@ class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
             observations=validated_data.get('observations'),
             prescripctionType=validated_data.get('prescripctionType'),
             paciente=validated_data.get('paciente'),
-            profesional=validated_data.get('profesional'),
             issuedDate=validated_data.get('issuedDate'),
             createdBy=validated_data.get('createdBy'),
             duplicateRequired=validated_data.get('duplicateRequired', False),
@@ -52,4 +51,4 @@ class PatientPrescriptionNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientPrescription
-        fields = ('id', 'paciente', 'createdBy', 'observations', 'createdOn', 'duplicateRequired', 'prescriptedMedications', 'issuedDate', 'prescripctionType', 'profesional')
+        fields = ('id', 'paciente', 'createdBy', 'observations', 'createdOn', 'duplicateRequired', 'prescriptedMedications', 'issuedDate', 'prescripctionType')
