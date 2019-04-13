@@ -28,6 +28,10 @@ class PatientARVTreartmentsList(PaginateListCreateAPIView):
         if state is not None:
             queryset = queryset.filter(state=state)
 
+        not_state = self.request.query_params.get('notState')
+        if not_state is not None:
+            queryset = queryset.exclude(state=not_state)
+
         name = self.request.query_params.get('name')
         if name is not None:
             queryset = queryset.filter(Medication_name=name)

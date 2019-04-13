@@ -13,7 +13,7 @@ from rest_framework import status
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from hc_hce.services.visitService import schedule_close
- 
+
 class PacienteVisitList(PaginateListCreateAPIView):
     serializer_class = VisitNestSerializer
     filter_backends = (filters.OrderingFilter,)
@@ -31,6 +31,10 @@ class PacienteVisitList(PaginateListCreateAPIView):
         state = self.request.query_params.get('state')
         if state is not None:
             queryset = queryset.filter(state=state)
+
+        not_state = self.request.query_params.get('notState')
+        if not_state is not None:
+            queryset = queryset.exclude(state=not_state)
 
         fromDate = self.request.query_params.get('fromDate')
         if fromDate is not None:
@@ -74,19 +78,19 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
         if hours > 8:
             if instance.profesional.id != request.data['profesional']['id']:
                 return Response('Solo se puede modificar por el usuario que lo creo', status=status.HTTP_400_BAD_REQUEST)
-            
+
             elif instance.state == Visit.STATE_OPEN and request.data['state'] == Visit.STATE_CLOSED:
                 instance.state = Visit.STATE_CLOSED
                 instance.save();
                 serializer = self.get_serializer(instance)
                 return Response(serializer.data)
-            
+
             else:
                 if instance.state == Visit.STATE_OPEN:
                     instance.state = Visit.STATE_CLOSED
                     instance.save();
                     return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
-                
+
                 else:
                     return Response('Solo se pueden modificar dentro de las 8 horas', status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)

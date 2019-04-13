@@ -28,6 +28,10 @@ class PatientVaccineList(PaginateListCreateAPIView):
         if state is not None:
             queryset = queryset.filter(state=state)
 
+        not_state = self.request.query_params.get('notState')
+        if not_state is not None:
+            queryset = queryset.exclude(state=not_state)
+
         name = self.request.query_params.get('name')
         if name is not None:
             queryset = queryset.filter(vaccine_name=name)
@@ -65,7 +69,7 @@ class PatientVaccineList(PaginateListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data)
-        
+
 class PatientVaccineDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PatientVaccineNestSerializer
     queryset = PatientVaccine.objects.all()

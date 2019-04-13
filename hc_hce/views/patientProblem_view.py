@@ -28,6 +28,10 @@ class PatientProblemsList(PaginateListCreateAPIView):
         if state is not None:
             queryset = queryset.filter(state=state)
 
+        not_state = self.request.query_params.get('notState')
+        if not_state is not None:
+            queryset = queryset.exclude(state=not_state)
+
         problemType = self.request.query_params.get('problemType')
         if problemType is not None:
             queryset = queryset.filter(problem__problemType=problemType)

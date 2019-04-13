@@ -30,6 +30,10 @@ class PatientMedicationsList(PaginateListCreateAPIView):
         if state is not None:
             queryset = queryset.filter(state=state)
 
+        not_state = self.request.query_params.get('notState')
+        if not_state is not None:
+            queryset = queryset.exclude(state=not_state)
+
         name = self.request.query_params.get('name')
         if name is not None:
             queryset = queryset.filter(Medication_name=name)
@@ -41,7 +45,7 @@ class PatientMedicationsList(PaginateListCreateAPIView):
         endDate = self.request.query_params.get('endDate')
         if endDate is not None:
             queryset = queryset.filter(endDate=endDate)
-        
+
         medicationTypeCode = self.request.query_params.get('medicationTypeCode')
         if medicationTypeCode is not None:
             queryset = queryset.filter(medication__medicationType__code=medicationTypeCode)
