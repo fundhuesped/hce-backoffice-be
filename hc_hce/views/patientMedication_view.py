@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import datetime
+import pytz
+
 from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.permissions import IsAuthenticated
@@ -89,6 +92,31 @@ class PatientMedicationDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         profesional = self.request.user
+        instance = self.get_object()
+
+        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
+        days, seconds = diff.days, diff.seconds
+        hours = days * 24 + seconds // 3600
+
+
+        if hours > 8:
+            if instance.profesional.id != request.data['profesional']['id']:
+                return Response('Solo se puede modificar por el usuario que lo creo', status=status.HTTP_400_BAD_REQUEST)
+
+            elif instance.state == Visit.STATE_OPEN and request.data['state'] == Visit.STATE_CLOSED:
+                instance.state = Visit.STATE_CLOSED
+                instance.save()
+                # Continues down
+
+            else:
+                if instance.state == Visit.STATE_OPEN:
+                    instance.state = Visit.STATE_CLOSED
+                    instance.save()
+                    return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
+
+                else:
+                    return Response('Solo se pueden modificar dentro de las 8 horas', status=status.HTTP_400_BAD_REQUEST)
+
         visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 

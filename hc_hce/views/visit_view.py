@@ -70,7 +70,7 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
 
-        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.date
+        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.created_on
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
 
