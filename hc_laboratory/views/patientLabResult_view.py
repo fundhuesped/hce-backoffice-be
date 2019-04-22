@@ -67,32 +67,10 @@ class PatientLabResults(PaginateListCreateAPIView):
                 paciente=paciente,
             )
 
-        results = LabResult.objects.filter(paciente=patient_id, date=data['date'])
-        if results.count()==1:
-            labResult = self.updateResults(results[0],data)
-            return Response(status=status.HTTP_200_OK)
-        else:
-
-            serializer = LabResultNestSerializer(data=data, context={'request': request})
-            serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
-            return Response(serializer.data)
-
-    def updateResults(self, result, data):
-        for value in data['values']:
-            found = False
-            for saved_value in result.values.all():
-                if saved_value.determinacion.id == value['determinacion']['id']:
-                    found = True
-                    saved_value.value = value['value']
-                    saved_value.save()
-                    break
-            if not found:
-                value['labResult'] = result.id
-                serializer = DeterminacionValorNestSerializer(data=value)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
-        return result
+        serializer = LabResultNestSerializer(data=data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data)
 
 
 
