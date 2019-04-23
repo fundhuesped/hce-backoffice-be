@@ -3,6 +3,7 @@
 
 from django.db import models
 from hc_pacientes.models import Paciente
+from django.contrib.auth.models import User
 
 
 class LabResult(models.Model):
@@ -33,6 +34,7 @@ class LabResult(models.Model):
     status = models.CharField(max_length=8,
                               choices=STATUS_CHOICES,
                               default=STATUS_ACTIVE)
+    createdBy = models.ForeignKey(User, null=True)
     createdOn = models.DateTimeField(auto_now=True)
     modifiedOn = models.DateTimeField(auto_now=False, null=True)
     inputType = models.CharField(max_length=10,
