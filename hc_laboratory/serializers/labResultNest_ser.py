@@ -7,12 +7,18 @@ from hc_laboratory.models import LabResult
 from hc_laboratory.serializers import DeterminacionValorNestedSerializer
 from hc_laboratory.serializers import DeterminacionValorNestSerializer
 from hc_pacientes.serializers import PacienteNestedSerializer
+from hc_core.serializers import UserNestedSerializer
 from rest_framework import serializers
+
 
 class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
 
     paciente = PacienteNestedSerializer(
+        many=False
+    )
+
+    createdBy = UserNestedSerializer(
         many=False
     )
 
@@ -24,7 +30,8 @@ class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         instance = LabResult.objects.create(
             paciente=validated_data.get('paciente'),
-            date=validated_data.get('date')
+            date=validated_data.get('date'),
+            createdBy=validated_data.get('createdBy')
         )
         instance.save()
         for value in validated_data.get('values'):
@@ -36,4 +43,4 @@ class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = LabResult
-        fields = ('id', 'date', 'values', 'paciente', 'status', 'createdOn', 'modifiedOn')
+        fields = ('id', 'date', 'values', 'paciente', 'status', 'createdOn', 'modifiedOn', 'createdBy')
