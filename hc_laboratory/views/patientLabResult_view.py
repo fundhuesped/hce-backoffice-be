@@ -67,7 +67,7 @@ class PatientLabResults(PaginateListCreateAPIView):
                 paciente=paciente,
             )
 
-        results = LabResult.objects.filter(paciente=patient_id, date=data['date'])
+        results = LabResult.objects.filter(paciente=patient_id, date=data['date'], createdBy=profesional.id)
         if results.count()==1:
             labResult = self.updateResults(results[0],data)
             return Response(status=status.HTTP_200_OK)
