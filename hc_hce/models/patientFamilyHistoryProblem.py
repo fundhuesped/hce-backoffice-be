@@ -5,7 +5,9 @@ from django.db import models
 from hc_pacientes.models import Paciente
 from hc_masters.models import Problem
 from django.contrib.auth.models import User
+import reversion
 
+@reversion.register()
 class PatientFamilyHistoryProblem(models.Model):
     """
     Clase que representa un antecedente familiar
