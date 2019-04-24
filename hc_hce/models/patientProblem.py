@@ -6,7 +6,9 @@ from hc_pacientes.models import Paciente
 from hc_masters.models import Problem
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
+import reversion
 
+@reversion.register()
 class PatientProblem(models.Model):
     """
     Clase que representa un problema de un paciente
