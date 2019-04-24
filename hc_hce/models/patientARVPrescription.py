@@ -5,7 +5,9 @@ from django.db import models
 from hc_pacientes.models import Paciente
 from hc_hce.models import PatientProblem
 from django.contrib.auth.models import User
+import reversion
 
+@reversion.register()
 class PatientARVPrescription(models.Model):
     """
     Clase que representa un problema de un paciente

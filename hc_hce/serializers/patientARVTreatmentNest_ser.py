@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import reversion
+
 from rest_framework import serializers
 from hc_hce.models import Visit
 from hc_hce.models import PatientMedication
@@ -59,6 +61,9 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
             serializer = PatientARVTreatmentMedicationNestSerializer(data=patientARVTreatmentMedication)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Created ARV Treatment")       
         return instance
 
     def update(self, instance, validated_data):
@@ -89,8 +94,10 @@ class PatientARVTreatmentNestSerializer(serializers.ModelSerializer):
             else:
                 raise ValidationError('Motivo de cambio es obligatorio')
 
-
-
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Modified ARV Treatment")       
+       
         return instance
 
 
