@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import reversion
+
 from rest_framework import serializers
 from hc_hce.models import Visit
 from hc_hce.models import PatientVaccine
@@ -36,6 +38,10 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
             vaccine=validated_data.get('vaccine'),
             appliedDate=validated_data.get('appliedDate'),
         )
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Created Patient Vaccine")       
+        
         return patientVaccine
 
     def update(self, instance, validated_data):
@@ -53,6 +59,10 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
             instance.observations = validated_data.get('observations', instance.observations)
             instance.save()
 
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Modified Patient Vaccine")       
+        
         return instance
 
 
