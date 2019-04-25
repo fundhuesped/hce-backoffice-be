@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import reversion
+
 from rest_framework import serializers
 from hc_hce.models import Visit
 from hc_pacientes.models import Paciente
@@ -27,6 +29,11 @@ class VisitNestSerializer(serializers.ModelSerializer):
             reason=validated_data.get('reason'),
             visitType=validated_data.get('visitType')
         )
+
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Created Visit")       
+       
         return visit
 
     def update(self, instance, validated_data):
@@ -42,6 +49,10 @@ class VisitNestSerializer(serializers.ModelSerializer):
                 instance.state = validated_data.get('state')
         instance.save()
 
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Modified Visit")       
+       
         return instance
 
     class Meta:

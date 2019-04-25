@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import reversion
+
 from rest_framework import serializers
 from hc_hce.models import Visit
 from hc_hce.models import PatientProblem
@@ -38,6 +40,11 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
             closeDate=validated_data.get('closeDate'),
             aditionalData=validated_data.get('aditionalData',None)
         )
+        
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Created Patient Problem")       
+       
         return patientProblem
 
     def update(self, instance, validated_data):
@@ -68,6 +75,10 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
             instance.state = PatientProblem.STATE_ERROR
             instance.save()
 
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Modified Patient Problem")       
+       
         return instance
 
 

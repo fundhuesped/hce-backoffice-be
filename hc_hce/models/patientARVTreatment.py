@@ -6,7 +6,9 @@ from hc_pacientes.models import Paciente
 from hc_masters.models import Medication
 from hc_hce.models import PatientProblem
 from django.contrib.auth.models import User
+import reversion
 
+@reversion.register()
 class PatientARVTreatment(models.Model):
     """
     Clase que representa un tratamiento ARV de un paciente

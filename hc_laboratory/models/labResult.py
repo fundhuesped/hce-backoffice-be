@@ -4,8 +4,9 @@
 from django.db import models
 from hc_pacientes.models import Paciente
 from django.contrib.auth.models import User
+import reversion
 
-
+@reversion.register()
 class LabResult(models.Model):
     """
     Clase que representa un resultado de laboratorio

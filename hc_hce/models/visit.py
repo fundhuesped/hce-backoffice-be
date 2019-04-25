@@ -5,8 +5,9 @@ from django.db import models
 from hc_common.models import ActiveModel
 from django.contrib.auth.models import User
 from hc_pacientes.models import Paciente
+import reversion
 
-
+@reversion.register()
 class Visit(ActiveModel):
     """
     Clase que representa un problema

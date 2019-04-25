@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import reversion
+
 from django.db import transaction
 from hc_laboratory.models import LabResult
 from hc_laboratory.serializers import DeterminacionValorNestedSerializer
@@ -39,6 +41,10 @@ class LabResultNestSerializer(serializers.HyperlinkedModelSerializer):
             serializer = DeterminacionValorNestSerializer(data=value)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+        
+        # Agrego datos de la revision
+        reversion.set_user(self._context['request'].user)
+        reversion.set_comment("Created LabResult")       
         return instance
 
     class Meta:
