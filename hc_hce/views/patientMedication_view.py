@@ -114,9 +114,6 @@ class PatientMedicationDetail(generics.RetrieveUpdateDestroyAPIView):
                     instance.save()
                     return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
 
-                else:
-                    return Response('Solo se pueden modificar dentro de las 8 horas', status=status.HTTP_400_BAD_REQUEST)
-
         visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 
