@@ -22,6 +22,9 @@ class PatientHIVChart(generics.RetrieveAPIView):
         patient_id = self.kwargs.get('pacienteId')
         patientProblem = PatientProblem.objects.filter(paciente=patient_id, problem=1880, state=PatientProblem.STATE_ACTIVE)
         if patientProblem.exists():
-            return Response(patientProblem[0].aditionalData)
+            jsonObject = patientProblem[0].aditionalData
+            jsonObject['createdOn'] = patientProblem[0].createdOn.strftime('%Y-%m-%d')
+            jsonObject['startDate'] = patientProblem[0].startDate
+            return Response(jsonObject)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
