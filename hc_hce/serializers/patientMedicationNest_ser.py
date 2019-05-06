@@ -8,6 +8,7 @@ from rest_framework import serializers
 from hc_hce.models import Visit
 from hc_hce.models import PatientMedication
 from hc_pacientes.models import Paciente
+from hc_hce.models import PatientProblem
 
 from hc_pacientes.serializers import PacienteNestedSerializer
 from hc_masters.serializers import MedicationNestedSerializer
