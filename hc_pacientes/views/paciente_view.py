@@ -74,8 +74,11 @@ class PacienteList(PaginateListCreateAPIView):
         if socialService is not None:
             queryset = queryset.filter(socialService=socialService)
 
-        if seenBy is not None and visitFromDate is not None and visitToDate is not None:
-            visitQuerySet = Visit.objects.filter(profesional=seenBy, date__gte=visitFromDate, date__lte=visitToDate)
+        if seenBy is not None:
+            queryset = queryset.filter(profesional=seenBy)
+
+        if visitFromDate is not None and visitToDate is not None:
+            visitQuerySet = Visit.objects.filter(date__gte=visitFromDate, date__lte=visitToDate)
             queryset = queryset.filter(pk__in=visitQuerySet.values_list('paciente', flat=True))
 
         if pnsCode is not None:
