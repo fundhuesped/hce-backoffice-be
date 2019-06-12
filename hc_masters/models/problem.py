@@ -31,7 +31,7 @@ class Problem(ActiveModel):
                              choices=STATE_CHOICES,
                              default=STATE_TO_REVIEW)
     problemType = models.CharField(max_length=20, blank=True, null=True)
-    problemTypeTmp = models.ForeignKey(ProblemType, null=True)
+    problemTypeTmp = models.ForeignKey(ProblemType, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         """

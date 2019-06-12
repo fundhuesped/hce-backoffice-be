@@ -18,7 +18,7 @@ class Determinacion(ActiveModel):
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
     order = models.IntegerField(null=True)
-    category = models.ForeignKey(CategoriaDeterminacion, null=True)
+    category = models.ForeignKey(CategoriaDeterminacion, null=True, on_delete=models.SET_NULL)
     upperLimit = models.DecimalField(null=True, max_digits=10, decimal_places=2)
     lowerLimit = models.DecimalField(null=True, max_digits=10, decimal_places=2)
 

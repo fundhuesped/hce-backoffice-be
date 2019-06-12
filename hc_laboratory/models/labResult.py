@@ -30,12 +30,12 @@ class LabResult(models.Model):
         (INPUTTYPE_MANUAL, 'Automatico')
     )
 
-    paciente = models.ForeignKey(Paciente, null=False)
+    paciente = models.ForeignKey(Paciente, null=False, on_delete=models.SET_NULL)
     date = models.DateTimeField(auto_now=False)
     status = models.CharField(max_length=8,
                               choices=STATUS_CHOICES,
                               default=STATUS_ACTIVE)
-    createdBy = models.ForeignKey(User, null=True)
+    createdBy = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     createdOn = models.DateTimeField(auto_now=True)
     modifiedOn = models.DateTimeField(auto_now=False, null=True)
     inputType = models.CharField(max_length=10,

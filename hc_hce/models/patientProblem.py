@@ -25,12 +25,12 @@ class PatientProblem(models.Model):
     )
 
     observations = models.CharField(max_length=200, null=True)
-    paciente = models.ForeignKey(Paciente, blank=True, null=False)
-    problem = models.ForeignKey(Problem, null=False)
+    paciente = models.ForeignKey(Paciente, blank=True, null=False, on_delete=models.SET_NULL)
+    problem = models.ForeignKey(Problem, null=False, on_delete=models.CASCADE)
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
                              default=STATE_ACTIVE)
-    profesional = models.ForeignKey(User, null=False)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
     createdOn = models.DateTimeField(auto_now=True)
     startDate = models.DateField(blank=True, null=True)
     closeDate = models.DateField(blank=True, null=True)

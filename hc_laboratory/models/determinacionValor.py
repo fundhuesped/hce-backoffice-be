@@ -10,8 +10,8 @@ class DeterminacionValor(ActiveModel):
     """
     Clase que representa un valor de una determinacion de laboratorio
     """
-    labResult = models.ForeignKey(LabResult, blank=True, null=False, related_name='values')
-    determinacion = models.ForeignKey(Determinacion, blank=True, null=False)
+    labResult = models.ForeignKey(LabResult, blank=True, null=False, related_name='values', on_delete=models.SET_NULL)
+    determinacion = models.ForeignKey(Determinacion, blank=True, null=False, on_delete=models.SET_NULL)
     value = models.CharField(max_length=150, null=True)
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
