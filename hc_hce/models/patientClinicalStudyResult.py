@@ -22,14 +22,14 @@ class PatientClinicalStudyResult(models.Model):
     )
 
     observations = models.CharField(max_length=2000, null=True)
-    clinicalStudy = models.ForeignKey(ClinicalStudy,blank=True, null=False, on_delete=models.SET_NULL)
-    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.SET_NULL)
+    clinicalStudy = models.ForeignKey(ClinicalStudy,blank=True, null=False, on_delete=models.DO_NOTHING)
+    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.DO_NOTHING)
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
                              default=STATE_ACTIVE)
     createdOn = models.DateTimeField(auto_now=True)
     studyDate = models.DateField(blank=True, null=True)
-    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
 
     class Meta:        
         """

@@ -27,7 +27,7 @@ class VisitEvent(models.Model):
         (TYPE_MODIFY_FAMILY_PROBLEM, 'ModifyFamilyProblem')
     )
 
-    visit = models.ForeignKey(Visit, related_name='events', on_delete=models.SET_NULL)
+    visit = models.ForeignKey(Visit, related_name='events', on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)

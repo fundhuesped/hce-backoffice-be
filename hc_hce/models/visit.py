@@ -24,8 +24,8 @@ class Visit(ActiveModel):
     )
 
 
-    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
-    paciente = models.ForeignKey(Paciente, null=False, on_delete=models.SET_NULL)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
+    paciente = models.ForeignKey(Paciente, null=False, on_delete=models.DO_NOTHING)
     notaClinica = models.CharField(max_length=2000, null=True)
     reason = models.CharField(max_length=200, null=True)
     visitType = models.CharField(max_length=30, null=True)

@@ -35,10 +35,10 @@ class PatientARVTreatment(models.Model):
         (CHANGE_FAILURE, 'Fallo')
     )
 
-    paciente = models.ForeignKey(Paciente,blank=True, null=, on_delete=models.SET_NULL)
+    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.DO_NOTHING)
     medications = models.ManyToManyField(Medication)
     patientProblem = models.ForeignKey(PatientProblem, null=True, blank=True, on_delete=models.SET_NULL)
-    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
     observations = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,

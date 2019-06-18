@@ -22,12 +22,12 @@ class PatientVaccine(models.Model):
     )
 
     observations = models.CharField(max_length=200, null=True)
-    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.SET_NULL)
+    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.DO_NOTHING)
     vaccine = models.ForeignKey(Vaccine, null=False, on_delete=models.CASCADE)
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,
                              default=STATE_APPLIED)
-    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
     createdOn = models.DateTimeField(auto_now=True)
     appliedDate = models.DateField(blank=True, null=True)
 

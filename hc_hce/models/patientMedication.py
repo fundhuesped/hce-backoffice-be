@@ -25,11 +25,11 @@ class PatientMedication(models.Model):
         (STATE_ERROR, 'Error')
     )
 
-    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.SET_NULL)
-    medication = models.ForeignKey(Medication, null=False, on_delete=models.SET_NULL)
+    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.DO_NOTHING)
+    medication = models.ForeignKey(Medication, null=False, on_delete=models.DO_NOTHING)
     patientProblem = models.ForeignKey(PatientProblem, null=True, blank=True, on_delete=models.SET_NULL)
     medicationPresentation = models.ForeignKey(MedicationPresentation, null=True, blank=True, on_delete=models.SET_NULL)
-    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
 
     observations = models.CharField(max_length=200, null=True)
     quantityPerDay = models.DecimalField(max_digits=5, decimal_places=1, null=True)

@@ -26,7 +26,7 @@ class PatientARVTreatmentMedication(models.Model):
     patientARVTreatment = models.ForeignKey(PatientARVTreatment, null=True, blank=True, related_name='patientARVTreatmentMedications', on_delete=models.SET_NULL)
     quantityPerDay = models.DecimalField(max_digits=5, decimal_places=1, null=True)
     quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=1, null=True)
-    profesional = models.ForeignKey(User, null=False, on_delete=models.SET_NULL)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
     
     state = models.CharField(max_length=8,
                              choices=STATE_CHOICES,

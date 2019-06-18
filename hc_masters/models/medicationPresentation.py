@@ -16,7 +16,7 @@ class MedicationPresentation(ActiveModel):
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
-    medication = models.ForeignKey(Medication, related_name='presentations', on_delete=models.SET_NULL)
+    medication = models.ForeignKey(Medication, related_name='presentations', on_delete=models.DO_NOTHING)
 
     class Meta:
         """

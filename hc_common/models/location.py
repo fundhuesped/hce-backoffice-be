@@ -9,4 +9,4 @@ class Location(AbstractType):
     """
     Clase que representa la localidad de una persona
     """
-    district = models.ForeignKey(District, on_delete=models.SET_NULL)
+    district = models.ForeignKey(District, on_delete=models.DO_NOTHING)
