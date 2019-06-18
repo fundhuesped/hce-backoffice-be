@@ -9,4 +9,4 @@ django-cors-headers==2.5.3
 django-reversion==3.0.2
 psycopg2==2.7.7
 requests==2.22.0
-
+django-dynamic-preferences==1.7
