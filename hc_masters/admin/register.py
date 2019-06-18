@@ -41,9 +41,10 @@ class MedicationAdmin(admin.ModelAdmin):
                     ),
                 )
     list_display = ('id', 'name', 'status','medicationType')
-    list_editable = ('id', 'name', 'status','medicationType')
+    list_editable = ('name', 'status','medicationType')
     search_fields = ['name']
     list_filter = ('medicationType', 'status')
+    list_display_links = list(('id', ))
 
 class MedicationTypeAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'code', 'group')
