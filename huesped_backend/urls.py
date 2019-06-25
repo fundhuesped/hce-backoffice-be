@@ -39,11 +39,11 @@ apps_patterns = ([
     url(r'^core/', include('hc_core.urls')),
     url(r'^masters/', include('hc_masters.urls', namespace='masters')),
     url(r'^hce/', include('hc_hce.urls', namespace='hce')),
-    url(r'^preferences/', include(router.urls, namespace='preferences'))
+    url(r'^preferences/', include((router.urls, 'preferences'), namespace='preferences'))
 ])
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^info/', views.info_view.info),
-    url(r'^api/', include(apps_patterns, namespace='api')),
+    url(r'^api/', include((apps_patterns, 'api'), namespace='api')),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
