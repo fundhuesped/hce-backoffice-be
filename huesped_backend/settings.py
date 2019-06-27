@@ -27,9 +27,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -164,11 +164,6 @@ CORS_ALLOW_HEADERS = (
 
 CORS_EXPOSE_HEADERS = 'auth-token'
 
-
-REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
-    'UNAUTHENTICATED_USER': None
-}
 
 # TODO Replace this with jenkins build info file
 try:
