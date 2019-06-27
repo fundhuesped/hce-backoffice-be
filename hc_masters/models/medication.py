@@ -19,7 +19,7 @@ class Medication(ActiveModel):
     status = models.CharField(max_length=8,
                               choices=ActiveModel.STATUS_CHOICES,
                               default=ActiveModel.STATUS_ACTIVE)
-    medicationType = models.ForeignKey(MedicationType)
+    medicationType = models.ForeignKey(MedicationType, on_delete=models.DO_NOTHING)
 
     class Meta:
         """

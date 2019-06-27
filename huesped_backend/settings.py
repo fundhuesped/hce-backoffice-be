@@ -51,14 +51,13 @@ INSTALLED_APPS = [
     'django_extensions'
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware'
@@ -163,9 +162,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
 
-CORS_EXPOSE_HEADERS = {
-    'auth-token'
-}
+CORS_EXPOSE_HEADERS = 'auth-token'
 
 
 # TODO Replace this with jenkins build info file

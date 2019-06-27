@@ -37,9 +37,9 @@ class PatientFamilyHistoryProblem(models.Model):
         (RELATIONSHIP_OTHER, 'Other')
     )
 
-    paciente = models.ForeignKey(Paciente,blank=True, null=False)
-    problem = models.ForeignKey(Problem, null=False)
-    profesional = models.ForeignKey(User, null=False)
+    paciente = models.ForeignKey(Paciente,blank=True, null=False, on_delete=models.DO_NOTHING)
+    problem = models.ForeignKey(Problem, null=False, on_delete=models.DO_NOTHING)
+    profesional = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
 
     relationship = models.CharField(max_length=15,
                                     choices=RELATIONSHIP_CHOICES,

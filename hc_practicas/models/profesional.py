@@ -20,7 +20,7 @@ class Profesional(ActiveModel):
     motherSurname = models.CharField(max_length=40, null=True, blank=True)
     hceNumber = models.CharField(max_length=20, null=True, blank=True)
     birthDate = models.DateField(null=True, blank=True)
-    documentType = models.ForeignKey(DocumentType, null=True, blank=True)
+    documentType = models.ForeignKey(DocumentType, null=True, blank=True, on_delete=models.SET_NULL)
     documentNumber = models.CharField(max_length=15, null=True, blank=True)
     genderAtBirth = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='profesionalGenderBirth', null=True, blank=True)
     genderOfChoice = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='profesionalGenderChoice', null=True, blank=True)

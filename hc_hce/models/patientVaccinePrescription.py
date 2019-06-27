@@ -25,7 +25,7 @@ class PatientVaccinePrescription(models.Model):
     )
 
 
-    paciente = models.ForeignKey(Paciente, blank=True, null=False)
+    paciente = models.ForeignKey(Paciente, blank=True, null=False, on_delete=models.DO_NOTHING)
 
     prescripctionType = models.CharField(max_length=20,
                                          choices=TYPE_CHOICES,
@@ -33,7 +33,7 @@ class PatientVaccinePrescription(models.Model):
     observations = models.CharField(max_length=200, null=True)
     createdOn = models.DateTimeField(auto_now=True)
     issuedDate = models.DateField(null=False)
-    createdBy = models.ForeignKey(User, null=False)
+    createdBy = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING)
     duplicateRequired = models.BooleanField(default=False)
     prescriptedVaccines = models.ManyToManyField(Vaccine)
 

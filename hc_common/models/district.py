@@ -9,4 +9,4 @@ class District(AbstractType):
     """
     Clase que representa un distrito donde vive una persona
     """
-    province = models.ForeignKey(Province)
+    province = models.ForeignKey(Province, on_delete=models.DO_NOTHING)

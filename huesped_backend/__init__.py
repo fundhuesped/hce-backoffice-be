@@ -1,1 +1,1 @@
-import dynamic_preferences_registry
+import dynamic_preferences.registries #Dont know if it is Ok
