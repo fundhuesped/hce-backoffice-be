@@ -71,6 +71,8 @@ MEDIA_ROOT = './media/'
 
 MEDIA_URL = '/media/'
 
+SITE_ID = 1
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
