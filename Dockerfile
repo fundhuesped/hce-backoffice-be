@@ -1,4 +1,4 @@
-FROM python:3.6.7
+FROM python:3.6.6
 ENV PYTHONUNBUFFERED 1
 RUN pip3 install pip==9.0.1
 RUN pip3 --version
