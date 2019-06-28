@@ -14,6 +14,8 @@ import os
 import pip
 from .critical_settings import * #Configuraciones propias de cada entorno, que deben mantenerse fuera del source code
 from subprocess import check_output
+import django
+django.setup()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
