@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import pip
-from .critical_settings import * #Configuraciones propias de cada entorno, que deben mantenerse fuera del source code
+from .critical_settings import * #Configuraciones propias de cada entorno, que deben mantenerse fuera del source codde
 from subprocess import check_output
-import django
-django.setup()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -23,14 +21,13 @@ django.setup()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hce.dev.redclin.org']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
-    'django.contrib.contenttypes.models.ContentType',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.admin',
@@ -41,8 +38,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'rest_framework_swagger',
-    'corsheaders',
     'background_task',
+    'corsheaders',
     'hc_common',
     'hc_pacientes',
     'hc_core',
@@ -96,7 +93,6 @@ WSGI_APPLICATION = 'huesped_backend.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -129,7 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
 # REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -141,6 +136,7 @@ REST_FRAMEWORK = {
         #'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny'
     ],
+    'UNAUTHENTICATED_USER': None,
 
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 
