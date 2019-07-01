@@ -21,7 +21,7 @@ from subprocess import check_output
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hce.dev.redclin.org']
+ALLOWED_HOSTS = ['hce.dev.redclin.org', 'localhost']
 
 
 # Application definition
