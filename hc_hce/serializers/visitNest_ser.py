@@ -8,6 +8,7 @@ from hc_hce.models import Visit
 from hc_pacientes.models import Paciente
 from hc_pacientes.serializers import PacienteNestedSerializer
 from hc_core.serializers import UserNestedSerializer
+from hc_hce.services.visitService import schedule_close
 
 
 class VisitNestSerializer(serializers.ModelSerializer):
@@ -29,6 +30,7 @@ class VisitNestSerializer(serializers.ModelSerializer):
             reason=validated_data.get('reason'),
             visitType=validated_data.get('visitType')
         )
+        schedule_close(visit.id)
 
         # Agrego datos de la revision
         reversion.set_user(self._context['request'].user)
