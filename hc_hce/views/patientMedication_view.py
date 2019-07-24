@@ -69,8 +69,11 @@ class PatientMedicationsList(PaginateListCreateAPIView):
         data['profesional'] = profesional.id
 
         try:
-            PatientMedication.objects.get(paciente=patient_id,medication=data['medication']['id'], state=PatientMedication.STATE_ACTIVE)
-            raise FailedDependencyException('El medicamento a dar de alta ya esta activo')
+            patientMedicationFound = PatientMedication.objects.get(paciente=patient_id,medication=data['medication']['id'], state=PatientMedication.STATE_ACTIVE)
+            if(data['endDate'] < patientMedicationFound.startDate):
+                raise ObjectDoesNotExist #Redirect to except code block
+            else:
+                raise FailedDependencyException('El medicamento a dar de alta ya esta activo')
         except (TypeError, ValueError, ObjectDoesNotExist):
             visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
             if visits.count()==0:
