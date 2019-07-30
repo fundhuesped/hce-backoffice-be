@@ -53,3 +53,7 @@ six\.py
 persisting_theory/
 
 persisting_theory-0\.2\.1\.dist-info/
+
+node_modules/
+
+package-lock\.json
