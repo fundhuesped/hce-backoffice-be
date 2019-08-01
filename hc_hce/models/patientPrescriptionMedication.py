@@ -13,8 +13,8 @@ class PatientPrescriptionMedication(models.Model):
     """
 
     patientMedication = models.ForeignKey(PatientMedication, null=True, blank=True, on_delete=models.SET_NULL)
-    quantityPerDay = models.IntegerField(null=True)
-    quantityPerMonth = models.IntegerField(null=True)
+    quantityPerDay = models.DecimalField(max_digits=5, decimal_places=1, null=True)
+    quantityPerMonth = models.DecimalField(max_digits=5, decimal_places=1, null=True)
     prescription = models.ForeignKey(PatientPrescription, null=True, related_name='prescriptedMedications', on_delete=models.SET_NULL)
     class Meta:        
         """

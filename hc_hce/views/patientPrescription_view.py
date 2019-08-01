@@ -74,7 +74,7 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
             prescriptionsIds = []
             originalDate = data['issuedDate']
 
-            for x in xrange(0,data['cantRecetas']):
+            for x in range(0,data['cantRecetas']):
                 data['issuedDate'] = datetime.strptime(originalDate, "%Y-%m-%d").date() + timedelta(days=28*(x))
 
                 if data['prescripctionType'] == 'Arv':
