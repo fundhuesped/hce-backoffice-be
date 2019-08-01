@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel
+from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel, Country
 import reversion
 
 @reversion.register()
@@ -26,7 +26,16 @@ class Profesional(ActiveModel):
     genderOfChoice = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='profesionalGenderChoice', null=True, blank=True)
     email = models.CharField(max_length=100, null=True, blank=True)
     status = models.CharField(max_length=8, choices=ActiveModel.STATUS_CHOICES, default=ActiveModel.STATUS_ACTIVE)
+    street = models.CharField(max_length=150, null=True, blank=True)
+    postal = models.CharField(max_length=20, null=True, blank=True)
     notes = models.CharField(max_length=200, null=True, blank=True)
+    socialServiceNumber = models.CharField(max_length=30, null=True, blank=True)
+    bornPlace = models.ForeignKey(Country, models.SET_NULL, blank=True, null=True)
+    occupation = models.CharField(max_length=150, blank=True, null=True)
+    title = models.CharField(max_length=20, null=True, blank=True)
+    education = models.ForeignKey(EducationType, models.SET_NULL, blank=True, null=True)
+    socialService = models.ForeignKey(SocialService, models.SET_NULL, blank=True, null=True)
+    civilStatus = models.ForeignKey(CivilStatusType, models.SET_NULL, blank=True, null=True)
     primaryPhoneNumber = models.CharField(max_length=20, null=True, blank=True)
     primaryPhoneContact = models.CharField(max_length=40, null=True, blank=True)
     primaryPhoneMessage = models.NullBooleanField(default=False, null=True, blank=True)
