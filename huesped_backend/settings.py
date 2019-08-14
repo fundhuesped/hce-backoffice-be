@@ -61,7 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'reversion.middleware.RevisionMiddleware'
+    'reversion.middleware.RevisionMiddleware',
+    'huesped_backend.middleware.AutoLogout',
 ]
 
 ROOT_URLCONF = 'huesped_backend.urls'
@@ -166,6 +167,11 @@ CORS_ALLOW_HEADERS = (
 
 CORS_EXPOSE_HEADERS = 'auth-token'
 
+#Handle session is not Json Serializable
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+# Auto logout delay in minutes
+AUTO_LOGOUT_DELAY = 5 #equivalent to 5 minutes
 
 # TODO Replace this with jenkins build info file
 try:
