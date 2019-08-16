@@ -109,11 +109,7 @@ class PacienteList(PaginateListCreateAPIView):
     def create(self, request, *args, **kwargs):
         if request.query_params.get('allowDuplicate') is None or (request.query_params.get('allowDuplicate') is not None and self.request.query_params.get('allowDuplicate') != 'true'):
             if 'documentNumber' in request.data and 'documentType' in request.data:
-                duplicated = Paciente.objects.filter(Q(firstName__unaccent__iexact=request.data['firstName'], fatherSurname__unaccent__iexact=request.data['fatherSurname'])|Q(documentNumber=request.data['documentNumber'], documentType__id=request.data['documentType']['id'] )).count()
-                if duplicated > 0:
-                    return Response("Duplicate paciente exists", status=status.HTTP_400_BAD_REQUEST)
-            else:
-                duplicated = Paciente.objects.filter(Q(firstName__unaccent__iexact=request.data['firstName'], fatherSurname__unaccent__iexact=request.data['fatherSurname'])).count()
+                duplicated = Paciente.objects.filter(Q(documentNumber=request.data['documentNumber'], documentType__id=request.data['documentType']['id'] )).count()
                 if duplicated > 0:
                     return Response("Duplicate paciente exists", status=status.HTTP_400_BAD_REQUEST)
 
@@ -139,11 +135,7 @@ class PacienteDetails(generics.RetrieveUpdateDestroyAPIView):
 
         if request.query_params.get('allowDuplicate') is None or (request.query_params.get('allowDuplicate') is not None and self.request.query_params.get('allowDuplicate') != 'true'):
             if 'documentNumber' in request.data and 'documentType' in request.data:
-                duplicated = Paciente.objects.filter(Q(firstName__unaccent__iexact=request.data['firstName'], fatherSurname__unaccent__iexact=request.data['fatherSurname'])|Q(documentNumber=request.data['documentNumber'], documentType__id=request.data['documentType']['id'] )).exclude(id=instance.id).count()
-                if duplicated > 0:
-                    return Response("Duplicate paciente exists", status=status.HTTP_400_BAD_REQUEST)
-            else:
-                duplicated = Paciente.objects.filter(Q(firstName__unaccent__iexact=request.data['firstName'], fatherSurname__unaccent__iexact=request.data['fatherSurname'])).exclude(id=instance.id).count()
+                duplicated = Paciente.objects.filter(Q(documentNumber=request.data['documentNumber'], documentType__id=request.data['documentType']['id'] )).exclude(id=instance.id).count()
                 if duplicated > 0:
                     return Response("Duplicate paciente exists", status=status.HTTP_400_BAD_REQUEST)
 
