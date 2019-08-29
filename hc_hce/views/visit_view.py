@@ -34,7 +34,11 @@ class PacienteVisitList(PaginateListCreateAPIView):
 
         not_state = self.request.query_params.get('notState')
         if not_state is not None:
-            queryset = queryset.exclude(state=not_state)
+            queryset = queryset.exclude(state__in=not_state.split(','))
+
+        not_status = self.request.query_params.get('notStatus')
+        if not_status is not None:
+            queryset = queryset.exclude(status__in=not_status.split(','))
 
         fromDate = self.request.query_params.get('fromDate')
         if fromDate is not None:
