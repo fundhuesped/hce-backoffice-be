@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import datetime
+from datetime import datetime 
 import pytz
 
 from rest_framework import generics, filters
@@ -53,7 +53,10 @@ class PatientProblemsList(PaginateListCreateAPIView):
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
         profesional = self.request.user
-
+        problem_date = self.request.data['startDate']
+        paciente = Paciente.objects.filter(pk=patient_id).get()
+        birth_date = paciente.birthDate        
+        
         data = request.data.copy()
         data['paciente'] = patient_id
         data['profesional'] = profesional.id
@@ -62,6 +65,10 @@ class PatientProblemsList(PaginateListCreateAPIView):
             PatientProblem.objects.get(paciente=patient_id,problem=data['problem']['id'], state=PatientProblem.STATE_ACTIVE)
             raise FailedDependencyException('El problema a dar de alta ya esta activo')
         except (TypeError, ValueError, ObjectDoesNotExist):
+
+            comparable_problem_date = datetime.strptime(problem_date, "%Y-%m-%d").date()
+
+            assert birth_date <= comparable_problem_date,"La fecha ingresada es anterior a la fecha de nacimiento"
 
             visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
             if visits.count()==0:
@@ -86,7 +93,7 @@ class PatientProblemDetail(generics.RetrieveUpdateDestroyAPIView):
         profesional = self.request.user
         instance = self.get_object()
 
-        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
+        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
 
