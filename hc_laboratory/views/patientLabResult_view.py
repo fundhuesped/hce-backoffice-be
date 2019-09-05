@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import datetime
+from datetime import datetime
 import pytz
+from pprint import pprint as pp
 
 from rest_framework import generics, filters
 from rest_framework.permissions import DjangoModelPermissions
@@ -55,10 +56,15 @@ class PatientLabResults(PaginateListCreateAPIView):
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
         profesional = self.request.user
+        lab_date = request.data['date']
+        birth_date = Paciente.objects.filter(pk=patient_id).get().birthDate
 
         data = request.data.copy()
         data['paciente'] = patient_id
         data['createdBy'] = profesional.id
+
+        comparable_lab_date = datetime.strptime(lab_date, "%Y-%m-%dT%H:%M:%S.%fZ").date() # ej: '2016-02-02T03:00:00.000Z'
+        assert birth_date <= comparable_lab_date,"La fecha ingresada es anterior a la fecha de nacimiento"
 
         visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         if visits.count()==0:
@@ -96,7 +102,6 @@ class PatientLabResults(PaginateListCreateAPIView):
         return result
 
 
-
 class PatientCD4Detail(generics.RetrieveAPIView):
     serializer_class = LabResultNestSerializer
     queryset = LabResult.objects.all()
@@ -132,7 +137,7 @@ class PatientLabResultDetail(generics.RetrieveUpdateDestroyAPIView):
         profesional = self.request.user
         instance = self.get_object()
 
-        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
+        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
 
