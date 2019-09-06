@@ -101,6 +101,12 @@ class PatientMedicationDetail(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         profesional = self.request.user
         instance = self.get_object()
+        problem_startDate = self.request.data['startDate']
+        problem_endDate = self.request.data['endDate']
+
+        comparable_problem_startDate = datetime.strptime(problem_startDate, "%Y-%m-%d").date()
+        comparable_problem_endDate = datetime.strptime(problem_endDate, "%Y-%m-%d").date()
+        assert comparable_problem_startDate < comparable_problem_endDate,"La fecha de finalización no puede ser anterior a la fecha de inicio"
 
         diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
         days, seconds = diff.days, diff.seconds
