@@ -86,9 +86,7 @@ class PatientVaccineDetail(generics.RetrieveUpdateDestroyAPIView):
         profesional = self.request.user
         instance = self.get_object()
 
-
-        ## TODO: Transformar el date en un datetime con hora y segundos =0
-        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.appliedDate
+        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - datetime.strptime(str(instance.appliedDate)+" 00:00:00.000000+0000", "%Y-%m-%d %H:%M:%S.%f%z")
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
 
@@ -116,3 +114,4 @@ class PatientVaccineDetail(generics.RetrieveUpdateDestroyAPIView):
                 paciente=paciente,
             )
         return super(PatientVaccineDetail, self).update(request, *args, **kwargs)
+
