@@ -53,17 +53,22 @@ class PatientARVTreartmentsList(PaginateListCreateAPIView):
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
         profesional = self.request.user
-        problem_date = self.request.data['startDate']
+        problem_startDate = self.request.data['startDate']
         birth_date = Paciente.objects.filter(pk=patient_id).get().birthDate  
+        problem_endDate = self.request.data['endDate']
 
         data = request.data.copy()
         data['paciente'] = patient_id
         data['profesional'] = profesional.id
 
-        comparable_problem_date = datetime.strptime(problem_date, "%Y-%m-%d").date()
-        assert birth_date <= comparable_problem_date,"La fecha ingresada es anterior a la fecha de nacimiento"
+        comparable_problem_startDate = datetime.strptime(problem_startDate, "%Y-%m-%d").date()
+        assert birth_date <= comparable_problem_startDate,"La fecha ingresada es anterior a la fecha de nacimiento"
 
         if data['state'] == 'Closed' :
+
+            comparable_problem_endDate = datetime.strptime(problem_endDate, "%Y-%m-%d").date()
+            assert comparable_problem_startDate < comparable_problem_endDate,"La fecha de finalización no puede ser anterio a la fecha de inicio"
+
             visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
             if visits.count()==0:
                 paciente = Paciente.objects.filter(pk=patient_id).get()
@@ -99,6 +104,12 @@ class PatientARVTreatmentDetail(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         profesional = self.request.user
         instance = self.get_object()
+        problem_startDate = self.request.data['startDate']
+        problem_endDate = self.request.data['endDate']
+
+        comparable_problem_startDate = datetime.strptime(problem_startDate, "%Y-%m-%d").date()
+        comparable_problem_endDate = datetime.strptime(problem_endDate, "%Y-%m-%d").date()
+        assert comparable_problem_startDate < comparable_problem_endDate,"La fecha de finalización no puede ser anterior a la fecha de inicio"
 
         diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
         days, seconds = diff.days, diff.seconds
