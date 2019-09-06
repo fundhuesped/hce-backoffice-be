@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import datetime
+from datetime import datetime
 import pytz
 
 from rest_framework import generics, filters
@@ -54,7 +54,15 @@ class PatientVaccineList(PaginateListCreateAPIView):
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
         profesional = self.request.user
+        problem_date = self.request.data['appliedDate']
+        birth_date = Paciente.objects.filter(pk=patient_id).get().birthDate  
 
+        data = request.data.copy()
+        data['paciente'] = patient_id
+        data['profesional'] = profesional.id
+
+        comparable_problem_date = datetime.strptime(problem_date, "%Y-%m-%d").date()
+        assert birth_date <= comparable_problem_date,"La fecha ingresada es anterior a la fecha de nacimiento"
 
         visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
         if visits.count()==0:
@@ -63,10 +71,6 @@ class PatientVaccineList(PaginateListCreateAPIView):
                 profesional=profesional,
                 paciente=paciente,
             )
-
-        data = request.data.copy()
-        data['paciente'] = patient_id
-        data['profesional'] = profesional.id
 
         serializer = PatientVaccineNestSerializer(data=data, context={'request': request})
         serializer.is_valid(raise_exception=True)
@@ -82,10 +86,9 @@ class PatientVaccineDetail(generics.RetrieveUpdateDestroyAPIView):
         profesional = self.request.user
         instance = self.get_object()
 
-        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.date
+        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - datetime.strptime(str(instance.appliedDate)+" 00:00:00.000000+0000", "%Y-%m-%d %H:%M:%S.%f%z")
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
-
 
         if hours > 8:
             if instance.profesional.id != request.data['profesional']['id']:
