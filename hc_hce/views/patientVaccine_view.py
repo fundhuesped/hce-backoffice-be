@@ -86,7 +86,7 @@ class PatientVaccineDetail(generics.RetrieveUpdateDestroyAPIView):
         profesional = self.request.user
         instance = self.get_object()
 
-        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - datetime.strptime(str(instance.appliedDate)+" 00:00:00.000000+0000", "%Y-%m-%d %H:%M:%S.%f%z")
+        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
 
