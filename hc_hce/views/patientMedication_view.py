@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import datetime
+from datetime import datetime
 import pytz
 
 from rest_framework import generics, filters
@@ -63,10 +63,15 @@ class PatientMedicationsList(PaginateListCreateAPIView):
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs.get('pacienteId')
         profesional = self.request.user
+        problem_date = self.request.data['startDate']
+        birth_date = Paciente.objects.filter(pk=patient_id).get().birthDate  
 
         data = request.data.copy()
         data['paciente'] = patient_id
         data['profesional'] = profesional.id
+
+        comparable_problem_date = datetime.strptime(problem_date, "%Y-%m-%d").date()
+        assert birth_date <= comparable_problem_date,"La fecha ingresada es anterior a la fecha de nacimiento"
 
         try:
             patientMedicationFound = PatientMedication.objects.get(paciente=patient_id,medication=data['medication']['id'], state=PatientMedication.STATE_ACTIVE)
@@ -96,8 +101,16 @@ class PatientMedicationDetail(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         profesional = self.request.user
         instance = self.get_object()
+        problem_startDate = self.request.data['startDate']
+        problem_endDate = self.request.data['endDate']
 
-        diff = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
+        if(problem_startDate):
+            comparable_problem_startDate = datetime.strptime(problem_startDate, "%Y-%m-%d").date()
+        if(problem_endDate):
+            comparable_problem_endDate = datetime.strptime(problem_endDate, "%Y-%m-%d").date()
+            assert comparable_problem_startDate < comparable_problem_endDate,"La fecha de finalización no puede ser anterior a la fecha de inicio"
+
+        diff = datetime.utcnow().replace(tzinfo=pytz.utc) - instance.createdOn
         days, seconds = diff.days, diff.seconds
         hours = days * 24 + seconds // 3600
 
