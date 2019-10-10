@@ -110,6 +110,7 @@ class CurrentVisitDetail(generics.RetrieveUpdateAPIView):
     serializer_class = VisitNestSerializer
     queryset = Visit.objects.all()
     # permission_classes = (DjangoModelPermissions,)
+    
 
     def retrieve(self, request, *args, **kwargs):
         queryset = Visit.objects.all()
@@ -118,7 +119,13 @@ class CurrentVisitDetail(generics.RetrieveUpdateAPIView):
         queryset = queryset.filter(paciente=pacienteId)
         queryset = queryset.filter(profesional=profesional.id)
         queryset = queryset.filter(status=Visit.STATUS_ACTIVE)
-        queryset = queryset.filter(state=Visit.STATE_OPEN)
+        #TODO add created date filter less than 8 hours ago
+        date_max_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=18, minute=00)
+        date_min_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=00, minute=00)
+        queryset = queryset.filter(created_on__gt=date_min_allowed)
+        print('=== QuerySet: ', list(queryset))
+        #TODO revisar porque aca falla
+        queryset = queryset.filter(created_on__lte=date_max_allowed)
         try:
             serializer = self.get_serializer(queryset.get())
             return Response(serializer.data)
