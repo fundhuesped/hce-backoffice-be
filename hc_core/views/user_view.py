@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from hc_core.serializers import UserSerializer
 from hc_core.serializers import PasswordChangeSerializer
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import Permission, Group
+from django.http import JsonResponse
 
 
 class UserLogin(generics.CreateAPIView):
@@ -46,3 +48,18 @@ class PasswordChangeView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({})
+
+
+class Permissions(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        permissionToCheck = self.request.data['permission']
+        print("=== Permission to check: ", permissionToCheck)
+        permissionsFound = list(request.user.get_group_permissions())
+        print("=== User Permissions:", permissionsFound)
+        hasPerm = permissionToCheck in permissionsFound
+        print("=== User has Permission:", hasPerm)
+        
+        return JsonResponse({ 'permission': permissionToCheck, 'hasPerm': hasPerm, 'success': 'true'})
+
