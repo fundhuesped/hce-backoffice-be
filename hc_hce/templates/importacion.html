@@ -1,4 +1,12 @@
-{% extends "admin/base_site.html" %}
+{% extends "admin/index.html" %}
+
+{% block sidebar %}
+    {{block.super}}
+{% endblock %}
 {% block content %}
-...daas
+<h1>Importación de Datos via CSV</h1>
+...contenido...
+<br/>
+<br/>
+<a href="/admin/">Volver atras</a>
 {% endblock %}
