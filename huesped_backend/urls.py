@@ -44,7 +44,7 @@ apps_patterns = ([
 ])
 
 urlpatterns = [
-    url(r'^admin/importacion/$', TemplateView.as_view(template_name='importacion.html')),
+    #url(r'^admin/importaciond/$', TemplateView.as_view(template_name='importacion.html')),
     url(r'^admin/', admin.site.urls),
     url(r'^info/', views.info_view.info),
     url(r'^api/', include((apps_patterns, 'api'), namespace='api')),
