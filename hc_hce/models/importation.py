@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+import psycopg2
+import os
 
 
 class ImportationRegister(models.Model):
@@ -109,8 +111,6 @@ class ImportationLabRelationship(models.Model):
         #TODO Completar para reprocesar desde aqui los registros (llamar a metodo global/de clase)
 
 
-#TODO admin importation register
-#TODO admin tablas intermedias
 
 class Importation(models.Model):
     """
@@ -126,9 +126,27 @@ class Importation(models.Model):
         ordering = ['created']
 
     def save(self, *args, **kwargs):
+        DB_NAME = os.getenv('DB_NAME','postgres')
+        DB_USER = os.getenv('DB_USER','postgres')
+        DB_PASSWORD = os.getenv('DB_PASSWORD','1234')
+        DB_HOST = os.getenv('DB_HOST','localhost')
+        DB_PORT = os.getenv('DB_PORT','32768')
+
         super(Importation, self).save(*args, **kwargs)
         print("--- File uploaded ---")
         filename = self.csv.url
         print("--- Filename: ", filename)
         # Do anything you'd like with the data in filename
+        conn = psycopg2.connect("host="+DB_HOST+" port="+DB_PORT+" password="+DB_PASSWORD+" dbname="+DB_NAME+" user="+DB_USER)
+        print("--- Connection:", conn)
+        cur = conn.cursor()
+        print("--- Cursor:", cur)
+        #! TODO ERROR cannot find the file, where it is saved? need to delete the / from /media ?
+        #with open(DB_HOST+":"+DB_PORT+filename, 'r') as f:
+        with open(filename, 'r') as f:
+            print("--- File Opened:", f)
+            # next(f) # Skip the header row.
+            # cur.copy_from(f, 'users', sep=',')
+            # conn.commit()
+
 
