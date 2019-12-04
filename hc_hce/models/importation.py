@@ -141,12 +141,14 @@ class Importation(models.Model):
         print("--- Connection:", conn)
         cur = conn.cursor()
         print("--- Cursor:", cur)
-        #! TODO ERROR cannot find the file, where it is saved? need to delete the / from /media ?
         #with open(DB_HOST+":"+DB_PORT+filename, 'r') as f:
-        with open(filename, 'r') as f:
+        filenameLocation = filename[1:]  #Delete first / from /url/
+        with open(filenameLocation, 'r') as f:
             print("--- File Opened:", f)
+            #TODO continue working
             # next(f) # Skip the header row.
-            # cur.copy_from(f, 'users', sep=',')
+            #TODO remember to change separator to PIPE
+            # cur.copy_from(f, 'hc_hce_importationregister', sep=',')
             # conn.commit()
 
 
