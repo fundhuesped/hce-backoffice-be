@@ -52,6 +52,7 @@ class ImportationRegister(models.Model):
         patientExternalId = 3
         determinationExternalId = 3
         labExternalId = 3
+        labDate = "2019/12/01"
         labDeterminationValue = 3
 
         patientQueryset = ImportationPatientRelationship.objects.all()
@@ -111,13 +112,33 @@ class ImportationRegister(models.Model):
             )
             return
 
-        queryset = ImportationLabRelationship.objects.all()
-        queryset = queryset.filter(lab_id=labExternalId)
-        #TODO Check if it was found
+        labsQueryset = ImportationLabRelationship.objects.all()
+        labsQueryset = labsQueryset.filter(lab_id=labExternalId)
+        #Check if it was found
             #if true simply continue, obtain the labInternalId
             #if not, find the lab by date
                 #If found, create a complete ImportationLabRelationship & update this registry with the labInternalId
                 #If cannot be found simply create an incomplete ImportationLabRelationship registry & return
+        if labsQueryset.count()!=0:
+            foundLab = labsQueryset.get()
+            labInternalId = foundLab.id
+        else:
+            labsQueryset = ImportationLabRelationship.objects.all()
+            labsQueryset = labsQueryset.filter(lab_Date=labDate)
+            if labsQueryset.count()!=0:
+                foundLab = labsQueryset.get()
+                labInternalId = foundLab.id
+                ImportationLabRelationship.objects.create(
+                    lab_Date = labDate,
+                    lab_id = labExternalId,
+                    processed_lab_id = labInternalId,
+                )
+                #TODO update this registry
+            else:
+                ImportationLabRelationship.objects.create(
+                    lab_Date = labDate,
+                    lab_id = labExternalId,
+                )
         
 
         labs = DeterminacionValor.objects.filter(labResult=labInternalId, determinacion=determinationInternalId)
