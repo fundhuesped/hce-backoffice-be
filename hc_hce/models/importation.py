@@ -4,6 +4,10 @@
 from django.db import models
 import psycopg2
 import os
+from datetime import datetime
+import pytz
+from rest_framework import generics, filters
+from hc_laboratory.models import LabResult, Determinacion, DeterminacionValor
 
 
 class ImportationRegister(models.Model):
@@ -39,6 +43,52 @@ class ImportationRegister(models.Model):
     def save(self, *args, **kwargs):
         super(ImportationRegister, self).save(*args, **kwargs)
         print("--- Register uploaded ---")
+        print("--- Args", *args)
+        print("--- Kwargs", *kwargs)
+
+        #TODO creando metodo para procesar registros
+
+        #TODO obtain real ids/values from args and kwargs
+        patientExternalId = 3
+        determinationExternalId = 3
+        labExternalId = 3
+        labDeterminationValue = 3
+
+        queryset = ImportationPatientRelationship.objects.all()
+        queryset = queryset.filter(patient_id=patientExternalId)
+        #Check if it was found
+            #if true simply continue, obtain the patientInternalId
+            #if not, find the patient by betiana's criteria
+                #If found, create a complete ImportationPatientRelationship & update this registry with the patientInternalId
+                #If cannot be found simply create an incomplete ImportationPatientRelationship registry & return
+        
+        queryset = ImportationDeterminationRelationship.objects.all()
+        queryset = queryset.filter(determination_id=determinationExternalId)
+        #Check if it was found
+            #if true simply continue, obtain the determinationInternalId & update this registry with the determinationInternalId
+            #if not,  simply create an incomplete ImportationDeterminationRelationship registry & return
+        
+        queryset = ImportationLabRelationship.objects.all()
+        queryset = queryset.filter(lab_id=labExternalId)
+        #Check if it was found
+            #if true simply continue, obtain the labInternalId
+            #if not, find the lab by date
+                #If found, create a complete ImportationLabRelationship & update this registry with the labInternalId
+                #If cannot be found simply create an incomplete ImportationLabRelationship registry & return
+        
+        #TODO lab determination values overwritting or saves. Model DeterminacionValor
+        labs = DeterminacionValor.objects.filter(labResult=labInternalId, determinacion=determinationInternalId)
+        if labs.count()!=0:
+            #paciente = Paciente.objects.filter(pk=patient_id).get()
+            #TODO delete the lab
+
+        DeterminacionValor.objects.create(
+            labResult=labInternalId, 
+            determinacion=determinationInternalId,
+            value=labDeterminationValue,
+        )
+
+        #TODO extraer metodo que sea global una vez que funcione
 
 class ImportationPatientRelationship(models.Model):
     """
@@ -126,7 +176,7 @@ class Importation(models.Model):
         ordering = ['created']
 
     def save(self, *args, **kwargs):
-        DB_NAME = os.getenv('DB_NAME','postgres')
+        DB_NAME = os.getenv('DB_NAME','hce')
         DB_USER = os.getenv('DB_USER','postgres')
         DB_PASSWORD = os.getenv('DB_PASSWORD','1234')
         DB_HOST = os.getenv('DB_HOST','localhost')
@@ -146,9 +196,16 @@ class Importation(models.Model):
         with open(filenameLocation, 'r') as f:
             print("--- File Opened:", f)
             #TODO continue working
-            # next(f) # Skip the header row.
+            next(f) # Skip the header row.
             #TODO remember to change separator to PIPE
-            # cur.copy_from(f, 'hc_hce_importationregister', sep=',')
-            # conn.commit()
+            cur.copy_from(f, 'hc_hce_importationregister', sep=',')
+            conn.commit()
+
+            #queryset = ImportationRegister.objects.all()
+            #Make sure it was imported today
+            # date_max_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=18, minute=00)
+            # date_min_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=00, minute=00)
+            # queryset = queryset.filter(created_on__gt=date_min_allowed)
+            # queryset = queryset.filter(created_on__lte=date_max_allowed)
 
 
