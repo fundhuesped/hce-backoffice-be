@@ -7,7 +7,7 @@ import os
 from datetime import datetime
 import pytz
 from rest_framework import generics, filters
-from hc_laboratory.models import LabResult, Determinacion, DeterminacionValor
+from hc_laboratory.models import LabResult, Determinacion, DeterminacionValor, Paciente
 
 
 class ImportationRegister(models.Model):
@@ -54,39 +54,83 @@ class ImportationRegister(models.Model):
         labExternalId = 3
         labDeterminationValue = 3
 
-        queryset = ImportationPatientRelationship.objects.all()
-        queryset = queryset.filter(patient_id=patientExternalId)
+        patientQueryset = ImportationPatientRelationship.objects.all()
+        patientQueryset = patientQueryset.filter(patient_id=patientExternalId)
         #Check if it was found
             #if true simply continue, obtain the patientInternalId
             #if not, find the patient by betiana's criteria
                 #If found, create a complete ImportationPatientRelationship & update this registry with the patientInternalId
                 #If cannot be found simply create an incomplete ImportationPatientRelationship registry & return
-        
-        queryset = ImportationDeterminationRelationship.objects.all()
-        queryset = queryset.filter(determination_id=determinationExternalId)
+        if patientQueryset.count()!=0:
+            foundPatient = patientQueryset.get()
+            patientInternalId = foundPatient.id
+        else:
+            patientQueryset = Paciente.objects.all()
+            patientQueryset = patientQueryset.filter(patient_id=patientExternalId) #TODO Betiana's criteria
+            if patientQueryset.count()!=0:
+                foundPatient = patientQueryset.get()
+                patientInternalId = foundPatient.id
+                ImportationPatientRelationship.objects.create(
+                    patient_id = patientExternalId,
+                    surname = "dasd", #TODO obtain values from args
+                    #name = ,
+                    #birthDate = ,
+                    #documentType = ,
+                    #documentNumber = ,
+                    processed_patient_id = patientInternalId,
+                )
+                #TODO update this registry
+            else:
+                ImportationPatientRelationship.objects.create(
+                    patient_id = patientExternalId,
+                    surname = "dasd", #TODO obtain values from args
+                    #name = ,
+                    #birthDate = ,
+                    #documentType = ,
+                    #documentNumber = ,
+                    #DO NOT set processed_patient_id
+                )
+                return
+
+
+        determinationQueryset = ImportationDeterminationRelationship.objects.all()
+        determinationQueryset = determinationQueryset.filter(determination_id=determinationExternalId)
         #Check if it was found
             #if true simply continue, obtain the determinationInternalId & update this registry with the determinationInternalId
             #if not,  simply create an incomplete ImportationDeterminationRelationship registry & return
-        
+        if determinationQueryset.count()!=0:
+            foundDetermination = determinationQueryset.get()
+            determinationInternalId = foundDetermination.id
+        else:
+            ImportationDeterminationRelationship.objects.create(
+                determination_id = determinationExternalId,
+                determination_version_id = 3, #TODO get values from args
+                determination_description = 'TODO',
+                determination_code = 3,
+                determination_number = 3,
+            )
+            return
+
         queryset = ImportationLabRelationship.objects.all()
         queryset = queryset.filter(lab_id=labExternalId)
-        #Check if it was found
+        #TODO Check if it was found
             #if true simply continue, obtain the labInternalId
             #if not, find the lab by date
                 #If found, create a complete ImportationLabRelationship & update this registry with the labInternalId
                 #If cannot be found simply create an incomplete ImportationLabRelationship registry & return
         
-        #TODO lab determination values overwritting or saves. Model DeterminacionValor
+
         labs = DeterminacionValor.objects.filter(labResult=labInternalId, determinacion=determinationInternalId)
         if labs.count()!=0:
             #paciente = Paciente.objects.filter(pk=patient_id).get()
-            #TODO delete the lab
-
-        DeterminacionValor.objects.create(
-            labResult=labInternalId, 
-            determinacion=determinationInternalId,
-            value=labDeterminationValue,
-        )
+            foundLab = labs.get()
+            foundLab.value = labDeterminationValue
+        else:
+            DeterminacionValor.objects.create(
+                labResult=labInternalId, 
+                determinacion=determinationInternalId,
+                value=labDeterminationValue,
+            )
 
         #TODO extraer metodo que sea global una vez que funcione
 
