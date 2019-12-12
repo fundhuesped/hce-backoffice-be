@@ -57,7 +57,7 @@ class Permissions(generics.GenericAPIView):
         permissionToCheck = self.request.data['permission']
         print("=== Permission to check: ", permissionToCheck)
         permissionsFound = list(request.user.get_group_permissions())
-        print("=== User Permissions:", permissionsFound)
+        #print("=== User Permissions:", permissionsFound)
         hasPerm = permissionToCheck in permissionsFound
         print("=== User has Permission:", hasPerm)
         
