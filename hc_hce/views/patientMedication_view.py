@@ -80,7 +80,7 @@ class PatientMedicationsList(PaginateListCreateAPIView):
             else:
                 raise FailedDependencyException('El medicamento a dar de alta ya esta activo')
         except (TypeError, ValueError, ObjectDoesNotExist):
-            visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
+            visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE)
             if visits.count()==0:
                 paciente = Paciente.objects.filter(pk=patient_id).get()
                 visit = Visit.objects.create(
@@ -130,7 +130,7 @@ class PatientMedicationDetail(generics.RetrieveUpdateDestroyAPIView):
                     instance.save()
                     return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
 
-        visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
+        visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE)
         paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 
         if visits.count()==0:
