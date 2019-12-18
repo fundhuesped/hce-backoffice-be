@@ -260,17 +260,9 @@ class Importation(models.Model):
         filenameLocation = filename[1:]  #Delete first / from /url/
         with open(filenameLocation, 'r') as f:
             print("--- File Opened:", f)
-            #TODO continue working
             next(f) # Skip the header row.
-            #TODO remember to change separator to PIPE
-            cur.copy_from(f, 'hc_hce_importationregister', sep=',')
+            #TODO test without special characters
+            cur.copy_from(f, 'hc_hce_importationregister', sep='|')
             conn.commit()
-
-            #queryset = ImportationRegister.objects.all()
-            #Make sure it was imported today
-            # date_max_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=18, minute=00)
-            # date_min_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=00, minute=00)
-            # queryset = queryset.filter(created_on__gt=date_min_allowed)
-            # queryset = queryset.filter(created_on__lte=date_max_allowed)
 
 
