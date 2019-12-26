@@ -60,13 +60,13 @@ class PatientClinicalStudyResultList(PaginateListCreateAPIView):
         comparable_problem_date = datetime.strptime(problem_date, "%Y-%m-%d").date()
         assert birth_date <= comparable_problem_date,"La fecha ingresada es anterior a la fecha de nacimiento"
 
-        visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE)
-        if visits.count()==0:
-            paciente = Paciente.objects.filter(pk=patient_id).get()
-            visit = Visit.objects.create(
-                profesional=profesional,
-                paciente=paciente,
-            )
+        # visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE)
+        # if visits.count()==0:
+        #     paciente = Paciente.objects.filter(pk=patient_id).get()
+        #     visit = Visit.objects.create(
+        #         profesional=profesional,
+        #         paciente=paciente,
+        #     )
 
         serializer = PatientClinicalStudyResultNestSerializer(data=data, context={'request': request})
         serializer.is_valid(raise_exception=True)
@@ -102,12 +102,12 @@ class PatientClinicalStudyResultDetail(generics.RetrieveUpdateDestroyAPIView):
                     instance.save()
                     return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
 
-        visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE)
-        paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
+        # visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE)
+        # paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 
-        if visits.count()==0:
-            visit = Visit.objects.create(
-                profesional=profesional,
-                paciente=paciente,
-            )
+        # if visits.count()==0:
+        #     visit = Visit.objects.create(
+        #         profesional=profesional,
+        #         paciente=paciente,
+        #     )
         return super(PatientClinicalStudyResultDetail, self).update(request, *args, **kwargs)
