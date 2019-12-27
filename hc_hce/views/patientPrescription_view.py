@@ -60,7 +60,7 @@ class PatientPrescriptionList(PaginateListCreateAPIView):
         data['profesional'] = profesional.id
         # TODO Remove to new class
 
-        visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE, state=Visit.STATE_OPEN)
+        visits = Visit.objects.filter(paciente=patient_id, profesional=profesional.id, status=Visit.STATUS_ACTIVE)
 
         if visits.count()==0:
             paciente = Paciente.objects.filter(pk=patient_id).get()

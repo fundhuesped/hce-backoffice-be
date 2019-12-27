@@ -85,14 +85,14 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
 
             elif instance.state == Visit.STATE_OPEN and request.data['state'] == Visit.STATE_CLOSED:
                 instance.state = Visit.STATE_CLOSED
-                instance.save();
+                instance.save()
                 serializer = self.get_serializer(instance)
                 return Response(serializer.data)
 
             else:
                 if instance.state == Visit.STATE_OPEN:
                     instance.state = Visit.STATE_CLOSED
-                    instance.save();
+                    instance.save()
                     return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -109,7 +109,6 @@ class VisitDetails(generics.RetrieveUpdateDestroyAPIView):
 class CurrentVisitDetail(generics.RetrieveUpdateAPIView):
     serializer_class = VisitNestSerializer
     queryset = Visit.objects.all()
-    # permission_classes = (DjangoModelPermissions,)
 
     def retrieve(self, request, *args, **kwargs):
         queryset = Visit.objects.all()
@@ -118,7 +117,11 @@ class CurrentVisitDetail(generics.RetrieveUpdateAPIView):
         queryset = queryset.filter(paciente=pacienteId)
         queryset = queryset.filter(profesional=profesional.id)
         queryset = queryset.filter(status=Visit.STATUS_ACTIVE)
-        queryset = queryset.filter(state=Visit.STATE_OPEN)
+        date_max_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=18, minute=00)
+        date_min_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=00, minute=00)
+        queryset = queryset.filter(created_on__gt=date_min_allowed)
+        queryset = queryset.filter(created_on__lte=date_max_allowed)
+
         try:
             serializer = self.get_serializer(queryset.get())
             return Response(serializer.data)

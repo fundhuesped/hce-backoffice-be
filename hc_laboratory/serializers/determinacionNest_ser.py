@@ -32,4 +32,4 @@ class DeterminacionNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Determinacion
-        fields = ('id', 'code', 'label', 'description', 'unitOfMeasure', 'status', 'category', 'upperLimit', 'lowerLimit')
+        fields = ('id', 'code', 'label', 'description', 'unitOfMeasure', 'status', 'category', 'upperLimit', 'lowerLimit', 'order')
