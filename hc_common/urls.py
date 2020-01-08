@@ -28,6 +28,9 @@ urlpatterns = [
     url(r'^educationType/$', views.EducationTypeList.as_view(), name='EducationType-list'),
     url(r'^educationType/(?P<pk>[0-9]+)/$', views.EducationTypeDetails.as_view(), name='EducationType-detail'),
 
+    url(r'^protocol/$', views.Protocol.as_view(), name='Protocol-list'),
+    url(r'^protocol/(?P<pk>[0-9]+)/$', views.ProtocolDetails.as_view(), name='Protocol-detail'),
+
     url(r'^civilStatusType/$', views.CivilStatusTypeList.as_view(), name='CivilStatusType-list'),
     url(r'^civilStatusType/(?P<pk>[0-9]+)/$', views.CivilStatusTypeDetails.as_view(), name='CivilStatusType-detail'),
 
