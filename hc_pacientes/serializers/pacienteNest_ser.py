@@ -190,7 +190,7 @@ class PacienteNestSerializer(serializers.ModelSerializer):
             genderOfChoice = None
 
         try:
-            protocol = validated_data.pop('genderOfChoice')
+            protocol = validated_data.pop('protocol')
         except KeyError:
             protocol = None
 

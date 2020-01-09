@@ -116,6 +116,11 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
             genderAtBirth = None
 
         try:
+            protocol = validated_data.pop('protocol')
+        except KeyError:
+            protocol = None
+
+        try:
             genderOfChoice = validated_data.pop('genderOfChoice')
         except KeyError:
             genderOfChoice = None
@@ -166,6 +171,7 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
             documentType=documentType,
             genderAtBirth=genderAtBirth,
             genderOfChoice=genderOfChoice,
+            protocol=protocol,
             socialService=socialService,
             location=location,
             civilStatus=civilStatus,
@@ -208,6 +214,7 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
         instance.socialService = socialService
         instance.documentType = documentType
         instance.genderAtBirth = genderAtBirth
+        instance.protocol = protocol
         instance.genderOfChoice = genderOfChoice
         instance.location = location
         instance.civilStatus = civilStatus
@@ -241,7 +248,4 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
                 "required": False,
             },
         }
-        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email',
-                  'street', 'postal', 'status', 'documentType', 'documentNumber', 'genderAtBirth',
-                  'genderOfChoice', 'location', 'bornPlace', 'occupation', 'education', 'civilStatus', 'notes', 'primaryPhoneNumber',
-                  'primaryPhoneContact', 'primaryPhoneMessage', 'socialService', 'socialServiceNumber', 'municipalNumber', 'licenseNumber', 'title')
+        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email', 'street', 'postal', 'status', 'documentType', 'documentNumber', 'genderAtBirth', 'genderOfChoice', 'protocol', 'location', 'bornPlace', 'occupation', 'education', 'civilStatus', 'notes', 'primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'socialService', 'socialServiceNumber', 'municipalNumber', 'licenseNumber', 'title')
