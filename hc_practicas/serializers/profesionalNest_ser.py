@@ -188,6 +188,7 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
         documentType = validated_data.pop('documentType')
         genderAtBirth = validated_data.pop('genderAtBirth')
         genderOfChoice = validated_data.pop('genderOfChoice')
+        protocol = validated_data.pop('protocol')
         location = validated_data.pop('location')
         civilStatus = validated_data.pop('civilStatus')
         socialService = validated_data.pop('socialService')
