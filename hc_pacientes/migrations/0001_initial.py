@@ -54,6 +54,7 @@ class Migration(migrations.Migration):
                 ('documentType', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='hc_common.DocumentType')),
                 ('education', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='hc_common.EducationType')),
                 ('genderAtBirth', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='pacienteGenderBirth', to='hc_common.SexType')),
+                ('protocol', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='pacienteProtocol', to='hc_common.Protocol')),
                 ('genderOfChoice', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='pacienteGenderChoice', to='hc_common.SexType')),
                 ('location', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='pacienteLocation', to='hc_common.Location')),
                 ('socialService', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='hc_common.SocialService')),

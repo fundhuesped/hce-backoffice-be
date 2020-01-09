@@ -12,6 +12,7 @@ from hc_common.serializers import EducationTypeNestedSerializer
 from hc_common.serializers import LocationNestedSerializer
 from hc_common.serializers import SexTypeNestedSerializer
 from hc_common.serializers import SocialServiceNestedSerializer
+from hc_common.serializers import ProtocolNestedSerializer
 from hc_practicas.models import Profesional
 from rest_framework import serializers
 
@@ -41,6 +42,12 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
     )
 
     genderAtBirth = SexTypeNestedSerializer(
+        many=False,
+        required=False,
+        allow_null=True
+    )
+    
+    protocol = ProtocolNestedSerializer(
         many=False,
         required=False,
         allow_null=True

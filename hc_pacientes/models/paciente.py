@@ -9,6 +9,7 @@ from hc_common.models import SocialService
 from hc_common.models import CivilStatusType
 from hc_common.models import EducationType
 from hc_common.models import Country
+from hc_common.models import Protocol
 from hc_common.models import ActiveModel
 import reversion
 
@@ -44,6 +45,7 @@ class Paciente(ActiveModel):
     documentNumber = models.CharField(max_length=15, null=True, blank=True)
     genderAtBirth = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='pacienteGenderBirth', null=True, blank=True)
     genderOfChoice = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='pacienteGenderChoice', null=True, blank=True)
+    protocol = models.ForeignKey(Protocol, on_delete=models.CASCADE, related_name='pacienteProtocol', null=True, blank=True)
     email = models.CharField(max_length=100, null=True, blank=True)
     status = models.CharField(max_length=8, choices=ActiveModel.STATUS_CHOICES, default=ActiveModel.STATUS_ACTIVE)
     street = models.CharField(max_length=150, null=True, blank=True)

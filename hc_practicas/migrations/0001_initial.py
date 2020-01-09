@@ -44,6 +44,7 @@ class Migration(migrations.Migration):
                 ('thirdPhoneMessage', models.NullBooleanField(default=False)),
                 ('documentType', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='hc_common.DocumentType')),
                 ('genderAtBirth', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='profesionalGenderBirth', to='hc_common.SexType')),
+                ('protocol', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='profesionalProtocol', to='hc_common.Protocol')),
                 ('genderOfChoice', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='profesionalGenderChoice', to='hc_common.SexType')),
             ],
             options={

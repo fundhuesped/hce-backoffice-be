@@ -143,6 +143,19 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='Protocol',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=70)),
+                ('description', models.CharField(max_length=150, null=True)),
+                ('status', models.CharField(choices=[(b'Active', b'Activo'), (b'Inactive', b'Inactivo')], default=b'Active', max_length=8)),
+            ],
+            options={
+                'ordering': ['name'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
             name='SocialService',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -159,6 +172,11 @@ class Migration(migrations.Migration):
             model_name='persona',
             name='genderAtBirth',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='personGenderBirth', to='hc_common.SexType'),
+        ),
+        migrations.AddField(
+            model_name='persona',
+            name='protocol',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='personProtocol', to='hc_common.Protocol'),
         ),
         migrations.AddField(
             model_name='persona',
