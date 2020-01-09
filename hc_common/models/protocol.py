@@ -4,7 +4,7 @@
 from hc_common.models import AbstractType
 
 
-class Procol(AbstractType):
+class Protocol(AbstractType):
     """
     Clase que representa el protocolo
     """

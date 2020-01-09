@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework import serializers
-from hc_common.models import protocol
+from hc_common.models import Protocol
 from hc_common.serializers import TypeNestedSerializer
 
 
@@ -13,5 +13,5 @@ class ProtocolNestedSerializer(TypeNestedSerializer):
     )
 
     class Meta(TypeNestedSerializer.Meta):
-        model = protocol
+        model = Protocol
         fields = '__all__'

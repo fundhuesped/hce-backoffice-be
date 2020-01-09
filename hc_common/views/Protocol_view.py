@@ -4,7 +4,7 @@
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from hc_common.serializers import ProtocolNestSerializer
-from hc_common.models import protocol
+from hc_common.models import Protocol
 from hc_core.views import PaginateListCreateAPIView
 
 
@@ -13,10 +13,10 @@ class ProtocolList(PaginateListCreateAPIView):
     Vista para listar Documentos existentes, o crear un nuevo Protocolo
     """
     serializer_class = ProtocolNestSerializer
-    queryset = protocol.objects.all()
+    queryset = Protocol.objects.all()
 
     def get_queryset(self):
-        queryset = protocol.objects.all()
+        queryset = Protocol.objects.all()
         name = self.request.query_params.get('name')
         status = self.request.query_params.get('status')
         if name is not None:
@@ -31,5 +31,5 @@ class ProtocolDetails(generics.RetrieveUpdateDestroyAPIView):
     Vista para ver del detalle, modificar, o eliminar un Protocolo
     """
     serializer_class = ProtocolNestSerializer
-    queryset = protocol.objects.all()
+    queryset = Protocol.objects.all()
     #permission_classes = (AllowAny,)
