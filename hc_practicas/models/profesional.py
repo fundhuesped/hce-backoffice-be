@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel, Country, Protocol
+from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel, Country,
 import reversion
 
 @reversion.register()
@@ -24,7 +24,6 @@ class Profesional(ActiveModel):
     documentNumber = models.CharField(max_length=15, null=True, blank=True)
     genderAtBirth = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='profesionalGenderBirth', null=True, blank=True)
     genderOfChoice = models.ForeignKey(SexType, on_delete=models.CASCADE, related_name='profesionalGenderChoice', null=True, blank=True)
-    protocol = models.ForeignKey(Protocol, on_delete=models.CASCADE, related_name='profesionalProtocol', null=True, blank=True)
     email = models.CharField(max_length=100, null=True, blank=True)
     status = models.CharField(max_length=8, choices=ActiveModel.STATUS_CHOICES, default=ActiveModel.STATUS_ACTIVE)
     street = models.CharField(max_length=150, null=True, blank=True)

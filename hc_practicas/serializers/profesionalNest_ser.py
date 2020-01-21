@@ -12,7 +12,6 @@ from hc_common.serializers import EducationTypeNestedSerializer
 from hc_common.serializers import LocationNestedSerializer
 from hc_common.serializers import SexTypeNestedSerializer
 from hc_common.serializers import SocialServiceNestedSerializer
-from hc_common.serializers import ProtocolNestedSerializer
 from hc_practicas.models import Profesional
 from rest_framework import serializers
 
@@ -42,12 +41,6 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
     )
 
     genderAtBirth = SexTypeNestedSerializer(
-        many=False,
-        required=False,
-        allow_null=True
-    )
-    
-    protocol = ProtocolNestedSerializer(
         many=False,
         required=False,
         allow_null=True
@@ -116,11 +109,6 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
             genderAtBirth = None
 
         try:
-            protocol = validated_data.pop('protocol')
-        except KeyError:
-            protocol = None
-
-        try:
             genderOfChoice = validated_data.pop('genderOfChoice')
         except KeyError:
             genderOfChoice = None
@@ -171,7 +159,6 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
             documentType=documentType,
             genderAtBirth=genderAtBirth,
             genderOfChoice=genderOfChoice,
-            protocol=protocol,
             socialService=socialService,
             location=location,
             civilStatus=civilStatus,
@@ -188,7 +175,6 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
         documentType = validated_data.pop('documentType')
         genderAtBirth = validated_data.pop('genderAtBirth')
         genderOfChoice = validated_data.pop('genderOfChoice')
-        protocol = validated_data.pop('protocol')
         location = validated_data.pop('location')
         civilStatus = validated_data.pop('civilStatus')
         socialService = validated_data.pop('socialService')
@@ -215,7 +201,6 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
         instance.socialService = socialService
         instance.documentType = documentType
         instance.genderAtBirth = genderAtBirth
-        instance.protocol = protocol
         instance.genderOfChoice = genderOfChoice
         instance.location = location
         instance.civilStatus = civilStatus
@@ -249,4 +234,4 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
                 "required": False,
             },
         }
-        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email', 'street', 'postal', 'status', 'documentType', 'documentNumber', 'genderAtBirth', 'genderOfChoice', 'protocol', 'location', 'bornPlace', 'occupation', 'education', 'civilStatus', 'notes', 'primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'socialService', 'socialServiceNumber', 'municipalNumber', 'licenseNumber', 'title')
+        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email', 'street', 'postal', 'status', 'documentType', 'documentNumber', 'genderAtBirth', 'genderOfChoice', 'location', 'bornPlace', 'occupation', 'education', 'civilStatus', 'notes', 'primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'socialService', 'socialServiceNumber', 'municipalNumber', 'licenseNumber', 'title')
