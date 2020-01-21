@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel, Country,
+from hc_common.models import DocumentType, SexType, Location, SocialService, CivilStatusType, EducationType, ActiveModel, Country
 import reversion
 
 @reversion.register()
