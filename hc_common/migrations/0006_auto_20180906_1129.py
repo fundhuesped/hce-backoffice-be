@@ -38,10 +38,6 @@ class Migration(migrations.Migration):
         ),
         migrations.RemoveField(
             model_name='persona',
-            name='protocol',
-        ),
-        migrations.RemoveField(
-            model_name='persona',
             name='location',
         ),
         migrations.RemoveField(

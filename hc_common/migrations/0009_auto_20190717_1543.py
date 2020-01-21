@@ -62,11 +62,6 @@ class Migration(migrations.Migration):
             field=models.CharField(choices=[('Active', 'Activo'), ('Inactive', 'Inactivo')], default='Active', max_length=8),
         ),
         migrations.AlterField(
-            model_name='protocol',
-            name='status',
-            field=models.CharField(choices=[('Active', 'Activo'), ('Inactive', 'Inactivo')], default='Active', max_length=8),
-        ),
-        migrations.AlterField(
             model_name='socialservice',
             name='status',
             field=models.CharField(choices=[('Active', 'Activo'), ('Inactive', 'Inactivo')], default='Active', max_length=8),

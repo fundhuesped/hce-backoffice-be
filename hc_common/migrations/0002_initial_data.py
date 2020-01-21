@@ -19,7 +19,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL(loadInitialData('sextype')),
-        migrations.RunSQL(loadInitialData('protocol')),
         migrations.RunSQL(loadInitialData('civilstatustype')),
         migrations.RunSQL(loadInitialData('educationtype')),
         migrations.RunSQL(loadInitialData('documenttype')),
