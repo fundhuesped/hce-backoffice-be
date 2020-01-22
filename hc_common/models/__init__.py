@@ -14,3 +14,4 @@ from .civilStatusType import *
 from .educationType import *
 from .socialService import *
 from .country import *
+from .protocol import *

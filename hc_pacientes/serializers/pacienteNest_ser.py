@@ -5,7 +5,8 @@ import reversion
 from rest_framework import serializers
 from hc_pacientes.models import Paciente
 from hc_common.serializers import DocumentTypeNestedSerializer, SexTypeNestedSerializer, LocationNestedSerializer, \
-    CivilStatusTypeNestedSerializer, SocialServiceNestedSerializer, EducationTypeNestedSerializer, CountryNestedSerializer
+    CivilStatusTypeNestedSerializer, SocialServiceNestedSerializer, EducationTypeNestedSerializer, CountryNestedSerializer, \
+    ProtocolNestedSerializer
 
 from django.utils.translation import gettext as _
 
@@ -27,6 +28,12 @@ class PacienteNestSerializer(serializers.ModelSerializer):
     )
 
     genderAtBirth = SexTypeNestedSerializer(
+        many=False,
+        allow_null=True,
+        required=False
+    )
+
+    protocol = ProtocolNestedSerializer(
         many=False,
         allow_null=True,
         required=False
@@ -87,6 +94,11 @@ class PacienteNestSerializer(serializers.ModelSerializer):
             genderAtBirth = validated_data.pop('genderAtBirth')
         except KeyError:
             genderAtBirth = None
+
+        try:
+            protocol = validated_data.pop('protocol')
+        except KeyError:
+            protocol = None
 
         try:
             genderOfChoice = validated_data.pop('genderOfChoice')
@@ -150,6 +162,7 @@ class PacienteNestSerializer(serializers.ModelSerializer):
             documentType=documentType,
             genderAtBirth=genderAtBirth,
             genderOfChoice=genderOfChoice,
+            protocol=protocol,
             location=location,
             civilStatus=civilStatus,
             education=education,
@@ -175,6 +188,11 @@ class PacienteNestSerializer(serializers.ModelSerializer):
             genderOfChoice = validated_data.pop('genderOfChoice')
         except KeyError:
             genderOfChoice = None
+
+        try:
+            protocol = validated_data.pop('protocol')
+        except KeyError:
+            protocol = None
 
         try:
             location = validated_data.pop('location')
@@ -227,6 +245,7 @@ class PacienteNestSerializer(serializers.ModelSerializer):
         instance.documentType = documentType
         instance.genderAtBirth = genderAtBirth
         instance.genderOfChoice = genderOfChoice
+        instance.protocol = protocol
         instance.location = location
         instance.civilStatus = civilStatus
         instance.education = education
@@ -240,9 +259,4 @@ class PacienteNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Paciente
-        fields = ('id', 'idpaciente', 'prospect', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'alias','birthDate', 'email',
-                  'street', 'postal', 'status', 'consent','documentType', 'documentNumber', 'genderAtBirth',
-                  'genderOfChoice', 'location', 'occupation', 'civilStatus', 'education', 'socialService',
-                  'socialServiceNumber', 'bornPlace', 'firstVisit', 'notes', 'primaryPhoneNumber',
-                  'primaryPhoneContact', 'primaryPhoneMessage', 'secondPhoneNumber', 'secondPhoneContact',
-                  'secondPhoneMessage', 'thirdPhoneNumber', 'thirdPhoneContact', 'thirdPhoneMessage', 'pns')
+        fields = ('id', 'idpaciente', 'prospect', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'alias','birthDate', 'email', 'street', 'postal', 'status', 'consent','documentType', 'documentNumber', 'genderAtBirth', 'genderOfChoice', 'protocol', 'location', 'occupation', 'civilStatus', 'education', 'socialService', 'socialServiceNumber', 'bornPlace', 'firstVisit', 'notes', 'primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'secondPhoneNumber', 'secondPhoneContact', 'secondPhoneMessage', 'thirdPhoneNumber', 'thirdPhoneContact', 'thirdPhoneMessage', 'pns')

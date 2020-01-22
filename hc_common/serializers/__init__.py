@@ -19,3 +19,5 @@ from .civilStatusTypeNested_ser import *
 from .socialServiceNest_ser import *
 from .socialServiceNested_ser import *
 from .documentTypeNest_ser import *
+from .protocolNest_ser import *
+from .protocolNested_ser import *

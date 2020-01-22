@@ -234,7 +234,4 @@ class ProfesionalNestSerializer(serializers.ModelSerializer):
                 "required": False,
             },
         }
-        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email',
-                  'street', 'postal', 'status', 'documentType', 'documentNumber', 'genderAtBirth',
-                  'genderOfChoice', 'location', 'bornPlace', 'occupation', 'education', 'civilStatus', 'notes', 'primaryPhoneNumber',
-                  'primaryPhoneContact', 'primaryPhoneMessage', 'socialService', 'socialServiceNumber', 'municipalNumber', 'licenseNumber', 'title')
+        fields = ('id', 'firstName', 'otherNames', 'fatherSurname', 'motherSurname', 'birthDate', 'email', 'street', 'postal', 'status', 'documentType', 'documentNumber', 'genderAtBirth', 'genderOfChoice', 'location', 'bornPlace', 'occupation', 'education', 'civilStatus', 'notes', 'primaryPhoneNumber', 'primaryPhoneContact', 'primaryPhoneMessage', 'socialService', 'socialServiceNumber', 'municipalNumber', 'licenseNumber', 'title')
