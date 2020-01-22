@@ -113,13 +113,13 @@ class PatientProblemDetail(generics.RetrieveUpdateDestroyAPIView):
                     instance.save()
                     return Response('Visita cerrada automaticamente luego de 8 horas', status=status.HTTP_400_BAD_REQUEST)
 
-        visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE)
-        paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
+        # visits = Visit.objects.filter(paciente=request.data['paciente']['id'], profesional=profesional.id, status=Visit.STATUS_ACTIVE)
+        # paciente = Paciente.objects.filter(pk=request.data['paciente']['id']).get()
 
-        if visits.count()==0:
-            visit = Visit.objects.create(
-                profesional=profesional,
-                paciente=paciente,
-            )
+        # if visits.count()==0:
+        #     visit = Visit.objects.create(
+        #         profesional=profesional,
+        #         paciente=paciente,
+        #     )
 
         return super(PatientProblemDetail, self).update(request, *args, **kwargs)
