@@ -117,8 +117,10 @@ class CurrentVisitDetail(generics.RetrieveUpdateAPIView):
         queryset = queryset.filter(paciente=pacienteId)
         queryset = queryset.filter(profesional=profesional.id)
         queryset = queryset.filter(status=Visit.STATUS_ACTIVE)
-        date_max_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=18, minute=00)
-        date_min_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=00, minute=00)
+        # Dado que los horarios en la base de datos se guardan 3 horas adelantados, se hardcodea el filtro
+        # (21:00 - 3:00 = 18:00 hs)
+        date_max_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=21, minute=00)
+        date_min_allowed = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).replace(hour=3, minute=00)
         queryset = queryset.filter(created_on__gt=date_min_allowed)
         queryset = queryset.filter(created_on__lte=date_max_allowed)
 
