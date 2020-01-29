@@ -23,6 +23,7 @@ from dynamic_preferences.users.viewsets import UserPreferencesViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework_swagger.views import get_swagger_view
+from django.views.generic import TemplateView
 
 schema_view = get_swagger_view(title='API')
 router = routers.SimpleRouter()
@@ -43,6 +44,7 @@ apps_patterns = ([
 ])
 
 urlpatterns = [
+    #url(r'^admin/importaciond/$', TemplateView.as_view(template_name='importacion.html')),
     url(r'^admin/', admin.site.urls),
     url(r'^info/', views.info_view.info),
     url(r'^api/', include((apps_patterns, 'api'), namespace='api')),

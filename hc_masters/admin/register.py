@@ -5,6 +5,7 @@ from hc_common.models import SocialService
 from hc_masters.models import Vaccine
 from hc_masters.models import Medication
 from hc_masters.models import MedicationType
+from hc_hce.models import Importation, ImportationRegister
 
 
 
@@ -51,9 +52,22 @@ class MedicationTypeAdmin(admin.ModelAdmin):
     list_editable = ('name', 'code', 'group')
     list_filter = ('group',)
 
+
+class ImportationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'csv', 'created')
+    list_editable = ([])
+    list_filter = ([])
+
+class ImportationRegisterAdmin(admin.ModelAdmin):
+    list_display = ('patient_id', 'name', 'surname', 'birthDate', 'documentType', 'documentNumber', 'determination_id', 'determination_version_id', 'determination_description', 'determination_code', 'determination_number', 'lab_Date', 'lab_id', 'processed_patient_id', 'processed_determination_id', 'processed_lab_id', 'fully_processed', 'created_on')
+    list_editable = ([])
+    list_filter = ([])
+
 admin.site.register(Problem, ProblemAdmin)
 admin.site.register(SocialService, SocialServiceAdmin)
 admin.site.register(ClinicalStudy, ClinicalStudyAdmin)
 admin.site.register(Vaccine, VaccineAdmin)
 admin.site.register(MedicationType, MedicationTypeAdmin)
 admin.site.register(Medication, MedicationAdmin)
+admin.site.register(Importation, ImportationAdmin)
+admin.site.register(ImportationRegister, ImportationRegisterAdmin)

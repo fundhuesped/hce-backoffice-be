@@ -15,3 +15,4 @@ from .patientPrescriptionMedication import *
 from .patientARVPrescription import *
 from .patientARVPrescriptionMedication import *
 from .patientVaccinePrescription import *
+from .importation import *
