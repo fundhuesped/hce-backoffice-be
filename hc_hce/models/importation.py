@@ -45,7 +45,7 @@ class ImportationRegister(models.Model):
     def save(self, *args, **kwargs):
 
         #TODO creando metodo para procesar registros
-        super(ImportationRegister, self).save(*args, **kwargs)
+       
 
         #Obtain real ids/values from args and kwargs
         patientExternalId = args[0]['patient_id']
@@ -178,6 +178,7 @@ class ImportationRegister(models.Model):
             #        )
 
             #TODO extraer metodo que sea global una vez que funcione
+        #super(ImportationRegister, self).save(*args, **kwargs)
 
 class ImportationPatientRelationship(models.Model):
     """
