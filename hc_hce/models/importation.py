@@ -201,6 +201,7 @@ class ImportationRegister(models.Model):
             #        )
 
             #TODO extraer metodo que sea global una vez que funcione
+        #super(ImportationRegister, self).save(*args, **kwargs)
 
 class ImportationPatientRelationship(models.Model):
     """
