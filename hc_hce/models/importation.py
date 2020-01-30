@@ -42,14 +42,17 @@ class ImportationRegister(models.Model):
         """
         ordering = ['created_on']
 
-    def save(self, *args, **kwargs):
+    def salvar(*args, **kwargs):
 
         #TODO creando metodo para procesar registros
-       
 
         #Obtain real ids/values from args and kwargs
         patientExternalId = args[0]['patient_id']
         determinationExternalId = args[0]['determination_id']
+        determinationVersionId = args[0]['determination_version_id']
+        determinationDescription = args[0]['determination_description']
+        determinationCode = args[0]['determination_code']
+        determinationNumber = args[0]['determination_number']
         labExternalId = args[0]['lab_id']
         labDate = args[0]['lab_Date'][:10]
         labDeterminationValue = args[0]['determination_number']
@@ -57,7 +60,27 @@ class ImportationRegister(models.Model):
         patientBirthDate = args[0]['birthDate'][:10]
         patientName = args[0]['name']
         patientSurname = args[0]['surname']
+        patientDocumentType = args[0]['documentType']
+        patientGender = args[0]['gender']
         
+        ImportationRegister.objects.create(
+            patient_id = patientExternalId,
+            surname = patientSurname,
+            name = patientName,
+            birthDate = patientBirthDate,
+            documentType = patientDocumentType,
+            documentNumber = patientDocumentNumber,
+            gender = patientGender,
+            determination_id = determinationExternalId,
+            determination_version_id = determinationVersionId,
+            determination_description = determinationDescription,
+            determination_code = determinationCode,
+            determination_number = determinationNumber,
+            lab_Date = labDate,
+            lab_id = labExternalId,
+            fully_processed = False
+        )
+
         with transaction.atomic():
             patientQueryset = ImportationPatientRelationship.objects.all()
             #patientQueryset = Paciente.objects.all()
@@ -93,9 +116,9 @@ class ImportationRegister(models.Model):
                         surname = patientSurname,
                         name = patientName,
                         birthDate = patientBirthDate,
-                        documentType = args[0]['documentType'],
+                        documentType = patientDocumentType,
                         documentNumber = patientDocumentNumber,
-                        gender = args[0]['gender'],
+                        gender = patientGender,
                         processed_patient_id = patientInternalId,
                     )
                     #TODO update this registry
@@ -105,9 +128,9 @@ class ImportationRegister(models.Model):
                         surname = patientSurname,
                         name = patientName,
                         birthDate = patientBirthDate,
-                        documentType = args[0]['documentType'],
+                        documentType = patientDocumentType,
                         documentNumber = patientDocumentNumber,
-                        gender = args[0]['gender']
+                        gender = patientGender
                         #DO NOT set processed_patient_id
                     )
                     return
@@ -123,10 +146,10 @@ class ImportationRegister(models.Model):
             else:
                 ImportationDeterminationRelationship.objects.create(
                     determination_id = determinationExternalId,
-                    determination_version_id = args[0]['determination_version_id'],
-                    determination_description = args[0]['determination_description'],
-                    determination_code = args[0]['determination_code'],
-                    determination_number = args[0]['determination_number'],
+                    determination_version_id = determinationVersionId,
+                    determination_description = determinationDescription,
+                    determination_code = determinationCode,
+                    determination_number = determinationNumber,
                 )
                 return
 
@@ -293,5 +316,5 @@ class Importation(models.Model):
         'determination_number','lab_Date','lab_id'] # You can skip this line if the column names in csv file matches that in Database
 
         #Call save method from ImportationRegister for each row in the file
-        ir = ImportationRegister()
-        df.apply(ir.save,axis=1)
+        
+        df.apply(ImportationRegister.salvar,axis=1)
