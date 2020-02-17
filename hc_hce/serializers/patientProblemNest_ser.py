@@ -62,6 +62,7 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
 
         # Close problem
         if instance.state == PatientProblem.STATE_ACTIVE and  validated_data.get('state') == PatientProblem.STATE_CLOSED:
+            instance.observations = validated_data.get('observations', instance.observations)
             instance.state = PatientProblem.STATE_CLOSED
             closeDate = validated_data.get('closeDate')
             if closeDate is not None:
