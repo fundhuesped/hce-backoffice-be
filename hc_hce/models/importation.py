@@ -102,6 +102,15 @@ class ImportationRegister(models.Model):
         for obj in irQueryset:
             ImportationRegister.process(obj, primera)
 
+    def checkImportationsByLabResult(labResult):
+        irQueryset = ImportationRegister.objects.all()
+        irQueryset = irQueryset.filter(lab_id=labResult.lab_id)
+        irQueryset.update(processed_lab_id=labResult.processed_lab_id)
+        primera = 0
+
+        for obj in irQueryset:
+            ImportationRegister.process(obj, primera)
+
     def process(self,primera):
         with transaction.atomic():
             patientQueryset = ImportationPatientRelationship.objects.all()
@@ -114,7 +123,7 @@ class ImportationRegister(models.Model):
             if patientQueryset.count()!=0:
                 foundPatient = patientQueryset.get()
                 patientInternalId = foundPatient.processed_patient_id
-                if patientInternalId==0:
+                if patientInternalId==0 or patientInternalId == None:
                     return
             else:
                 patientQueryset2 = Paciente.objects.all()
@@ -153,10 +162,12 @@ class ImportationRegister(models.Model):
                         birthDate = self.birthDate,
                         documentType = self.documentType,
                         documentNumber = self.documentNumber,
-                        gender = self.gender
+                        gender = self.gender,
+                        processed_patient_id = None,
                         #DO NOT set processed_patient_id
                     )
                     return
+
 
             determinationQueryset = ImportationDeterminationRelationship.objects.all()
             determinationQueryset = determinationQueryset.filter(determination_id=self.determination_id)
@@ -164,8 +175,12 @@ class ImportationRegister(models.Model):
                 #if true simply continue, obtain the determinationInternalId & update this registry with the determinationInternalId
                 #if not,  simply create an incomplete ImportationDeterminationRelationship registry & return
             if determinationQueryset.count()!=0:
-                foundDetermination = determinationQueryset.get()
-                determinationInternalId = foundDetermination.id
+                determination = determinationQueryset.get()
+                determinationInternalId = determination.processed_determination_id
+                internalDetQuerySet = Determinacion.objects.all()
+                internalDetQuerySet = internalDetQuerySet.filter(id=determinationInternalId)
+                if internalDetQuerySet.count()!=0:
+                    foundInternalDetermination = internalDetQuerySet.get()
             else:
                 ImportationDeterminationRelationship.objects.create(
                     determination_id = self.determination_id,
@@ -186,13 +201,15 @@ class ImportationRegister(models.Model):
             labInternalId = 0
 
             if labsQueryset.count()!=0:
-                print("Lab FOUND")
-                foundLab = labsQueryset.get()
-                labInternalId = foundLab.processed_lab_id
+                lab = labsQueryset.get()
+                labInternalId = lab.processed_lab_id
+                internalLabQuerySet = LabResult.objects.all()
+                internalLabQuerySet = internalLabQuerySet.filter(id=labInternalId)
+                if internalLabQuerySet.count()!=0:
+                    foundLab = internalLabQuerySet.get()
             else:
-                print("Lab ELSE FOUND")
-                labsQueryset = ImportationLabRelationship.objects.all()
-                labsQueryset = labsQueryset.filter(lab_Date=self.lab_Date)
+                labsQueryset = LabResult.objects.all()
+                labsQueryset = labsQueryset.filter(date=self.lab_Date, paciente_id=patientInternalId)
                 if labsQueryset.count()!=0:
                     foundLab = labsQueryset.first()
                     labInternalId = foundLab.processed_lab_id
@@ -200,39 +217,42 @@ class ImportationRegister(models.Model):
                         lab_Date = self.lab_Date,
                         lab_id = self.lab_id,
                         processed_lab_id = labInternalId,
+                        paciente_id = self.processed_patient_id
                     )
                     #TODO update this registry
                 else:
-                    print("Lab ELSE NOT FOUND")
+                    foundLab = LabResult.objects.create(
+                        date=self.lab_Date,
+                        paciente_id=patientInternalId
+                    )
+                    labInternalId = foundLab.id
                     ImportationLabRelationship.objects.create(
                         lab_Date = self.lab_Date,
                         lab_id = self.lab_id,
+                        processed_lab_id = foundLab.id,
+                        paciente_id = patientInternalId
                     )
-            print("labInternalId")
-            print(labInternalId)
-            print("determinationInternalId")
-            print(determinationInternalId)
-            print("determinationNumber")
-            print(self.determination_number)
+            
             if labInternalId!=0 and determinationInternalId!=0:
                 
                 #El salvado de este dato deberia ir para determinaciones y pacientes en la primera subida?
                 self.processed_lab_id = labInternalId
+                self.fully_processed = True
                 self.save()
 
                 labs = DeterminacionValor.objects.filter(labResult=labInternalId, determinacion=determinationInternalId)
                 if labs.count()!=0:
-                    print("Labs")
-                    #paciente = Paciente.objects.filter(pk=patient_id).get()
                     foundLab = labs.get()
                     foundLab.value = self.determination_number
+                    #foundLab.save()
                 else:
-                    print("DetVal")
                     DeterminacionValor.objects.create(
-                        labResult=labInternalId, 
-                        determinacion=determinationInternalId,
+                        labResult=foundLab, 
+                        determinacion=foundInternalDetermination,
                         value=self.determination_number,
                     )
+
+                
 
 class ImportationPatientRelationship(models.Model):
     """
@@ -258,7 +278,7 @@ class ImportationPatientRelationship(models.Model):
     def save(self, *args, **kwargs):
         
         super(ImportationPatientRelationship, self).save(*args, **kwargs)
-        print("--- Saved Relationship ttt ---")
+        print("--- Saved Patient Relationship ---")
         
         if self.processed_patient_id == 0:
 
@@ -270,9 +290,7 @@ class ImportationPatientRelationship(models.Model):
                 print("Tipo de documento invalido")
                 return
 
-            print(self.gender)
-
-            if self.gender == 'F':
+            if self.gender == 'F' or self.gender == 'Femenino' or self.gender == 'FEMENINO':
                 gender = 'Femenino'
             else:
                 gender = 'Masculino'
@@ -285,7 +303,6 @@ class ImportationPatientRelationship(models.Model):
                 print("Tipo de sexo invalido")
                 return
 
-            print("Crea Paciente")
             paciente = Paciente.objects.create(
                 prospect= False,
                 firstName= self.surname,
@@ -351,6 +368,7 @@ class ImportationLabRelationship(models.Model):
     lab_Date = models.DateField(null=True, blank=True)
     lab_id = models.IntegerField(default=0, null=True, blank=True)
     processed_lab_id = models.IntegerField(default=0, null=True, blank=True)
+    paciente_id = models.IntegerField(default=0, null=True, blank=True)
 
     created_on = models.DateField(auto_now=True)
 
@@ -363,7 +381,6 @@ class ImportationLabRelationship(models.Model):
     def save(self, *args, **kwargs):
         super(ImportationLabRelationship, self).save(*args, **kwargs)
         print("--- Saved Lab Relationship ---")
-        #TODO Completar para reprocesar desde aqui los registros (llamar a metodo global/de clase)
 
 class Importation(models.Model):
     """
