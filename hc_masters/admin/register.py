@@ -5,7 +5,7 @@ from hc_common.models import SocialService
 from hc_masters.models import Vaccine
 from hc_masters.models import Medication
 from hc_masters.models import MedicationType
-from hc_hce.models import Importation, ImportationDeterminationRelationship, ImportationPatientRelationship, ImportationRegister
+from hc_hce.models import Importation, ImportationDeterminationRelationship, ImportationLabRelationship, ImportationPatientRelationship, ImportationRegister
 
 
 
@@ -73,6 +73,11 @@ class ImportationDetermination(admin.ModelAdmin):
     list_editable = ('determination_id', 'determination_version_id', 'determination_description', 'determination_code', 'determination_number', 'processed_determination_id')
     list_filter = ([])
 
+class ImportationLaboratory(admin.ModelAdmin):
+    list_display = ('id', 'lab_Date', 'lab_id', 'processed_lab_id', 'created_on')
+    list_editable = ()
+    list_filter = ([])
+
 admin.site.register(Problem, ProblemAdmin)
 admin.site.register(SocialService, SocialServiceAdmin)
 admin.site.register(ClinicalStudy, ClinicalStudyAdmin)
@@ -83,3 +88,4 @@ admin.site.register(Importation, ImportationAdmin)
 admin.site.register(ImportationRegister, ImportationRegisterAdmin)
 admin.site.register(ImportationPatientRelationship, ImportationPatient)
 admin.site.register(ImportationDeterminationRelationship, ImportationDetermination)
+admin.site.register(ImportationLabRelationship, ImportationLaboratory)
