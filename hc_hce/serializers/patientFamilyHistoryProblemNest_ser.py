@@ -47,7 +47,8 @@ class PatientFamilyHistoryProblemNestSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
 
         # Edit problem
-        if instance.state == validated_data.get('state'):            
+        if instance.state == validated_data.get('state'):  
+            instance.problem = validated_data.get('problem');          
             instance.observations = validated_data.get('observations', instance.observations)
             instance.relationship = validated_data.get('relationship', instance.relationship)
             instance.save()

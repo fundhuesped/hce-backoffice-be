@@ -47,7 +47,8 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
 
         # Edit problem
-        if instance.state == validated_data.get('state'):            
+        if instance.state == validated_data.get('state'):  
+            instance.vaccine = validated_data.get('vaccine')          
             instance.observations = validated_data.get('observations', instance.observations)
             instance.appliedDate = validated_data.get('appliedDate', instance.appliedDate)
             instance.save()

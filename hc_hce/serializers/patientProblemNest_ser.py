@@ -50,7 +50,8 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
 
         # Edit problem
-        if instance.state == validated_data.get('state'):            
+        if instance.state == validated_data.get('state'):         
+            instance.problem = validated_data.get('problem')   
             instance.observations = validated_data.get('observations', instance.observations)
             instance.startDate = validated_data.get('startDate', instance.startDate)
             if instance.state == PatientProblem.STATE_CLOSED:
@@ -62,6 +63,7 @@ class PatientProblemNestSerializer(serializers.ModelSerializer):
 
         # Close problem
         if instance.state == PatientProblem.STATE_ACTIVE and  validated_data.get('state') == PatientProblem.STATE_CLOSED:
+            instance.problem = validated_data.get('problem')
             instance.observations = validated_data.get('observations', instance.observations)
             instance.state = PatientProblem.STATE_CLOSED
             closeDate = validated_data.get('closeDate')
