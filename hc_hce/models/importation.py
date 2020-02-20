@@ -181,15 +181,32 @@ class ImportationRegister(models.Model):
                 internalDetQuerySet = internalDetQuerySet.filter(id=determinationInternalId)
                 if internalDetQuerySet.count()!=0:
                     foundInternalDetermination = internalDetQuerySet.get()
+                else:
+                    return
             else:
-                ImportationDeterminationRelationship.objects.create(
-                    determination_id = self.determination_id,
-                    determination_version_id = self.determination_version_id,
-                    determination_description = self.determination_description,
-                    determination_code = self.determination_code,
-                    determination_number = self.determination_number,
-                )
-                return
+                determinationQueryset2 = Determinacion.objects.all()
+                #Filter by Betiana's criteria
+                determinationQueryset2 = determinationQueryset2.filter(id=self.determination_id)
+                if determinationQueryset2.count()!=0:
+                    foundInternalDetermination = determinationQueryset2.first()
+                    determinationInternalId = foundInternalDetermination.id
+                    ImportationDeterminationRelationship.objects.create(
+                        determination_id = self.determination_id,
+                        determination_version_id = self.determination_version_id,
+                        determination_description = self.determination_description,
+                        determination_code = self.determination_code,
+                        determination_number = self.determination_number,
+                        processed_determination_id = determinationInternalId
+                    )
+                else:
+                    ImportationDeterminationRelationship.objects.create(
+                        determination_id = self.determination_id,
+                        determination_version_id = self.determination_version_id,
+                        determination_description = self.determination_description,
+                        determination_code = self.determination_code,
+                        determination_number = self.determination_number,
+                    )
+                    return
 
             labsQueryset = ImportationLabRelationship.objects.all()
             labsQueryset = labsQueryset.filter(lab_id=self.lab_id)
@@ -209,10 +226,10 @@ class ImportationRegister(models.Model):
                     foundLab = internalLabQuerySet.get()
             else:
                 labsQueryset = LabResult.objects.all()
-                labsQueryset = labsQueryset.filter(date=self.lab_Date, paciente_id=patientInternalId)
+                labsQueryset = labsQueryset.filter(date__contains=self.lab_Date, paciente_id=patientInternalId)
                 if labsQueryset.count()!=0:
                     foundLab = labsQueryset.first()
-                    labInternalId = foundLab.processed_lab_id
+                    labInternalId = foundLab.id
                     ImportationLabRelationship.objects.create(
                         lab_Date = self.lab_Date,
                         lab_id = self.lab_id,
@@ -235,7 +252,8 @@ class ImportationRegister(models.Model):
             
             if labInternalId!=0 and determinationInternalId!=0:
                 
-                #El salvado de este dato deberia ir para determinaciones y pacientes en la primera subida?
+                self.processed_patient_id = patientInternalId
+                self.processed_determination_id = determinationInternalId
                 self.processed_lab_id = labInternalId
                 self.fully_processed = True
                 self.save()
