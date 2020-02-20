@@ -48,7 +48,7 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
 
         # Edit problem
         if instance.state == validated_data.get('state'):  
-            instance.vaccine = validated_data.get('vaccine')          
+            instance.vaccine = validated_data.get('vaccine', instance.vaccine)          
             instance.observations = validated_data.get('observations', instance.observations)
             instance.appliedDate = validated_data.get('appliedDate', instance.appliedDate)
             instance.save()
@@ -69,4 +69,4 @@ class PatientVaccineNestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientVaccine
-        fields = ('id', 'paciente', 'profesional', 'vaccine', 'observations', 'appliedDate', 'state')
+        fields = ('id', 'paciente', 'profesional', 'vaccine', 'observations', 'appliedDate', 'createdOn', 'state')

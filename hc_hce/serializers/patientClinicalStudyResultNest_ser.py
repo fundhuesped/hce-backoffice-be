@@ -49,7 +49,7 @@ class PatientClinicalStudyResultNestSerializer(serializers.ModelSerializer):
 
         # Edit problem
         if instance.state == validated_data.get('state'):     
-            instance.clinicalStudy = validated_data.get('clinicalStudy')       
+            instance.clinicalStudy = validated_data.get('clinicalStudy', instance.clinicalStudy)       
             instance.observations = validated_data.get('observations', instance.observations)
             instance.studyDate = validated_data.get('studyDate', instance.studyDate)
             instance.save()
