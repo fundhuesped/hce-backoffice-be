@@ -5,7 +5,7 @@ from hc_common.models import SocialService
 from hc_masters.models import Vaccine
 from hc_masters.models import Medication
 from hc_masters.models import MedicationType
-from hc_hce.models import Importation, ImportationRegister
+from hc_hce.models import Importation, ImportationDeterminationRelationship, ImportationLabRelationship, ImportationPatientRelationship, ImportationRegister
 
 
 
@@ -59,8 +59,23 @@ class ImportationAdmin(admin.ModelAdmin):
     list_filter = ([])
 
 class ImportationRegisterAdmin(admin.ModelAdmin):
-    list_display = ('patient_id', 'name', 'surname', 'birthDate', 'documentType', 'documentNumber', 'determination_id', 'determination_version_id', 'determination_description', 'determination_code', 'determination_number', 'lab_Date', 'lab_id', 'processed_patient_id', 'processed_determination_id', 'processed_lab_id', 'fully_processed', 'created_on')
+    list_display = ('patient_id', 'name', 'surname', 'birthDate', 'gender', 'documentType', 'documentNumber', 'determination_id', 'determination_version_id', 'determination_description', 'determination_code', 'determination_number', 'lab_Date', 'lab_id', 'processed_patient_id', 'processed_determination_id', 'processed_lab_id', 'fully_processed', 'created_on')
     list_editable = ([])
+    list_filter = ([])
+
+class ImportationPatient(admin.ModelAdmin):
+    list_display = ('id', 'patient_id', 'name', 'surname', 'birthDate', 'gender', 'documentType', 'documentNumber', 'processed_patient_id', 'created_on')
+    list_editable = ('patient_id', 'name', 'surname', 'birthDate', 'gender', 'documentType', 'documentNumber', 'processed_patient_id')
+    list_filter = ([])
+
+class ImportationDetermination(admin.ModelAdmin):
+    list_display = ('id', 'determination_id', 'determination_version_id', 'determination_description', 'determination_code', 'determination_number', 'processed_determination_id', 'created_on')
+    list_editable = ('determination_id', 'determination_version_id', 'determination_description', 'determination_code', 'determination_number', 'processed_determination_id')
+    list_filter = ([])
+
+class ImportationLaboratory(admin.ModelAdmin):
+    list_display = ('id', 'lab_Date', 'lab_id', 'processed_lab_id', 'created_on')
+    list_editable = ()
     list_filter = ([])
 
 admin.site.register(Problem, ProblemAdmin)
@@ -71,3 +86,6 @@ admin.site.register(MedicationType, MedicationTypeAdmin)
 admin.site.register(Medication, MedicationAdmin)
 admin.site.register(Importation, ImportationAdmin)
 admin.site.register(ImportationRegister, ImportationRegisterAdmin)
+admin.site.register(ImportationPatientRelationship, ImportationPatient)
+admin.site.register(ImportationDeterminationRelationship, ImportationDetermination)
+admin.site.register(ImportationLabRelationship, ImportationLaboratory)
