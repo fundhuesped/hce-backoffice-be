@@ -205,6 +205,7 @@ class ImportationRegister(models.Model):
                         determination_description = self.determination_description,
                         determination_code = self.determination_code,
                         determination_number = self.determination_number,
+                        processed_determination_id = None
                     )
                     return
 
@@ -262,7 +263,7 @@ class ImportationRegister(models.Model):
                 if labs.count()!=0:
                     foundLab = labs.get()
                     foundLab.value = self.determination_number
-                    #foundLab.save()
+                    foundLab.save()
                 else:
                     DeterminacionValor.objects.create(
                         labResult=foundLab, 
